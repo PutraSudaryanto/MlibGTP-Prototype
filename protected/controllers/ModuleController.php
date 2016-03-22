@@ -379,10 +379,10 @@ class ModuleController extends Controller
 	{
 		$model=$this->loadModel($id);
 		if($model->actived == 1) {
-			$title = Phrase::trans(278,0);
+			$title = Yii::t('phrase', 'Deactived');
 			$replace = 0;
 		} else {
-			$title = Phrase::trans(277,0);
+			$title = Yii::t('phrase', 'Actived');
 			$replace = 1;
 		}
 

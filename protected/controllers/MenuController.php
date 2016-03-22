@@ -416,13 +416,13 @@ class MenuController extends Controller
 		//if($model->enabled == 1) {
 		//if($model->status == 1) {
 			$title = Yii::t('phrase', 'Unpublish');
-			//$title = Phrase::trans(278,0);
+			//$title = Yii::t('phrase', 'Deactived');
 			//$title = Phrase::trans(284,0);
 			//$title = Phrase::trans(292,0);
 			$replace = 0;
 		} else {
 			$title = Yii::t('phrase', 'Publish');
-			//$title = Phrase::trans(277,0);
+			//$title = Yii::t('phrase', 'Actived');
 			//$title = Phrase::trans(283,0);
 			//$title = Phrase::trans(291,0);
 			$replace = 1;
