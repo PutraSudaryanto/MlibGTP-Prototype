@@ -461,7 +461,7 @@ class OmmuSettings extends CActiveRecord
 					$this->event_finishdate = '00-00-0000';	
 				}
 			
-				if($this->event != 0 && ($this->event_startdate != '' && $this->event_finishdate != '') && (date('Y-m-d', strtotime($this->event_startdate)) >= date('Y-m-d', strtotime($this->event_finishdate)))
+				if($this->event != 0 && ($this->event_startdate != '' && $this->event_finishdate != '') && (date('Y-m-d', strtotime($this->event_startdate)) >= date('Y-m-d', strtotime($this->event_finishdate))))
 					$this->addError('event_finishdate', Yii::t('phrase', 'Event Finishdate tidak boleh lebih kecil'));
 			}
 			

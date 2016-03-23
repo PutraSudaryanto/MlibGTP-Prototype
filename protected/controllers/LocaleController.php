@@ -2,7 +2,7 @@
 /**
 * LocaleController
 * Handle LocaleController
-* Copyright (c) 2014, Ommu Platform (ommu.co). All rights reserved.
+* Copyright (c) 2012, Ommu Platform (ommu.co). All rights reserved.
 * version: 2.0.0
 * Reference start
 *
