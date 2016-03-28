@@ -1,12 +1,9 @@
 <?php 
 return array(
 	'modules' => array(
-		'album',
-		'article',
-		'banner',
+		'inlis',
 		'report',
 		'support',
-		'users',
-		'video'
+		'users'
 	),
 );

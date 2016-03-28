@@ -16,7 +16,7 @@ class OActiveRecord extends CActiveRecord
 			return self::$otherDB;
 			
 		} else {
-			//self::$otherDB = Yii::app()->inlis;
+			self::$otherDB = Yii::app()->inlis;
 			if (self::$otherDB instanceof CDbConnection) {
 				self::$otherDB->setActive(true);
 				return self::$otherDB;
