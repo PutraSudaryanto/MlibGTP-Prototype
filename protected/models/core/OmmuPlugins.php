@@ -301,53 +301,32 @@ class OmmuPlugins extends CActiveRecord
 	}
 
 	// Get plugin list
-	public static function getPlugin($actived=null) {
-		if($actived == null) {
-			$model = self::model()->findAll(array('order' => 'folder ASC'));
-			
-		} else if($actived == 0) {
-			$model = self::model()->findAll(array(
-				'select' => 'plugin_id, folder, name',
-				'condition' => 'actived != :actived',
-				'params' => array(
-					':actived' => 0,
-				),
-				'order'=> 'folder ASC',
-			));
-			
-		} else {
-			$model = self::model()->findAll(array(
-				'select' => 'plugin_id, folder, name',
-				'condition' => 'actived = :actived',
-				'params' => array(
-					':actived' => $actived,
-				),
-				'order'=> 'orders ASC',
-			));
-		}
-		return $model;
-	}
-
-	// Get plugin if condition active
-	public static function getPluginArray($type, $actived=null) {
-		if($actived == null) {
-			$model = self::getPlugin();
-		} else {
-			$model = self::getPlugin($actived);
-		}		
-		$items = array();
-		if($model != null) {
-			foreach($model as $key => $val) {
-				if($type == 'id') {
-					$items[$val->plugin_id] = $val->name;			
-				} else {
-					$items[$val->folder] = $val->name;		
+	public static function getPlugin($actived=null, $keypath=null, $type=null)
+	{
+		$criteria=new CDbCriteria;
+		if($actived != null)
+			$criteria->compare('t.actived', $actived);
+		if($actived == null || ($actived != null && $actived == 0))
+			$criteria->order = 'folder ASC';
+		else
+			$criteria->order = 'orders ASC';
+		
+		$model = self::model()->findAll($criteria);
+		
+		if($type == null) {
+			$items = array();
+			if($model != null) {
+				foreach($model as $key => $val) {
+					if($keypath == null)
+						$items[$val->folder] = $val->name;
+					else
+						$items[$val->plugin_id] = $val->name;
 				}
-			}
-			return $items;
-		}else {
-			return false;
-		}
+				return $items;
+			} else
+				return false;			
+		} else
+			return $model;		
 	}
 
 	/**
@@ -356,11 +335,10 @@ class OmmuPlugins extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord) {
-				if($this->actived == 1) {
-					$this->orders = count(self::getPlugin(1)) + 1;
-				} else {
+				if($this->actived == 1)
+					$this->orders = count(self::getPlugin(1, null, 'data')) + 1;
+				else
 					$this->orders = 0;
-				}
 				
 				$this->creation_id = Yii::app()->user->id;	
 			} else
@@ -380,9 +358,8 @@ class OmmuPlugins extends CActiveRecord
 					$sql = "UPDATE ommu_core_plugins SET orders = (orders - 1) WHERE orders > {$this->orders}";
 					$conn->createCommand($sql)->execute();
 					$this->orders = 0;
-				} else if($this->actived == 1) {
-					$this->orders = count(self::getPlugin(1)) + 1;
-				}
+				} else if($this->actived == 1)
+					$this->orders = count(self::getPlugin(1, null, 'data')) + 1;
 
 				// set to default modules
 				if($this->defaults == 1) {
