@@ -106,3 +106,7 @@ mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\support\model
 mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\support\controllers\o" "D:\htdocs\_project_ommu_module_support\modules\support\controllers\o"
 --
 mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\support\views\o" "D:\htdocs\_project_ommu_module_support\modules\support\views\o"
+
+///inlis\\\
+mklink /J "D:\htdocs\_client_bpadjogja.info.opac\externals\inlis" "D:\htdocs\_project_ommu_module_inlis\externals\inlis"
+mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\inlis" "D:\htdocs\_project_ommu_module_inlis\modules\inlis"
