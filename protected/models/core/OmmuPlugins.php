@@ -306,6 +306,7 @@ class OmmuPlugins extends CActiveRecord
 		$criteria=new CDbCriteria;
 		if($actived != null)
 			$criteria->compare('t.actived', $actived);
+		$criteria->addNotInCondition('t.orders', array(0));
 		if($actived == null || ($actived != null && $actived == 0))
 			$criteria->order = 'folder ASC';
 		else

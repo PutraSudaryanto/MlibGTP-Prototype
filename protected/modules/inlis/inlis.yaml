@@ -10,3 +10,8 @@ db_table_name	:
 
  
 db_sql_filename	: 
+
+plugin_menu		:
+	- urlTitle: Admin
+		urlRules: {siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/admin/manage, attr: -, icon: -}

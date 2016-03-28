@@ -1,6 +1,6 @@
 <?php
 
-class InnovationModule extends CWebModule
+class InlisModule extends CWebModule
 {
 	public $defaultController = 'site'; 
 
@@ -10,8 +10,9 @@ class InnovationModule extends CWebModule
 		
 		// import the module-level models and components
 		$this->setImport(array(
-			'innovation.models.*',
-			'innovation.components.*',
+			'inlis.components.*',
+			'inlis.models.*',
+			'inlis.models.2_2_1.*',
 		));
 	}
 
