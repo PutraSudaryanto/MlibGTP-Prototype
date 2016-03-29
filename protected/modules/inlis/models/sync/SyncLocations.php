@@ -99,9 +99,9 @@ class SyncLocations extends OActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'readinlocations_relation' => array(self::HAS_MANY, 'Readinlocation', 'LocationId'),
-			'stockopnamedetails_relation' => array(self::HAS_MANY, 'Stockopnamedetail', 'PrevLocationID'),
-			'stockopnamedetails1_relation' => array(self::HAS_MANY, 'Stockopnamedetail', 'CurrentLocationID'),
+			//'readinlocations_relation' => array(self::HAS_MANY, 'Readinlocation', 'LocationId'),
+			//'stockopnamedetails_relation' => array(self::HAS_MANY, 'Stockopnamedetail', 'PrevLocationID'),
+			//'stockopnamedetails1_relation' => array(self::HAS_MANY, 'Stockopnamedetail', 'CurrentLocationID'),
 		);
 	}
 

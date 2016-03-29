@@ -63,7 +63,7 @@ class InlisCatalogs extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('catalog_id, creation_date, creation_id', 'required'),
+			array('catalog_id', 'required'),
 			array('catalog_id', 'length', 'max'=>11),
 			array('creation_id', 'length', 'max'=>10),
 			// The following rule is used by search().

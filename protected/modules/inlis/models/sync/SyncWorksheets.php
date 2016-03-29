@@ -98,10 +98,10 @@ class SyncWorksheets extends OActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'akuisisiWorksheets_relation' => array(self::HAS_MANY, 'AkuisisiWorksheet', 'Main_Worksheet_ID'),
-			'collectionmediases_relation' => array(self::HAS_MANY, 'Collectionmedias', 'Worksheet_id'),
-			'worksheetfields_relation' => array(self::HAS_MANY, 'Worksheetfields', 'Worksheet_id'),
-			'format_relation' => array(self::BELONGS_TO, 'Formats', 'Format_id'),
+			//'akuisisiWorksheets_relation' => array(self::HAS_MANY, 'AkuisisiWorksheet', 'Main_Worksheet_ID'),
+			//'collectionmediases_relation' => array(self::HAS_MANY, 'Collectionmedias', 'Worksheet_id'),
+			//'worksheetfields_relation' => array(self::HAS_MANY, 'Worksheetfields', 'Worksheet_id'),
+			//'format_relation' => array(self::BELONGS_TO, 'Formats', 'Format_id'),
 		);
 	}
 

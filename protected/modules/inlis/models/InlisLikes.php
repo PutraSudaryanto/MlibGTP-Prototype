@@ -64,7 +64,7 @@ class InlisLikes extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('catalog_id, user_id, creation_date, creation_ip', 'required'),
+			array('catalog_id, user_id', 'required'),
 			array('catalog_id, user_id', 'length', 'max'=>11),
 			array('creation_ip', 'length', 'max'=>20),
 			// The following rule is used by search().
