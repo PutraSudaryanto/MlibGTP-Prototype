@@ -1,9 +1,11 @@
 <?php
 /**
- * Worksheets
+ * InlisWorksheets
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 28 March 2016, 13:43 WIB
+ * @created date 29 March 2016, 09:57 WIB
  * @link http://company.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -42,7 +44,7 @@
  * @property Worksheetfields[] $worksheetfields
  * @property Formats $format
  */
-class Worksheets extends CActiveRecord
+class InlisWorksheets extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -50,7 +52,7 @@ class Worksheets extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Worksheets the static model class
+	 * @return InlisWorksheets the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -62,7 +64,7 @@ class Worksheets extends CActiveRecord
 	 */
 	public function getDbConnection()
 	{
-		return Yii::app()->inlis;
+		return self::getAdvertDbConnection();
 	}
 
 	/**
@@ -70,7 +72,9 @@ class Worksheets extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'worksheets';
+		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
+		return $matches[1].'.worksheets';
+		//return 'worksheets';
 	}
 
 	/**
@@ -177,7 +181,7 @@ class Worksheets extends CActiveRecord
 		$criteria->compare('t.UpdateTerminal',strtolower($this->UpdateTerminal),true);
 		$criteria->compare('t.NoUrut',$this->NoUrut);
 
-		if(!isset($_GET['Worksheets_sort']))
+		if(!isset($_GET['InlisWorksheets_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

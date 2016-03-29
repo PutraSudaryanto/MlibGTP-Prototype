@@ -1,9 +1,11 @@
 <?php
 /**
- * Worksheets
+ * InlisWorksheets
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 28 March 2016, 13:41 WIB
+ * @created date 29 March 2016, 09:52 WIB
  * @link http://company.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -38,7 +40,7 @@
  * @property Worksheetfields[] $worksheetfields
  * @property Formats $format
  */
-class Worksheets extends CActiveRecord
+class InlisWorksheets extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -46,7 +48,7 @@ class Worksheets extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Worksheets the static model class
+	 * @return InlisWorksheets the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -58,7 +60,7 @@ class Worksheets extends CActiveRecord
 	 */
 	public function getDbConnection()
 	{
-		return Yii::app()->inlis;
+		return self::getAdvertDbConnection();
 	}
 
 	/**
@@ -66,7 +68,9 @@ class Worksheets extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'worksheets';
+		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
+		return $matches[1].'.worksheets';
+		//return 'worksheets';
 	}
 
 	/**
@@ -167,7 +171,7 @@ class Worksheets extends CActiveRecord
 			$criteria->compare('date(t.UpdateDate)',date('Y-m-d', strtotime($this->UpdateDate)));
 		$criteria->compare('t.UpdateTerminal',strtolower($this->UpdateTerminal),true);
 
-		if(!isset($_GET['Worksheets_sort']))
+		if(!isset($_GET['InlisWorksheets_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -229,8 +233,6 @@ class Worksheets extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = 'Name';
-			$this->defaultColumns[] = 'CardFormat';
-			$this->defaultColumns[] = 'Format_id';
 			$this->defaultColumns[] = 'CreateBy';
 			$this->defaultColumns[] = array(
 				'name' => 'CreateDate',
@@ -258,35 +260,6 @@ class Worksheets extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = 'CreateTerminal';
-			$this->defaultColumns[] = 'UpdateBy';
-			$this->defaultColumns[] = array(
-				'name' => 'UpdateDate',
-				'value' => 'Utility::dateFormat($data->UpdateDate)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'UpdateDate',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'UpdateDate_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = 'UpdateTerminal';
 		}
 		parent::afterConstruct();
 	}
@@ -307,74 +280,4 @@ class Worksheets extends CActiveRecord
 			return $model;			
 		}
 	}
-
-	/**
-	 * before validate attributes
-	 */
-	/*
-	protected function beforeValidate() {
-		if(parent::beforeValidate()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-			//$this->CreateDate = date('Y-m-d', strtotime($this->CreateDate));
-			//$this->UpdateDate = date('Y-m-d', strtotime($this->UpdateDate));
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
-
 }
