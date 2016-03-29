@@ -1,9 +1,11 @@
 <?php
 /**
- * Collections
+ * InlisCollections
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 28 March 2016, 13:46 WIB
+ * @created date 29 March 2016, 09:57 WIB
  * @link http://company.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -85,7 +87,7 @@
  * @property Worksheets $worksheet
  * @property Stockopnamedetail[] $stockopnamedetails
  */
-class Collections extends CActiveRecord
+class InlisCollections extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -93,7 +95,7 @@ class Collections extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Collections the static model class
+	 * @return InlisCollections the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -105,7 +107,7 @@ class Collections extends CActiveRecord
 	 */
 	public function getDbConnection()
 	{
-		return Yii::app()->inlis;
+		return self::getAdvertDbConnection();
 	}
 
 	/**
@@ -113,7 +115,9 @@ class Collections extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'collections';
+		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
+		return $matches[1].'.collections';
+		//return 'collections';
 	}
 
 	/**
@@ -371,7 +375,7 @@ class Collections extends CActiveRecord
 		$criteria->compare('t.NCIBookMan_ID',strtolower($this->NCIBookMan_ID),true);
 		$criteria->compare('t.CallNumber',strtolower($this->CallNumber),true);
 
-		if(!isset($_GET['Collections_sort']))
+		if(!isset($_GET['InlisCollections_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

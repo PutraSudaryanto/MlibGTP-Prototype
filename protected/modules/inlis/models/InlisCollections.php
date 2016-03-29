@@ -1,9 +1,11 @@
 <?php
 /**
- * Collections
+ * InlisCollections
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 28 March 2016, 13:45 WIB
+ * @created date 29 March 2016, 09:53 WIB
  * @link http://company.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -75,7 +77,7 @@
  * @property Branchs $branch
  * @property Partners $partner
  */
-class Collections extends CActiveRecord
+class InlisCollections extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -83,7 +85,7 @@ class Collections extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Collections the static model class
+	 * @return InlisCollections the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -95,7 +97,7 @@ class Collections extends CActiveRecord
 	 */
 	public function getDbConnection()
 	{
-		return Yii::app()->inlis;
+		return self::getAdvertDbConnection();
 	}
 
 	/**
@@ -103,7 +105,9 @@ class Collections extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'collections';
+		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
+		return $matches[1].'.collections';
+		//return 'collections';
 	}
 
 	/**
@@ -138,9 +142,10 @@ class Collections extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'catalog_relation' => array(self::BELONGS_TO, 'Catalogs', 'Catalog_id'),
-			'branch_relation' => array(self::BELONGS_TO, 'Branchs', 'Branch_id'),
-			'partner_relation' => array(self::BELONGS_TO, 'Partners', 'Partner_id'),
+			'catalog' => array(self::BELONGS_TO, 'InlisCatalogs', 'Catalog_id'),
+			'location' => array(self::BELONGS_TO, 'InlisLocations', 'Location_id'),
+			//'branch_relation' => array(self::BELONGS_TO, 'Branchs', 'Branch_id'),
+			//'partner_relation' => array(self::BELONGS_TO, 'Partners', 'Partner_id'),
 		);
 	}
 
@@ -295,19 +300,22 @@ class Collections extends CActiveRecord
 		if($this->TanggalKirim != null && !in_array($this->TanggalKirim, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.TanggalKirim)',date('Y-m-d', strtotime($this->TanggalKirim)));
 		$criteria->compare('t.IsDelete',$this->IsDelete);
-		if(isset($_GET['Branch']))
-			$criteria->compare('t.Branch_id',$_GET['Branch']);
+		if(isset($_GET['branch']))
+			$criteria->compare('t.Branch_id',$_GET['branch']);
 		else
 			$criteria->compare('t.Branch_id',$this->Branch_id);
-		if(isset($_GET['Catalog']))
-			$criteria->compare('t.Catalog_id',$_GET['Catalog']);
+		if(isset($_GET['catalog']))
+			$criteria->compare('t.Catalog_id',$_GET['catalog']);
 		else
 			$criteria->compare('t.Catalog_id',$this->Catalog_id);
-		if(isset($_GET['Partner']))
-			$criteria->compare('t.Partner_id',$_GET['Partner']);
+		if(isset($_GET['partner']))
+			$criteria->compare('t.Partner_id',$_GET['partner']);
 		else
 			$criteria->compare('t.Partner_id',$this->Partner_id);
-		$criteria->compare('t.Location_id',$this->Location_id);
+		if(isset($_GET['location']))
+			$criteria->compare('t.Location_id',$_GET['location']);
+		else
+			$criteria->compare('t.Location_id',$this->Location_id);
 		$criteria->compare('t.Rule_id',$this->Rule_id);
 		$criteria->compare('t.Category_id',$this->Category_id);
 		$criteria->compare('t.Media_id',$this->Media_id);
@@ -331,7 +339,7 @@ class Collections extends CActiveRecord
 		$criteria->compare('t.SENAYAN_ID',strtolower($this->SENAYAN_ID),true);
 		$criteria->compare('t.NCIBookMan_ID',strtolower($this->NCIBookMan_ID),true);
 
-		if(!isset($_GET['Collections_sort']))
+		if(!isset($_GET['InlisCollections_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -432,139 +440,10 @@ class Collections extends CActiveRecord
 			);
 			$this->defaultColumns[] = 'NoInduk';
 			$this->defaultColumns[] = 'Title';
-			$this->defaultColumns[] = 'TitleAdded';
 			$this->defaultColumns[] = 'Author';
-			$this->defaultColumns[] = 'AuthorAdded';
-			$this->defaultColumns[] = 'Cooperation';
-			$this->defaultColumns[] = 'PublishLocation';
 			$this->defaultColumns[] = 'Publisher';
-			$this->defaultColumns[] = 'PublishYear';
-			$this->defaultColumns[] = 'KalaTerbit';
-			$this->defaultColumns[] = 'Edition';
-			$this->defaultColumns[] = 'Class';
-			$this->defaultColumns[] = 'PhysicalDescription';
-			$this->defaultColumns[] = 'Note';
-			$this->defaultColumns[] = 'Currency';
-			$this->defaultColumns[] = 'ISBN';
-			$this->defaultColumns[] = 'MapScale';
-			$this->defaultColumns[] = 'MapNumber';
-			$this->defaultColumns[] = 'MapSubject';
-			$this->defaultColumns[] = 'RFID';
-			$this->defaultColumns[] = 'Price';
-			$this->defaultColumns[] = array(
-				'name' => 'TanggalKirim',
-				'value' => 'Utility::dateFormat($data->TanggalKirim)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'TanggalKirim',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'TanggalKirim_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'IsDelete',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("IsDelete",array("id"=>$data->ID)), $data->IsDelete, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Phrase::trans(588,0),
-						0=>Phrase::trans(589,0),
-					),
-					'type' => 'raw',
-				);
-			}
-			$this->defaultColumns[] = 'Branch_id';
-			$this->defaultColumns[] = 'Catalog_id';
-			$this->defaultColumns[] = 'Partner_id';
-			$this->defaultColumns[] = 'Location_id';
-			$this->defaultColumns[] = 'Rule_id';
-			$this->defaultColumns[] = 'Category_id';
-			$this->defaultColumns[] = 'Media_id';
-			$this->defaultColumns[] = 'Source_id';
-			$this->defaultColumns[] = 'Worksheet_id';
-			$this->defaultColumns[] = 'GroupingNumber';
-			$this->defaultColumns[] = 'NomorBarcode';
-			$this->defaultColumns[] = 'Status';
-			$this->defaultColumns[] = 'Keterangan_Sumber';
-			$this->defaultColumns[] = 'Penempatan';
-			$this->defaultColumns[] = 'CreateBy';
-			$this->defaultColumns[] = array(
-				'name' => 'CreateDate',
-				'value' => 'Utility::dateFormat($data->CreateDate)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'CreateDate',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'CreateDate_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = 'CreateTerminal';
-			$this->defaultColumns[] = 'UpdateBy';
-			$this->defaultColumns[] = array(
-				'name' => 'UpdateDate',
-				'value' => 'Utility::dateFormat($data->UpdateDate)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'UpdateDate',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'UpdateDate_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = 'UpdateTerminal';
-			$this->defaultColumns[] = 'IsVerified';
-			$this->defaultColumns[] = 'SLA_REGISTER';
-			$this->defaultColumns[] = 'SENAYAN_ID';
-			$this->defaultColumns[] = 'NCIBookMan_ID';
+			$this->defaultColumns[] = 'location.Name';
+			$this->defaultColumns[] = 'catalog.worksheet.Name';
 		}
 		parent::afterConstruct();
 	}
@@ -585,75 +464,5 @@ class Collections extends CActiveRecord
 			return $model;			
 		}
 	}
-
-	/**
-	 * before validate attributes
-	 */
-	/*
-	protected function beforeValidate() {
-		if(parent::beforeValidate()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-			//$this->TanggalKirim = date('Y-m-d', strtotime($this->TanggalKirim));
-			//$this->CreateDate = date('Y-m-d', strtotime($this->CreateDate));
-			//$this->UpdateDate = date('Y-m-d', strtotime($this->UpdateDate));
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }
