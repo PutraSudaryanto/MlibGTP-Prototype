@@ -69,6 +69,7 @@ mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\users\assets"
 mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\users\components" "D:\htdocs\_project_ommu_module_users\modules\users\components"
 mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\users\models" "D:\htdocs\_project_ommu_module_users\modules\users\models"
 --
+mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\users\controllers\api" "D:\htdocs\_project_ommu_module_users\modules\users\controllers\api"
 mklink /J "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\users\controllers\o" "D:\htdocs\_project_ommu_module_users\modules\users\controllers\o"
 mklink /H "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\users\controllers\AdminController.php" "D:\htdocs\_project_ommu_module_users\modules\users\controllers\AdminController.php"
 mklink /H "D:\htdocs\_client_bpadjogja.info.opac\protected\modules\users\controllers\ForgotController.php" "D:\htdocs\_project_ommu_module_users\modules\users\controllers\ForgotController.php"

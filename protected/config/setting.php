@@ -18,6 +18,7 @@ return array(
 		'product_access_system' => 'opac.bpadjogja.info',
 		'oauth_server_options' => array(
 			'http://ommu.co',
+			'https://ommu.co',
 		),
 	),
 );
