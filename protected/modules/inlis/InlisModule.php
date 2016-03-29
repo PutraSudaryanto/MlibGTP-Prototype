@@ -24,6 +24,7 @@ class InlisModule extends CWebModule
 			//list public controller in this module
 			$publicControllers = array(
 				'site',
+				'api/site',
 				'api/user',
 			);
 			
