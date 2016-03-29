@@ -12,7 +12,7 @@ class InlisModule extends CWebModule
 		$this->setImport(array(
 			'inlis.components.*',
 			'inlis.models.*',
-			'inlis.models.2_2_1.*',
+			//'inlis.models.2_2_1.*',
 		));
 	}
 
