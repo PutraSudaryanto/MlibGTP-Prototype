@@ -2,7 +2,7 @@
 /**
  * CollectionController
  * @var $this CollectionController
- * @var $model InlisCollections
+ * @var $model SyncCollections
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -123,10 +123,10 @@ class CollectionController extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new InlisCollections('search');
+		$model=new SyncCollections('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['InlisCollections'])) {
-			$model->attributes=$_GET['InlisCollections'];
+		if(isset($_GET['SyncCollections'])) {
+			$model->attributes=$_GET['SyncCollections'];
 		}
 
 		$columnTemp = array();
@@ -155,7 +155,7 @@ class CollectionController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = InlisCollections::model()->findByPk($id);
+		$model = SyncCollections::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;

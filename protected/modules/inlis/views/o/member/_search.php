@@ -2,7 +2,7 @@
 /**
  * Inlis Members (inlis-members)
  * @var $this MemberController
- * @var $model InlisMembers
+ * @var $model SyncMembers
  * @var $form CActiveForm
  * version: 0.0.1
  *

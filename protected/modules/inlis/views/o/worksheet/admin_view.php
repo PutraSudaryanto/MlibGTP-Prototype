@@ -2,7 +2,7 @@
 /**
  * Inlis Worksheets (inlis-worksheets)
  * @var $this WorksheetController
- * @var $model InlisWorksheets
+ * @var $model SyncWorksheets
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>

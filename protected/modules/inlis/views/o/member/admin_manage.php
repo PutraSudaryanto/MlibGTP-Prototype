@@ -2,7 +2,7 @@
 /**
  * Inlis Members (inlis-members)
  * @var $this MemberController
- * @var $model InlisMembers
+ * @var $model SyncMembers
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>

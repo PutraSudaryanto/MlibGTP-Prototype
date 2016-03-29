@@ -2,7 +2,7 @@
 /**
  * Inlis Collections (inlis-collections)
  * @var $this CollectionController
- * @var $model InlisCollections
+ * @var $model SyncCollections
  * @var $form CActiveForm
  * version: 0.0.1
  *

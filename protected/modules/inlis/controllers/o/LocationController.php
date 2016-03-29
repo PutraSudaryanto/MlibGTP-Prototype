@@ -2,7 +2,7 @@
 /**
  * LocationController
  * @var $this LocationController
- * @var $model InlisLocations
+ * @var $model SyncLocations
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -128,10 +128,10 @@ class LocationController extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new InlisLocations('search');
+		$model=new SyncLocations('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['InlisLocations'])) {
-			$model->attributes=$_GET['InlisLocations'];
+		if(isset($_GET['SyncLocations'])) {
+			$model->attributes=$_GET['SyncLocations'];
 		}
 
 		$columnTemp = array();
@@ -160,7 +160,7 @@ class LocationController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = InlisLocations::model()->findByPk($id);
+		$model = SyncLocations::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;

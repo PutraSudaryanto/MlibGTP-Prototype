@@ -2,7 +2,7 @@
 /**
  * Inlis Locations (inlis-locations)
  * @var $this LocationController
- * @var $model InlisLocations
+ * @var $model SyncLocations
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>

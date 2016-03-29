@@ -2,7 +2,7 @@
 /**
  * CatalogController
  * @var $this CatalogController
- * @var $model InlisCatalogs
+ * @var $model SyncCatalogs
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -123,10 +123,10 @@ class CatalogController extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new InlisCatalogs('search');
+		$model=new SyncCatalogs('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['InlisCatalogs'])) {
-			$model->attributes=$_GET['InlisCatalogs'];
+		if(isset($_GET['SyncCatalogs'])) {
+			$model->attributes=$_GET['SyncCatalogs'];
 		}
 
 		$columnTemp = array();
@@ -155,7 +155,7 @@ class CatalogController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = InlisCatalogs::model()->findByPk($id);
+		$model = SyncCatalogs::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;

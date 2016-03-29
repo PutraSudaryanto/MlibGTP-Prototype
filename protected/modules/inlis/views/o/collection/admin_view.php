@@ -2,7 +2,7 @@
 /**
  * Inlis Collections (inlis-collections)
  * @var $this CollectionController
- * @var $model InlisCollections
+ * @var $model SyncCollections
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>

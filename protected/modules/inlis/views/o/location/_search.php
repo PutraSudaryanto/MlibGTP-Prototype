@@ -2,7 +2,7 @@
 /**
  * Inlis Locations (inlis-locations)
  * @var $this LocationController
- * @var $model InlisLocations
+ * @var $model SyncLocations
  * @var $form CActiveForm
  * version: 0.0.1
  *

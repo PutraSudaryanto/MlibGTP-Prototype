@@ -2,7 +2,7 @@
 /**
  * Inlis Catalogs (inlis-catalogs)
  * @var $this CatalogController
- * @var $model InlisCatalogs
+ * @var $model SyncCatalogs
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>

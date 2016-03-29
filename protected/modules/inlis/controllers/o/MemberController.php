@@ -2,7 +2,7 @@
 /**
  * MemberController
  * @var $this MemberController
- * @var $model InlisMembers
+ * @var $model SyncMembers
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -123,10 +123,10 @@ class MemberController extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new InlisMembers('search');
+		$model=new SyncMembers('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['InlisMembers'])) {
-			$model->attributes=$_GET['InlisMembers'];
+		if(isset($_GET['SyncMembers'])) {
+			$model->attributes=$_GET['SyncMembers'];
 		}
 
 		$columnTemp = array();
@@ -155,7 +155,7 @@ class MemberController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = InlisMembers::model()->findByPk($id);
+		$model = SyncMembers::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;

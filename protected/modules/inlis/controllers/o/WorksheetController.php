@@ -2,7 +2,7 @@
 /**
  * WorksheetController
  * @var $this WorksheetController
- * @var $model InlisWorksheets
+ * @var $model SyncWorksheets
  * @var $form CActiveForm
  * version: 0.0.1
  * Reference start
@@ -127,10 +127,10 @@ class WorksheetController extends Controller
 	 */
 	public function actionManage() 
 	{
-		$model=new InlisWorksheets('search');
+		$model=new SyncWorksheets('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['InlisWorksheets'])) {
-			$model->attributes=$_GET['InlisWorksheets'];
+		if(isset($_GET['SyncWorksheets'])) {
+			$model->attributes=$_GET['SyncWorksheets'];
 		}
 
 		$columnTemp = array();
@@ -159,7 +159,7 @@ class WorksheetController extends Controller
 	 */
 	public function loadModel($id) 
 	{
-		$model = InlisWorksheets::model()->findByPk($id);
+		$model = SyncWorksheets::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 		return $model;

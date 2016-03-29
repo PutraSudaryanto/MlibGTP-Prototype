@@ -2,7 +2,7 @@
 /**
  * Inlis Worksheets (inlis-worksheets)
  * @var $this WorksheetController
- * @var $model InlisWorksheets
+ * @var $model SyncWorksheets
  * @var $form CActiveForm
  * version: 0.0.1
  *

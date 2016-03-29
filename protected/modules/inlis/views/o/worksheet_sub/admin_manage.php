@@ -2,7 +2,7 @@
 /**
  * Inlis Worksheet Subs (inlis-worksheet-sub)
  * @var $this WorksheetsubController
- * @var $model InlisWorksheetSub
+ * @var $model SyncWorksheetSub
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
