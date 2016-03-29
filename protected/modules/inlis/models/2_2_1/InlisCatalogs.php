@@ -1,9 +1,11 @@
 <?php
 /**
- * Catalogs
+ * InlisCatalogs
+ * version: 0.0.1
+ *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 28 March 2016, 13:46 WIB
+ * @created date 29 March 2016, 09:56 WIB
  * @link http://company.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -75,7 +77,7 @@
  * @property Collections[] $collections
  * @property Pengiriman[] $pengirimen
  */
-class Catalogs extends CActiveRecord
+class InlisCatalogs extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -83,7 +85,7 @@ class Catalogs extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Catalogs the static model class
+	 * @return InlisCatalogs the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -95,7 +97,7 @@ class Catalogs extends CActiveRecord
 	 */
 	public function getDbConnection()
 	{
-		return Yii::app()->inlis;
+		return self::getAdvertDbConnection();
 	}
 
 	/**
@@ -103,7 +105,9 @@ class Catalogs extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'catalogs';
+		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
+		return $matches[1].'.catalogs';
+		//return 'catalogs';
 	}
 
 	/**
@@ -312,7 +316,7 @@ class Catalogs extends CActiveRecord
 			$criteria->compare('t.CollectionMedia_id',$this->CollectionMedia_id);
 		$criteria->compare('t.MARC_LOC',strtolower($this->MARC_LOC),true);
 
-		if(!isset($_GET['Catalogs_sort']))
+		if(!isset($_GET['InlisCatalogs_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(
