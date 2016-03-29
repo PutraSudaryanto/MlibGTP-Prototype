@@ -12,9 +12,23 @@ db_table_name	:
 db_sql_filename	: 
 
 plugin_menu		:
+	- urlTitle: Catalogs
+		urlRules: {siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/admin/manage, attr: -, icon: -}
+		submenu :
+			- urlTitle: Bookmarks
+				urlRules: {siteType: 0,1, userLevel: 1}
+				urlPath: {url: o/bookmark/manage, attr: -, icon: -}
+			- urlTitle: Favourites
+				urlRules: {siteType: 0,1, userLevel: 1}
+				urlPath: {url: o/favourite/manage, attr: -, icon: -}		
+			- urlTitle: Likes
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/like/manage, attr: -, icon: -}
+				
 	- urlTitle: Inlis Sync
 		urlRules: {siteType: 0,1, userLevel: 1,2}
-		urlPath: {url: o/catalog/manage, attr: -, icon: -}
+		urlPath: {url: -, attr: -, icon: -}
 		submenu :
 			- urlTitle: Catalogs
 				urlRules: {siteType: 0,1, userLevel: 1}
