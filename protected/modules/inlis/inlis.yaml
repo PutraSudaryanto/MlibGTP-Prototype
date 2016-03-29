@@ -16,6 +16,9 @@ plugin_menu		:
 		urlRules: {siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: o/admin/manage, attr: -, icon: -}
 		submenu :
+			- urlTitle: Users
+				urlRules: {siteType: 0,1, userLevel: 1}
+				urlPath: {url: o/user/manage, attr: -, icon: -}
 			- urlTitle: Bookmarks
 				urlRules: {siteType: 0,1, userLevel: 1}
 				urlPath: {url: o/bookmark/manage, attr: -, icon: -}
