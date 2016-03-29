@@ -1,6 +1,6 @@
 <?php
 /**
- * InlisWorksheetSub
+ * SyncWorksheetSub
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
@@ -35,7 +35,7 @@
  * @property AkuisisiRawLog[] $akuisisiRawLogs
  * @property Worksheets $mainWorksheet
  */
-class InlisWorksheetSub extends OActiveRecord
+class SyncWorksheetSub extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -43,7 +43,7 @@ class InlisWorksheetSub extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisWorksheetSub the static model class
+	 * @return SyncWorksheetSub the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -92,7 +92,7 @@ class InlisWorksheetSub extends OActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'worksheet' => array(self::BELONGS_TO, 'InlisWorksheets', 'Main_Worksheet_ID'),
+			'worksheet' => array(self::BELONGS_TO, 'SyncWorksheets', 'Main_Worksheet_ID'),
 			//'akuisisis_relation' => array(self::HAS_MANY, 'Akuisisi', 'WorksheetID'),
 			//'akuisisiLogs_relation' => array(self::HAS_MANY, 'AkuisisiLog', 'WorksheetID'),
 			//'akuisisiMap_relation' => array(self::HAS_ONE, 'AkuisisiMap', 'WorksheetID'),
@@ -144,7 +144,7 @@ class InlisWorksheetSub extends OActiveRecord
 		else
 			$criteria->compare('t.Main_Worksheet_ID',$this->Main_Worksheet_ID);
 
-		if(!isset($_GET['InlisWorksheetSub_sort']))
+		if(!isset($_GET['SyncWorksheetSub_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

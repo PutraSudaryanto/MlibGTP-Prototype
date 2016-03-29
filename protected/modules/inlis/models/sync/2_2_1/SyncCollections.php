@@ -1,6 +1,6 @@
 <?php
 /**
- * InlisCollections
+ * SyncCollections
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
@@ -87,7 +87,7 @@
  * @property Worksheets $worksheet
  * @property Stockopnamedetail[] $stockopnamedetails
  */
-class InlisCollections extends OActiveRecord
+class SyncCollections extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -95,7 +95,7 @@ class InlisCollections extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisCollections the static model class
+	 * @return SyncCollections the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -375,7 +375,7 @@ class InlisCollections extends OActiveRecord
 		$criteria->compare('t.NCIBookMan_ID',strtolower($this->NCIBookMan_ID),true);
 		$criteria->compare('t.CallNumber',strtolower($this->CallNumber),true);
 
-		if(!isset($_GET['InlisCollections_sort']))
+		if(!isset($_GET['SyncCollections_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

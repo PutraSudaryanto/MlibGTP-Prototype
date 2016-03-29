@@ -1,6 +1,6 @@
 <?php
 /**
- * InlisCatalogs
+ * SyncCatalogs
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
@@ -69,7 +69,7 @@
  * @property CatalogRuas[] $catalogRuases
  * @property Collections[] $collections
  */
-class InlisCatalogs extends OActiveRecord
+class SyncCatalogs extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -77,7 +77,7 @@ class InlisCatalogs extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisCatalogs the static model class
+	 * @return SyncCatalogs the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -132,8 +132,8 @@ class InlisCatalogs extends OActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'worksheet' => array(self::BELONGS_TO, 'InlisWorksheets', 'Worksheet_id'),
-			'collections' => array(self::HAS_MANY, 'InlisCollections', 'Catalog_id'),
+			'worksheet' => array(self::BELONGS_TO, 'SyncWorksheets', 'Worksheet_id'),
+			'collections' => array(self::HAS_MANY, 'SyncCollections', 'Catalog_id'),
 			//'catalogRuases_relation' => array(self::HAS_MANY, 'CatalogRuas', 'CatalogId'),
 		);
 	}
@@ -299,7 +299,7 @@ class InlisCatalogs extends OActiveRecord
 		if($this->tanggal != null && !in_array($this->tanggal, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.tanggal)',date('Y-m-d', strtotime($this->tanggal)));
 
-		if(!isset($_GET['InlisCatalogs_sort']))
+		if(!isset($_GET['SyncCatalogs_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

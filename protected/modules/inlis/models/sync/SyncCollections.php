@@ -1,6 +1,6 @@
 <?php
 /**
- * InlisCollections
+ * SyncCollections
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
@@ -77,7 +77,7 @@
  * @property Branchs $branch
  * @property Partners $partner
  */
-class InlisCollections extends OActiveRecord
+class SyncCollections extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -85,7 +85,7 @@ class InlisCollections extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisCollections the static model class
+	 * @return SyncCollections the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -142,8 +142,8 @@ class InlisCollections extends OActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'catalog' => array(self::BELONGS_TO, 'InlisCatalogs', 'Catalog_id'),
-			'location' => array(self::BELONGS_TO, 'InlisLocations', 'Location_id'),
+			'catalog' => array(self::BELONGS_TO, 'SyncCatalogs', 'Catalog_id'),
+			'location' => array(self::BELONGS_TO, 'SyncLocations', 'Location_id'),
 			//'branch_relation' => array(self::BELONGS_TO, 'Branchs', 'Branch_id'),
 			//'partner_relation' => array(self::BELONGS_TO, 'Partners', 'Partner_id'),
 		);
@@ -339,7 +339,7 @@ class InlisCollections extends OActiveRecord
 		$criteria->compare('t.SENAYAN_ID',strtolower($this->SENAYAN_ID),true);
 		$criteria->compare('t.NCIBookMan_ID',strtolower($this->NCIBookMan_ID),true);
 
-		if(!isset($_GET['InlisCollections_sort']))
+		if(!isset($_GET['SyncCollections_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

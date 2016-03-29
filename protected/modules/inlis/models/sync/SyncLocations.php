@@ -1,11 +1,11 @@
 <?php
 /**
- * InlisWorksheets
+ * SyncLocations
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
  * @copyright Copyright (c) 2016 Ommu Platform (ommu.co)
- * @created date 29 March 2016, 09:57 WIB
+ * @created date 29 March 2016, 11:01 WIB
  * @link http://company.ommu.co
  * @contact (+62)856-299-4114
  *
@@ -20,31 +20,27 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "worksheets".
+ * This is the model class for table "locations".
  *
- * The followings are the available columns in table 'worksheets':
+ * The followings are the available columns in table 'locations':
  * @property integer $ID
+ * @property string $Code
  * @property string $Name
- * @property string $CardFormat
- * @property integer $Format_id
+ * @property string $Description
+ * @property integer $IsDelete
  * @property string $CreateBy
  * @property string $CreateDate
  * @property string $CreateTerminal
  * @property string $UpdateBy
  * @property string $UpdateDate
  * @property string $UpdateTerminal
- * @property integer $NoUrut
  *
  * The followings are the available model relations:
- * @property AkuisisiWorksheet[] $akuisisiWorksheets
- * @property AuthHeader[] $authHeaders
- * @property Catalogs[] $catalogs
- * @property Collectionmedias[] $collectionmediases
- * @property Collections[] $collections
- * @property Worksheetfields[] $worksheetfields
- * @property Formats $format
+ * @property Readinlocation[] $readinlocations
+ * @property Stockopnamedetail[] $stockopnamedetails
+ * @property Stockopnamedetail[] $stockopnamedetails1
  */
-class InlisWorksheets extends OActiveRecord
+class SyncLocations extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -52,7 +48,7 @@ class InlisWorksheets extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisWorksheets the static model class
+	 * @return SyncLocations the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -73,8 +69,8 @@ class InlisWorksheets extends OActiveRecord
 	public function tableName()
 	{
 		preg_match("/dbname=([^;]+)/i", $this->dbConnection->connectionString, $matches);
-		return $matches[1].'.worksheets';
-		//return 'worksheets';
+		return $matches[1].'.locations';
+		//return 'locations';
 	}
 
 	/**
@@ -85,12 +81,13 @@ class InlisWorksheets extends OActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Format_id, NoUrut', 'numerical', 'integerOnly'=>true),
-			array('Name, CardFormat, CreateBy, CreateTerminal, UpdateBy, UpdateTerminal', 'length', 'max'=>100),
+			array('IsDelete', 'numerical', 'integerOnly'=>true),
+			array('Code, Name, Description', 'length', 'max'=>255),
+			array('CreateBy, CreateTerminal, UpdateBy, UpdateTerminal', 'length', 'max'=>100),
 			array('CreateDate, UpdateDate', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, Name, CardFormat, Format_id, CreateBy, CreateDate, CreateTerminal, UpdateBy, UpdateDate, UpdateTerminal, NoUrut', 'safe', 'on'=>'search'),
+			array('ID, Code, Name, Description, IsDelete, CreateBy, CreateDate, CreateTerminal, UpdateBy, UpdateDate, UpdateTerminal', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -102,13 +99,9 @@ class InlisWorksheets extends OActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'akuisisiWorksheets_relation' => array(self::HAS_MANY, 'AkuisisiWorksheet', 'Main_Worksheet_ID'),
-			'authHeaders_relation' => array(self::HAS_MANY, 'AuthHeader', 'Worksheet_id'),
-			'catalogs_relation' => array(self::HAS_MANY, 'Catalogs', 'Worksheet_id'),
-			'collectionmediases_relation' => array(self::HAS_MANY, 'Collectionmedias', 'Worksheet_id'),
-			'collections_relation' => array(self::HAS_MANY, 'Collections', 'Worksheet_id'),
-			'worksheetfields_relation' => array(self::HAS_MANY, 'Worksheetfields', 'Worksheet_id'),
-			'format_relation' => array(self::BELONGS_TO, 'Formats', 'Format_id'),
+			'readinlocations_relation' => array(self::HAS_MANY, 'Readinlocation', 'LocationId'),
+			'stockopnamedetails_relation' => array(self::HAS_MANY, 'Stockopnamedetail', 'PrevLocationID'),
+			'stockopnamedetails1_relation' => array(self::HAS_MANY, 'Stockopnamedetail', 'CurrentLocationID'),
 		);
 	}
 
@@ -119,29 +112,29 @@ class InlisWorksheets extends OActiveRecord
 	{
 		return array(
 			'ID' => Yii::t('attribute', 'ID'),
+			'Code' => Yii::t('attribute', 'Code'),
 			'Name' => Yii::t('attribute', 'Name'),
-			'CardFormat' => Yii::t('attribute', 'Card Format'),
-			'Format_id' => Yii::t('attribute', 'Format'),
+			'Description' => Yii::t('attribute', 'Description'),
+			'IsDelete' => Yii::t('attribute', 'Is Delete'),
 			'CreateBy' => Yii::t('attribute', 'Create By'),
 			'CreateDate' => Yii::t('attribute', 'Create Date'),
 			'CreateTerminal' => Yii::t('attribute', 'Create Terminal'),
 			'UpdateBy' => Yii::t('attribute', 'Update By'),
 			'UpdateDate' => Yii::t('attribute', 'Update Date'),
 			'UpdateTerminal' => Yii::t('attribute', 'Update Terminal'),
-			'NoUrut' => Yii::t('attribute', 'No Urut'),
 		);
 		/*
 			'ID' => 'ID',
+			'Code' => 'Code',
 			'Name' => 'Name',
-			'Card Format' => 'Card Format',
-			'Format' => 'Format',
+			'Description' => 'Description',
+			'Is Delete' => 'Is Delete',
 			'Create By' => 'Create By',
 			'Create Date' => 'Create Date',
 			'Create Terminal' => 'Create Terminal',
 			'Update By' => 'Update By',
 			'Update Date' => 'Update Date',
 			'Update Terminal' => 'Update Terminal',
-			'No Urut' => 'No Urut',
 		
 		*/
 	}
@@ -165,12 +158,10 @@ class InlisWorksheets extends OActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.ID',$this->ID);
+		$criteria->compare('t.Code',strtolower($this->Code),true);
 		$criteria->compare('t.Name',strtolower($this->Name),true);
-		$criteria->compare('t.CardFormat',strtolower($this->CardFormat),true);
-		if(isset($_GET['Format']))
-			$criteria->compare('t.Format_id',$_GET['Format']);
-		else
-			$criteria->compare('t.Format_id',$this->Format_id);
+		$criteria->compare('t.Description',strtolower($this->Description),true);
+		$criteria->compare('t.IsDelete',$this->IsDelete);
 		$criteria->compare('t.CreateBy',strtolower($this->CreateBy),true);
 		if($this->CreateDate != null && !in_array($this->CreateDate, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.CreateDate)',date('Y-m-d', strtotime($this->CreateDate)));
@@ -179,9 +170,8 @@ class InlisWorksheets extends OActiveRecord
 		if($this->UpdateDate != null && !in_array($this->UpdateDate, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.UpdateDate)',date('Y-m-d', strtotime($this->UpdateDate)));
 		$criteria->compare('t.UpdateTerminal',strtolower($this->UpdateTerminal),true);
-		$criteria->compare('t.NoUrut',$this->NoUrut);
 
-		if(!isset($_GET['InlisWorksheets_sort']))
+		if(!isset($_GET['SyncLocations_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -211,16 +201,16 @@ class InlisWorksheets extends OActiveRecord
 			}
 		} else {
 			//$this->defaultColumns[] = 'ID';
+			$this->defaultColumns[] = 'Code';
 			$this->defaultColumns[] = 'Name';
-			$this->defaultColumns[] = 'CardFormat';
-			$this->defaultColumns[] = 'Format_id';
+			$this->defaultColumns[] = 'Description';
+			$this->defaultColumns[] = 'IsDelete';
 			$this->defaultColumns[] = 'CreateBy';
 			$this->defaultColumns[] = 'CreateDate';
 			$this->defaultColumns[] = 'CreateTerminal';
 			$this->defaultColumns[] = 'UpdateBy';
 			$this->defaultColumns[] = 'UpdateDate';
 			$this->defaultColumns[] = 'UpdateTerminal';
-			$this->defaultColumns[] = 'NoUrut';
 		}
 
 		return $this->defaultColumns;
@@ -243,66 +233,9 @@ class InlisWorksheets extends OActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			$this->defaultColumns[] = 'Code';
 			$this->defaultColumns[] = 'Name';
-			$this->defaultColumns[] = 'CardFormat';
-			$this->defaultColumns[] = 'Format_id';
-			$this->defaultColumns[] = 'CreateBy';
-			$this->defaultColumns[] = array(
-				'name' => 'CreateDate',
-				'value' => 'Utility::dateFormat($data->CreateDate)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'CreateDate',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'CreateDate_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = 'CreateTerminal';
-			$this->defaultColumns[] = 'UpdateBy';
-			$this->defaultColumns[] = array(
-				'name' => 'UpdateDate',
-				'value' => 'Utility::dateFormat($data->UpdateDate)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'UpdateDate',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'UpdateDate_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = 'UpdateTerminal';
-			$this->defaultColumns[] = 'NoUrut';
+			$this->defaultColumns[] = 'Description';
 		}
 		parent::afterConstruct();
 	}

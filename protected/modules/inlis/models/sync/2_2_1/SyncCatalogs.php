@@ -1,6 +1,6 @@
 <?php
 /**
- * InlisCatalogs
+ * SyncCatalogs
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
@@ -77,7 +77,7 @@
  * @property Collections[] $collections
  * @property Pengiriman[] $pengirimen
  */
-class InlisCatalogs extends OActiveRecord
+class SyncCatalogs extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -85,7 +85,7 @@ class InlisCatalogs extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisCatalogs the static model class
+	 * @return SyncCatalogs the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -316,7 +316,7 @@ class InlisCatalogs extends OActiveRecord
 			$criteria->compare('t.CollectionMedia_id',$this->CollectionMedia_id);
 		$criteria->compare('t.MARC_LOC',strtolower($this->MARC_LOC),true);
 
-		if(!isset($_GET['InlisCatalogs_sort']))
+		if(!isset($_GET['SyncCatalogs_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

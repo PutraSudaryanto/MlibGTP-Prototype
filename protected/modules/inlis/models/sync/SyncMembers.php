@@ -1,6 +1,6 @@
 <?php
 /**
- * InlisMembers
+ * SyncMembers
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
@@ -93,7 +93,7 @@
  * @property Memberloanauthorizelocation[] $memberloanauthorizelocations
  * @property Branchs $branch
  */
-class InlisMembers extends OActiveRecord
+class SyncMembers extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -101,7 +101,7 @@ class InlisMembers extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisMembers the static model class
+	 * @return SyncMembers the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -387,7 +387,7 @@ class InlisMembers extends OActiveRecord
 		$criteria->compare('t.ProvinceNow',strtolower($this->ProvinceNow),true);
 		$criteria->compare('t.JobNameDetail',strtolower($this->JobNameDetail),true);
 
-		if(!isset($_GET['InlisMembers_sort']))
+		if(!isset($_GET['SyncMembers_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(

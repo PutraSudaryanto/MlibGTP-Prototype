@@ -1,6 +1,6 @@
 <?php
 /**
- * InlisWorksheets
+ * SyncWorksheets
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra.sudaryanto@gmail.com>
@@ -40,7 +40,7 @@
  * @property Worksheetfields[] $worksheetfields
  * @property Formats $format
  */
-class InlisWorksheets extends OActiveRecord
+class SyncWorksheets extends OActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -48,7 +48,7 @@ class InlisWorksheets extends OActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InlisWorksheets the static model class
+	 * @return SyncWorksheets the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -171,7 +171,7 @@ class InlisWorksheets extends OActiveRecord
 			$criteria->compare('date(t.UpdateDate)',date('Y-m-d', strtotime($this->UpdateDate)));
 		$criteria->compare('t.UpdateTerminal',strtolower($this->UpdateTerminal),true);
 
-		if(!isset($_GET['InlisWorksheets_sort']))
+		if(!isset($_GET['SyncWorksheets_sort']))
 			$criteria->order = 't.ID DESC';
 
 		return new CActiveDataProvider($this, array(
