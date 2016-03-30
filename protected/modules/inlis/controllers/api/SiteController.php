@@ -11,6 +11,7 @@
  *	Index
  *	Search
  *	Advanced
+ *	Detail
  *
  *	LoadModel
  *	performAjaxValidation
@@ -53,7 +54,7 @@ class SiteController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','search','advanced'),
+				'actions'=>array('index','search','advanced','detail'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -106,6 +107,7 @@ class SiteController extends Controller
 				$criteria->compare('t.BIBID',strtolower($keyword),true);
 			else if($category == 'isbn')
 				$criteria->compare('t.ISBN',strtolower($keyword),true);
+			$criteria->compare('t.IsOPAC',1);
 			
 			$dataProvider = new CActiveDataProvider('SyncCatalogs', array(
 				'criteria'=>$criteria,
@@ -171,6 +173,7 @@ class SiteController extends Controller
 			$criteria->compare('t.CallNumber',strtolower($callnumber),true);
 			$criteria->compare('t.BIBID',strtolower($bibid),true);
 			$criteria->compare('t.ISBN',strtolower($isbn),true);
+			$criteria->compare('t.IsOPAC',1);
 
 			$dataProvider = new CActiveDataProvider('SyncCatalogs', array(
 				'criteria'=>$criteria,
@@ -206,6 +209,41 @@ class SiteController extends Controller
 				'pager' => $pager,
 				'nextPager' => $nextPager,
 			);
+			echo CJSON::encode($return);
+			
+		} else 
+			$this->redirect(Yii::app()->createUrl('site/index'));
+	}
+	
+	/**
+	 * Lists all models.
+	 */
+	public function actionDetail()
+	{
+		if(Yii::app()->request->isPostRequest) {
+			$id = trim($_POST['id']);
+			
+			$model=$this->loadModel($id);
+			
+			if(!empty($model)) {
+				$return = array(
+					'success'=>'1',
+					'id'=>$model->ID,
+					'title'=>$model->Title,
+					'author'=>$model->Author,
+					'publisher'=>$model->Publisher,
+					'publish_location'=>$model->PublishLocation,
+					'publish_year'=>$model->PublishYear,
+					'subject'=>$model->Subject,
+					'isbn'=>$model->ISBN,
+					'callnumber'=>$model->CallNumber,
+					'worksheet'=>$model->worksheet->Name,
+				);
+			} else {
+				$return = array(
+					'success'=>'0',
+				);
+			}				
 			echo CJSON::encode($return);
 			
 		} else 

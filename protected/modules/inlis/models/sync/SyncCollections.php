@@ -144,6 +144,7 @@ class SyncCollections extends OActiveRecord
 		return array(
 			'catalog' => array(self::BELONGS_TO, 'SyncCatalogs', 'Catalog_id'),
 			'location' => array(self::BELONGS_TO, 'SyncLocations', 'Location_id'),
+			'worksheet' => array(self::BELONGS_TO, 'SyncWorksheets', 'Worksheet_id'),
 			//'branch_relation' => array(self::BELONGS_TO, 'Branchs', 'Branch_id'),
 			//'partner_relation' => array(self::BELONGS_TO, 'Partners', 'Partner_id'),
 		);
