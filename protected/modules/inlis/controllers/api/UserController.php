@@ -11,6 +11,7 @@
  *	Index
  *	GetMember
  *	Generate
+ *	Login
  *	ChangePassword
  *
  *	LoadModel
@@ -54,7 +55,7 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','getmember','generate','changepassword'),
+				'actions'=>array('index','getmember','generate','login','changepassword'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -175,17 +176,64 @@ class UserController extends Controller
 	/**
 	 * Lists all models.
 	 */
+	public function actionLogin() 
+	{
+		if(Yii::app()->request->isPostRequest) {
+			$email = trim($_POST['email']);
+			$password = trim($_POST['password']);
+			
+			$url = Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->createUrl('users/api/site/login');		
+			$item = array(
+				'email' => $email,
+				'password' => $password,
+			);
+			$items = http_build_query($item);
+		
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			//curl_setopt($ch,CURLOPT_HEADER, true);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $items);
+			$output=curl_exec($ch);
+			
+			$return = '';
+			if($output === false) {
+				$return['success'] = '0';
+				$return['error'] = 'NOTCONENCT';
+				$return['message'] = 'error, not connected';
+				
+			} else {
+				$object = json_decode($output);
+				$return = $object;
+				$user = ViewUsers::model()->findByAttributes(array('token_password' => $object->token));
+				$member = InlisUsers::model()->findByAttributes(array('user_id' => $user->user_id));
+				if($member != null) {
+					$return->member_id = $member->member->ID;
+					$return->member_number = $member->member->MemberNo;
+				}
+			}
+			echo CJSON::encode($return);
+			
+		} else
+			$this->redirect(Yii::app()->createUrl('site/index'));
+	}
+
+	
+	/**
+	 * Lists all models.
+	 */
 	public function actionChangePassword() 
 	{
 		if(Yii::app()->request->isPostRequest) {
-			$user = trim($_POST['user']);
+			$token = trim($_POST['token']);
 			$password = trim($_POST['password']);
 			$newpassword = trim($_POST['newpassword']);
 			$confirmpassword = trim($_POST['confirmpassword']);
 			
 			$url = Utility::getProtocol().'://'.Yii::app()->request->serverName.Yii::app()->createUrl('users/api/member/changepassword');		
 			$item = array(
-				'user' => $user,
+				'token' => $token,
 				'password' => $password,
 				'newpassword' => $newpassword,
 				'confirmpassword' => $confirmpassword,
