@@ -112,7 +112,7 @@ class CollectionController extends Controller
 						//'isbn'=>$item->ISBN != null || $item->ISBN != '' ? $item->ISBN : $item->catalog->ISBN,
 						'location'=>$item->location->Name,
 						//'worksheet'=>$item->Worksheet_id != null || $item->Worksheet_id != '' ? $item->worksheet->Name : ($item->catalog->Worksheet_id != null || $item->catalog->Worksheet_id != '' ? $item->catalog->worksheet->Name : ''),
-						'status'=>$item->Status,
+						'status'=>strtoupper($item->Status),
 					);					
 				}
 			} else
@@ -155,7 +155,7 @@ class CollectionController extends Controller
 					'isbn'=>$model->ISBN != null || $model->ISBN != '' ? $model->ISBN : $model->catalog->ISBN,
 					'location'=>$model->location->Name,
 					'worksheet'=>$model->Worksheet_id != null || $model->Worksheet_id != '' ? $model->worksheet->Name : ($model->catalog->Worksheet_id != null || $model->catalog->Worksheet_id != '' ? $model->catalog->worksheet->Name : ''),
-					'status'=>$model->Status,
+					'status'=>strtoupper($model->Status),
 				);
 			} else {
 				$return = array(
