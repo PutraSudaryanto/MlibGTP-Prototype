@@ -89,8 +89,10 @@ class CollectionController extends Controller
 			$id = trim($_POST['id']);
 			
 			$criteria=new CDbCriteria;
+			$criteria->select = array('ID','Title','Catalog_id','Location_id','Worksheet_id','Status');
 			$criteria->compare('t.Catalog_id',$id);
 
+			/*
 			$dataProvider = new CActiveDataProvider('SyncCollections', array(
 				'criteria'=>$criteria,
 				'pagination'=>array(
@@ -98,6 +100,8 @@ class CollectionController extends Controller
 				),
 			));			
 			$model = $dataProvider->getData();
+			*/
+			$model = SyncCollections::model()->findAll($criteria);
 			
 			$data = '';
 			if(!empty($model)) {
@@ -118,6 +122,7 @@ class CollectionController extends Controller
 			} else
 				$data = array();
 		
+			/*
 			$pager = OFunction::getDataProviderPager($dataProvider);
 			$get = array_merge($_GET, array($pager['pageVar']=>$pager['nextPage']));
 			$nextPager = $pager['nextPage'] != 0 ? OFunction::validHostURL(Yii::app()->controller->createUrl('list', $get)) : '-';
@@ -126,8 +131,9 @@ class CollectionController extends Controller
 				'pager' => $pager,
 				'nextPager' => $nextPager,
 			);
+			*/
 				
-			echo CJSON::encode($return);
+			echo CJSON::encode($data);
 			
 		} else 
 			$this->redirect(Yii::app()->createUrl('site/index'));

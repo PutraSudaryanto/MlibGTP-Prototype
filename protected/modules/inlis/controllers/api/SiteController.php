@@ -88,6 +88,7 @@ class SiteController extends Controller
 	{
 		if(Yii::app()->request->isPostRequest) {
 			$criteria=new CDbCriteria;
+			$criteria->select = array('ID','Title','Author','Publisher','PublishLocation','PublishYear','Subject','ISBN','CallNumber','Worksheet_id');
 			$keyword = trim($_POST['keyword']);
 			$category = trim($_POST['category']);
 			
@@ -130,6 +131,7 @@ class SiteController extends Controller
 						'subject'=>$item->Subject,
 						'isbn'=>$item->ISBN,
 						'callnumber'=>$item->CallNumber,
+						'worksheet'=>$item->worksheet->Name,
 					);					
 				}
 			} else
@@ -165,6 +167,7 @@ class SiteController extends Controller
 			$isbn = trim($_POST['isbn']);
 			
 			$criteria=new CDbCriteria;
+			$criteria->select = array('ID','Title','Author','Publisher','PublishLocation','PublishYear','Subject','ISBN','CallNumber','Worksheet_id');
 			$criteria->compare('t.Title',strtolower($title),true);
 			$criteria->compare('t.Author',strtolower($author),true);
 			$criteria->compare('t.Publisher',strtolower($publisher),true);
@@ -196,6 +199,7 @@ class SiteController extends Controller
 						'subject'=>$item->Subject,
 						'isbn'=>$item->ISBN,
 						'callnumber'=>$item->CallNumber,
+						'worksheet'=>$item->worksheet->Name,
 					);					
 				}
 			} else

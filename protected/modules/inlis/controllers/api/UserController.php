@@ -218,7 +218,6 @@ class UserController extends Controller
 		} else
 			$this->redirect(Yii::app()->createUrl('site/index'));
 	}
-
 	
 	/**
 	 * Lists all models.
