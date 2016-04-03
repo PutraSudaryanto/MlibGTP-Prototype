@@ -258,7 +258,7 @@ class InlisUsers extends CActiveRecord
 			*/
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
-				'value' => '$data->creation->displayname',
+				'value' => '$data->creation_id != 0 ? $data->creation->displayname : "-"',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
