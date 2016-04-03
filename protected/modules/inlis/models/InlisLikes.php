@@ -24,10 +24,12 @@
  *
  * The followings are the available columns in table 'ommu_inlis_likes':
  * @property string $like_id
+ * @property integer $publish
  * @property string $catalog_id
  * @property string $user_id
  * @property string $creation_date
  * @property string $creation_ip
+ * @property string $deleted_date
  */
 class InlisLikes extends CActiveRecord
 {
@@ -64,12 +66,13 @@ class InlisLikes extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('catalog_id, user_id', 'required'),
+			array('publish, catalog_id, user_id', 'required'),
+			array('publish', 'numerical', 'integerOnly'=>true),
 			array('catalog_id, user_id', 'length', 'max'=>11),
 			array('creation_ip', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('like_id, catalog_id, user_id, creation_date, creation_ip,
+			array('like_id, publish, catalog_id, user_id, creation_date, creation_ip, deleted_date,
 				catalog_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -94,19 +97,23 @@ class InlisLikes extends CActiveRecord
 	{
 		return array(
 			'like_id' => Yii::t('attribute', 'Like'),
+			'publish' => Yii::t('attribute', 'Publish'),
 			'catalog_id' => Yii::t('attribute', 'Catalog'),
 			'user_id' => Yii::t('attribute', 'User'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_ip' => Yii::t('attribute', 'Creation Ip'),
+			'deleted_date' => Yii::t('attribute', 'Deleted Date'),
 			'catalog_search' => Yii::t('attribute', 'Catalog'),
 			'user_search' => Yii::t('attribute', 'User'),
 		);
 		/*
 			'Like' => 'Like',
+			'Publish' => 'Publish',
 			'Catalog' => 'Catalog',
 			'User' => 'User',
 			'Creation Date' => 'Creation Date',
 			'Creation Ip' => 'Creation Ip',
+			'Deleted Date' => 'Deleted Date',
 		
 		*/
 	}
@@ -130,6 +137,16 @@ class InlisLikes extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.like_id',strtolower($this->like_id),true);
+		if(isset($_GET['type']) && $_GET['type'] == 'publish')
+			$criteria->compare('t.publish',1);
+		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
+			$criteria->compare('t.publish',0);
+		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
+			$criteria->compare('t.publish',2);
+		else {
+			$criteria->addInCondition('t.publish',array(0,1));
+			$criteria->compare('t.publish',$this->publish);
+		}
 		if(isset($_GET['catalog']))
 			$criteria->compare('t.catalog_id',$_GET['catalog']);
 		else
@@ -141,6 +158,8 @@ class InlisLikes extends CActiveRecord
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		$criteria->compare('t.creation_ip',strtolower($this->creation_ip),true);
+		if($this->deleted_date != null && !in_array($this->deleted_date, array('0000-00-00 00:00:00', '0000-00-00')))
+			$criteria->compare('date(t.deleted_date)',date('Y-m-d', strtotime($this->deleted_date)));
 		
 		// Custom Search
 		$criteria->with = array(
@@ -186,10 +205,12 @@ class InlisLikes extends CActiveRecord
 			}
 		} else {
 			//$this->defaultColumns[] = 'like_id';
+			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'catalog_id';
 			$this->defaultColumns[] = 'user_id';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_ip';
+			$this->defaultColumns[] = 'deleted_date';
 		}
 
 		return $this->defaultColumns;
@@ -239,6 +260,46 @@ class InlisLikes extends CActiveRecord
 				), true),
 			);
 			$this->defaultColumns[] = 'creation_ip';
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->favourite_id)), $data->publish, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Phrase::trans(588,0),
+						0=>Phrase::trans(589,0),
+					),
+					'type' => 'raw',
+				);
+			}
+			$this->defaultColumns[] = array(
+				'name' => 'deleted_date',
+				'value' => 'Utility::dateFormat($data->deleted_date)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
+					'model'=>$this,
+					'attribute'=>'deleted_date',
+					'language' => 'ja',
+					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
+					//'mode'=>'datetime',
+					'htmlOptions' => array(
+						'id' => 'creation_date_filter',
+					),
+					'options'=>array(
+						'showOn' => 'focus',
+						'dateFormat' => 'dd-mm-yy',
+						'showOtherMonths' => true,
+						'selectOtherMonths' => true,
+						'changeMonth' => true,
+						'changeYear' => true,
+						'showButtonPanel' => true,
+					),
+				), true),
+			);
 		}
 		parent::afterConstruct();
 	}
@@ -265,7 +326,7 @@ class InlisLikes extends CActiveRecord
 	 */
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
-			if($this->isNewRecord)
+			if($this->isNewRecord && $this->user_id == '')
 				$this->user_id = Yii::app()->user->id;
 			$this->creation_ip = $_SERVER['REMOTE_ADDR'];
 		}
