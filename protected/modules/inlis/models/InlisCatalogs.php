@@ -25,6 +25,8 @@
  * The followings are the available columns in table 'ommu_inlis_catalogs':
  * @property string $id
  * @property string $catalog_id
+ * @property integer $user_views
+ * @property integer $public_views
  * @property string $creation_date
  * @property string $creation_id
  */
@@ -64,11 +66,11 @@ class InlisCatalogs extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('catalog_id', 'required'),
-			array('catalog_id', 'length', 'max'=>11),
+			array('catalog_id, user_views, public_views', 'length', 'max'=>11),
 			array('creation_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, catalog_id, creation_date, creation_id,
+			array('id, catalog_id, user_views, public_views, creation_date, creation_id,
 				catalog_search, creation_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -94,6 +96,8 @@ class InlisCatalogs extends CActiveRecord
 		return array(
 			'id' => Yii::t('attribute', 'ID'),
 			'catalog_id' => Yii::t('attribute', 'Catalog'),
+			'user_views' => Yii::t('attribute', 'User View'),
+			'public_views' => Yii::t('attribute', 'Public View'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'catalog_search' => Yii::t('attribute', 'Catalog'),
@@ -102,6 +106,8 @@ class InlisCatalogs extends CActiveRecord
 		/*
 			'ID' => 'ID',
 			'Catalog' => 'Catalog',
+			'User View' => 'User View',
+			'Public View' => 'Public View',
 			'Creation Date' => 'Creation Date',
 			'Creation' => 'Creation',
 		
@@ -128,6 +134,8 @@ class InlisCatalogs extends CActiveRecord
 
 		$criteria->compare('t.id',strtolower($this->id),true);
 		$criteria->compare('t.catalog_id',strtolower($this->catalog_id),true);
+		$criteria->compare('t.user_views',strtolower($this->user_views),true);
+		$criteria->compare('t.public_views',strtolower($this->public_views),true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		if(isset($_GET['creation']))
@@ -180,6 +188,8 @@ class InlisCatalogs extends CActiveRecord
 		} else {
 			//$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'catalog_id';
+			$this->defaultColumns[] = 'user_views';
+			$this->defaultColumns[] = 'public_views';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 		}
@@ -199,6 +209,20 @@ class InlisCatalogs extends CActiveRecord
 			$this->defaultColumns[] = array(
 				'name' => 'catalog_search',
 				'value' => '$data->catalog->Title',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'user_views',
+				'value' => '$data->user_views',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'public_views',
+				'value' => '$data->public_views',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
