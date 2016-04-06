@@ -6,14 +6,15 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabTextColor="@color/white" />
 
     <android.support.v4.view.ViewPager
-        android:layout_below="@+id/tabs"
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabs" />
 
 </RelativeLayout>
