@@ -18,6 +18,9 @@ import co.ommu.inlisjogja.fragment.ViewFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,19 +34,18 @@ public class MainActivity extends AppCompatActivity
                     .add(R.id.container, new ViewFragment())
                     .commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -83,15 +85,12 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new ViewFragment()).commit();
         } else if (id == R.id.nav_bookmarks) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new BookmarkFragment()).commit();
-            return true;
         } else if (id == R.id.nav_likes) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new LikeFragment()).commit();
-            return true;
         } else if (id == R.id.nav_favourites) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new ActionFragment()).commit();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
