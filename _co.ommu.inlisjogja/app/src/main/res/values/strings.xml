@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Grhatama Pustaka Yogyakarta</string>
+    <string name="app_name">Grhatama Pustaka</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_views">View</string>
+    <string name="action_bookmarks">Bookmarks</string>
+    <string name="action_likes">Likes</string>
+    <string name="action_favourites">Favourite</string>
+    <string name="action_settings">Settings</string>
 </resources>
