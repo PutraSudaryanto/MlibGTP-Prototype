@@ -325,10 +325,14 @@ class InlisUsers extends CActiveRecord
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
-		if(parent::beforeValidate()) {
-			if($this->isNewRecord)
-				$this->creation_id = Yii::app()->user->id;
-			else
+		if(parent::beforeValidate()) {			
+			$action = strtolower(Yii::app()->controller->action->id);	
+			if($this->isNewRecord) {				
+				if($action == 'generate')
+					$this->modified_id = Yii::app()->user->id;
+				else
+					$this->creation_id = Yii::app()->user->id;
+			} else
 				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;

@@ -96,7 +96,7 @@ class InlisCatalogs extends CActiveRecord
 		return array(
 			'id' => Yii::t('attribute', 'ID'),
 			'catalog_id' => Yii::t('attribute', 'Catalog'),
-			'user_views' => Yii::t('attribute', 'User View'),
+			'user_views' => Yii::t('attribute', 'Member View'),
 			'public_views' => Yii::t('attribute', 'Public View'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
@@ -106,7 +106,7 @@ class InlisCatalogs extends CActiveRecord
 		/*
 			'ID' => 'ID',
 			'Catalog' => 'Catalog',
-			'User View' => 'User View',
+			'Member View' => 'Member View',
 			'Public View' => 'Public View',
 			'Creation Date' => 'Creation Date',
 			'Creation' => 'Creation',
