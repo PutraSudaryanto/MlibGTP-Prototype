@@ -1,4 +1,4 @@
-package co.ommu.inlisjogja.models;
+package co.ommu.inlisjogja.model;
 
 public class InlisCollectionListModel {
 	public String id;

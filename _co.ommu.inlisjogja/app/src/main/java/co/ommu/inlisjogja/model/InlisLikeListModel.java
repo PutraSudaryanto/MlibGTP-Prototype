@@ -1,4 +1,4 @@
-package co.ommu.inlisjogja.models;
+package co.ommu.inlisjogja.model;
 
 public class InlisLikeListModel {
 	public String catalog_id;

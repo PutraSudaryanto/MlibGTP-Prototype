@@ -3,7 +3,7 @@ package co.ommu.inlisjogja.views;
 import java.util.ArrayList;
 
 import co.ommu.inlisjogja.R;
-import co.ommu.inlisjogja.models.InlisCollectionListModel;
+import co.ommu.inlisjogja.model.InlisCollectionListModel;
 
 import android.content.Context;
 import android.graphics.Color;
