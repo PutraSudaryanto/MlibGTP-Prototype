@@ -6,12 +6,10 @@ import co.ommu.inlisjogja.R;
 import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CatalogSearchAdapter extends BaseAdapter {
@@ -56,9 +54,9 @@ public class CatalogSearchAdapter extends BaseAdapter {
             holder.tvPublisLocation = (TextView) vi.findViewById(R.id.tvPublisLocation);
             holder.tvPublisYear = (TextView) vi.findViewById(R.id.tvPublisYear);
             holder.tvSubject = (TextView) vi.findViewById(R.id.tvSubject);
-            holder.tvIsbn = (LinearLayout) vi.findViewById(R.id.tvIsbn);
-            holder.tvCallNumber = (LinearLayout) vi.findViewById(R.id.tvCallNumber);
-            holder.tvWorksheet = (LinearLayout) vi.findViewById(R.id.tvWorksheet);
+            holder.tvIsbn = (TextView) vi.findViewById(R.id.tvIsbn);
+            holder.tvCallNumber = (TextView) vi.findViewById(R.id.tvCallNumber);
+            holder.tvWorksheet = (TextView) vi.findViewById(R.id.tvWorksheet);
             vi.setTag(holder);
         } else {
             holder = (Holder) vi.getTag();
