@@ -1,5 +1,6 @@
 package co.ommu.inlisjogja;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,10 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import co.ommu.inlisjogja.fragment.ActionFragment;
-import co.ommu.inlisjogja.fragment.BookmarkFragment;
-import co.ommu.inlisjogja.fragment.LikeFragment;
-import co.ommu.inlisjogja.fragment.ViewFragment;
+import co.ommu.inlisjogja.fragment.FavouriteFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,13 +23,14 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (savedInstanceState == null)
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new ViewFragment())
+                    .add(R.id.container, new FavouriteFragment())
                     .commit();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -81,14 +80,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_views) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new ViewFragment()).commit();
-        } else if (id == R.id.nav_bookmarks) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new BookmarkFragment()).commit();
-        } else if (id == R.id.nav_likes) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new LikeFragment()).commit();
+        if (id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes) {
+            Intent intent = new Intent(getBaseContext(), ActionActivity.class);
+            if (id == R.id.nav_views)
+            intent.putExtra("actionTabs", 0);
+            if (id == R.id.nav_bookmarks)
+                intent.putExtra("actionTabs", 1);
+            if (id == R.id.nav_likes)
+                intent.putExtra("actionTabs", 2);
+            startActivity(intent);
         } else if (id == R.id.nav_favourites) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new ActionFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new FavouriteFragment()).commit();
         }
 
         drawer.closeDrawer(GravityCompat.START);
