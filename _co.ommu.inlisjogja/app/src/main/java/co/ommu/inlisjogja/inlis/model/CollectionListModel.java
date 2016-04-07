@@ -1,6 +1,6 @@
-package co.ommu.inlisjogja.model;
+package co.ommu.inlisjogja.inlis.model;
 
-public class InlisCollectionListModel {
+public class CollectionListModel {
 	public String id;
 	public String title;
 	public String location;

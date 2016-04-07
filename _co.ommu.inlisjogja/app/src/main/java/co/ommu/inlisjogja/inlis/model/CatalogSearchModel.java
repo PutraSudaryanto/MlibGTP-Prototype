@@ -1,6 +1,6 @@
-package co.ommu.inlisjogja.model;
+package co.ommu.inlisjogja.inlis.model;
 
-public class InlisCatalogSearchModel {
+public class CatalogSearchModel {
 	public String id;
 	public String title;
 	public String author;

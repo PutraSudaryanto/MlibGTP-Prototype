@@ -1,9 +1,9 @@
-package co.ommu.inlisjogja.views;
+package co.ommu.inlisjogja.inlis.adapter;
 
 import java.util.ArrayList;
 
 import co.ommu.inlisjogja.R;
-import co.ommu.inlisjogja.model.InlisCollectionListModel;
+import co.ommu.inlisjogja.inlis.model.CollectionListModel;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,12 +14,12 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class InlisCollectionListAdapter extends BaseAdapter {
+public class CollectionListAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
-    ArrayList<InlisCollectionListModel> array;
+    ArrayList<CollectionListModel> array;
 
-    public InlisCollectionListAdapter(ArrayList<InlisCollectionListModel> array, Context context) {
+    public CollectionListAdapter(ArrayList<CollectionListModel> array, Context context) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.array = array;
     }

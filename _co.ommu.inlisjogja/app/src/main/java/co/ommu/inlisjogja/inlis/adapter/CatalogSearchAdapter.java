@@ -1,9 +1,9 @@
-package co.ommu.inlisjogja.views;
+package co.ommu.inlisjogja.inlis.adapter;
 
 import java.util.ArrayList;
 
 import co.ommu.inlisjogja.R;
-import co.ommu.inlisjogja.model.InlisCatalogSearchModel;
+import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,12 +14,12 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class InlisCatalogSearchAdapter extends BaseAdapter {
+public class CatalogSearchAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
-    ArrayList<InlisCatalogSearchModel> array;
+    ArrayList<CatalogSearchModel> array;
 
-    public InlisCatalogSearchAdapter(ArrayList<InlisCatalogSearchModel> array, Context context) {
+    public CatalogSearchAdapter(ArrayList<CatalogSearchModel> array, Context context) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.array = array;
     }
