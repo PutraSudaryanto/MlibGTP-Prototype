@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_title"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_author"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Author" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_publisher"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Publisher" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>-->
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header This is header "/>
+</ScrollView>
