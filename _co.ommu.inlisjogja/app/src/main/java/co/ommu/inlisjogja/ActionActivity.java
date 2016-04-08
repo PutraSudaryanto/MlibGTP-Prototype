@@ -21,7 +21,7 @@ import co.ommu.inlisjogja.fragment.LikeFragment;
 import co.ommu.inlisjogja.fragment.ViewFragment;
 
 public class ActionActivity extends AppCompatActivity {
-    int actionTabs;
+    int tabPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class ActionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_action);
 
         if (getIntent().getExtras() != null) {
-            actionTabs = getIntent().getExtras().getInt("actionTabs");
+            tabPosition = getIntent().getExtras().getInt("actionTabs");
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -82,7 +82,7 @@ public class ActionActivity extends AppCompatActivity {
         adapter.addFragment(new BookmarkFragment(), getResources().getString(R.string.action_bookmarks));
         adapter.addFragment(new LikeFragment(), getResources().getString(R.string.action_likes));
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(actionTabs);
+        viewPager.setCurrentItem(tabPosition);
     }
 
     static class Adapter extends FragmentPagerAdapter {

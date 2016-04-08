@@ -1,6 +1,7 @@
 package co.ommu.inlisjogja;
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +37,10 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle(getResources().getString(R.string.action_search));
+
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(getResources().getString(R.string.action_search));
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {

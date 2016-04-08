@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes) {
             Intent intent = new Intent(getBaseContext(), ActionActivity.class);
             if (id == R.id.nav_views)
-            intent.putExtra("actionTabs", 0);
+            intent.putExtra("tab_position", 0);
             if (id == R.id.nav_bookmarks)
-                intent.putExtra("actionTabs", 1);
+                intent.putExtra("tab_position", 1);
             if (id == R.id.nav_likes)
-                intent.putExtra("actionTabs", 2);
+                intent.putExtra("tab_position", 2);
             startActivity(intent);
         } else if (id == R.id.nav_favourites) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new FavouriteFragment()).commit();
