@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
-            return true;
+            startActivity(new Intent(getBaseContext(), SearchActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
