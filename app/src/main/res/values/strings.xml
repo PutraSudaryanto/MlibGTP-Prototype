@@ -2,6 +2,7 @@
     <string name="app_name">Grhatama Pustaka</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_home">Home</string>
     <string name="action_views">Viewed</string>
     <string name="action_bookmarks">Bookmarks</string>
     <string name="action_likes">Likes</string>
@@ -11,4 +12,16 @@
     <string name="action_search_simple">Simple</string>
     <string name="action_search_advance">Advanced</string>
     <string name="title_track">Track</string>
+    <string name="title_search">Search</string>
+    <string name="title_search_advance">Advanced</string>
+    <string name="input_search_keyword">Keyword</string>
+    <string name="input_search_category">Category</string>
+    <string name="input_search_title">Title</string>
+    <string name="input_search_author">Author</string>
+    <string name="input_search_publisher">Publisher</string>
+    <string name="input_search_publish_year">Publish Year</string>
+    <string name="input_search_subject">Subject</string>
+    <string name="input_search_callnumber">Call Number</string>
+    <string name="input_search_bibid">BIBID</string>
+    <string name="input_search_isbn">ISBN</string>
 </resources>

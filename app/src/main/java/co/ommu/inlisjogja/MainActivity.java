@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import co.ommu.inlisjogja.fragment.FavouriteFragment;
+import co.ommu.inlisjogja.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null)
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new FavouriteFragment())
+                    .add(R.id.container, new HomeFragment())
                     .commit();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,12 +84,14 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes) {
             Intent intent = new Intent(getBaseContext(), ActionActivity.class);
             if (id == R.id.nav_views)
-            intent.putExtra("tab_position", 0);
+                intent.putExtra("tab_position", 0);
             if (id == R.id.nav_bookmarks)
                 intent.putExtra("tab_position", 1);
             if (id == R.id.nav_likes)
                 intent.putExtra("tab_position", 2);
             startActivity(intent);
+        } else if (id == R.id.nav_home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
         } else if (id == R.id.nav_favourites) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new FavouriteFragment()).commit();
         }

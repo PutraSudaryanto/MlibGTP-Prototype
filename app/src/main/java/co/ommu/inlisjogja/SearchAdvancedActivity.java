@@ -8,12 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchAdvancedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_search_advanced);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -29,7 +29,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
+        getMenuInflater().inflate(R.menu.search_advanced, menu);
         return true;
     }
 
@@ -41,8 +41,8 @@ public class SearchActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search_advance) {
-            startActivity(new Intent(getBaseContext(), SearchAdvancedActivity.class));
+        if (id == R.id.action_search_simple) {
+            startActivity(new Intent(getBaseContext(), SearchActivity.class));
         } else if (id == R.id.action_settings) {
             return true;
         }

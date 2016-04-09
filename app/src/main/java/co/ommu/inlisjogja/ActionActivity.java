@@ -29,7 +29,7 @@ public class ActionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_action);
 
         if (getIntent().getExtras() != null) {
-            tabPosition = getIntent().getExtras().getInt("actionTabs");
+            tabPosition = getIntent().getExtras().getInt("tab_position");
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,7 +44,6 @@ public class ActionActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        getSupportActionBar().setTitle(getResources().getString(R.string.title_track));
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
