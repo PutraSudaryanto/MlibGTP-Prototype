@@ -20,13 +20,13 @@ import co.ommu.inlisjogja.fragment.BookmarkFragment;
 import co.ommu.inlisjogja.fragment.LikeFragment;
 import co.ommu.inlisjogja.fragment.ViewFragment;
 
-public class ActionActivity extends AppCompatActivity {
+public class TrackActivity extends AppCompatActivity {
     int tabPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_action);
+        setContentView(R.layout.activity_track);
 
         if (getIntent().getExtras() != null) {
             tabPosition = getIntent().getExtras().getInt("tab_position");
