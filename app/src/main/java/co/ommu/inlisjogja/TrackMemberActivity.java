@@ -17,11 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.ommu.inlisjogja.fragment.BookmarkFragment;
-import co.ommu.inlisjogja.fragment.FavouriteFragment;
 import co.ommu.inlisjogja.fragment.LikeFragment;
 import co.ommu.inlisjogja.fragment.ViewFragment;
 
-public class TrackActivity extends AppCompatActivity {
+public class TrackMemberActivity extends AppCompatActivity {
     int tabPosition;
 
     @Override
@@ -35,10 +34,8 @@ public class TrackActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setTitle(mTitle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +77,6 @@ public class TrackActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ViewFragment(), getResources().getString(R.string.action_views));
         adapter.addFragment(new BookmarkFragment(), getResources().getString(R.string.action_bookmarks));
-        adapter.addFragment(new FavouriteFragment(), getResources().getString(R.string.action_favourites));
         adapter.addFragment(new LikeFragment(), getResources().getString(R.string.action_likes));
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(tabPosition);

@@ -26,6 +26,9 @@
         <activity
             android:name=".SearchAdvancedActivity"
             android:label="@string/title_search_advance"></activity>
+        <activity
+            android:name=".TrackMemberActivity"
+            android:label="@string/title_track"></activity>
     </application>
 
 </manifest>
