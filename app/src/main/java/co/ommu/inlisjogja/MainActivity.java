@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes) {
-            Intent intent = new Intent(getBaseContext(), ActionActivity.class);
+            Intent intent = new Intent(getBaseContext(), TrackActivity.class);
             if (id == R.id.nav_views)
                 intent.putExtra("tab_position", 0);
             if (id == R.id.nav_bookmarks)

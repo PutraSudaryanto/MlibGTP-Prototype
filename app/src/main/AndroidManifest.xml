@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActionActivity"
+            android:name=".TrackActivity"
             android:label="@string/title_track"></activity>
         <activity
             android:name=".SearchActivity"

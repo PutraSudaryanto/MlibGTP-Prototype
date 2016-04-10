@@ -43,8 +43,6 @@ public class SearchActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search_advance) {
             startActivity(new Intent(getBaseContext(), SearchAdvancedActivity.class));
-        } else if (id == R.id.action_settings) {
-            return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -56,7 +56,7 @@ public class TrackActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.others, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
