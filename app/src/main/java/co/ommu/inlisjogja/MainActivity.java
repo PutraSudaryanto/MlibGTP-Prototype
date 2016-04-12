@@ -81,7 +81,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes) {
+        if (id == R.id.nav_home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+        } else if (id == R.id.nav_track) {
+            startActivity(new Intent(getBaseContext(), TrackMemberActivity.class));
+        } else if (id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes) {
             Intent intent = new Intent(getBaseContext(), TrackMemberActivity.class);
             if (id == R.id.nav_views)
                 intent.putExtra("tab_position", 0);
@@ -90,8 +94,6 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.nav_likes)
                 intent.putExtra("tab_position", 2);
             startActivity(intent);
-        } else if (id == R.id.nav_home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
         } else if (id == R.id.nav_favourites) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new FavouriteFragment()).commit();
         }

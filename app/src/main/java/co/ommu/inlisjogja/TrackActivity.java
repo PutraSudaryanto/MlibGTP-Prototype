@@ -16,22 +16,25 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.ommu.inlisjogja.fragment.PopularFragment;
 import co.ommu.inlisjogja.fragment.BookmarkFragment;
 import co.ommu.inlisjogja.fragment.FavouriteFragment;
 import co.ommu.inlisjogja.fragment.LikeFragment;
 import co.ommu.inlisjogja.fragment.ViewFragment;
 
 public class TrackActivity extends AppCompatActivity {
-    int tabPosition;
+    int tabPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
 
+        /*
         if (getIntent().getExtras() != null) {
             tabPosition = getIntent().getExtras().getInt("tab_position");
         }
+        */
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,6 +56,7 @@ public class TrackActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     @Override
@@ -78,6 +82,7 @@ public class TrackActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(new PopularFragment(), getResources().getString(R.string.action_popular));
         adapter.addFragment(new ViewFragment(), getResources().getString(R.string.action_views));
         adapter.addFragment(new BookmarkFragment(), getResources().getString(R.string.action_bookmarks));
         adapter.addFragment(new FavouriteFragment(), getResources().getString(R.string.action_favourites));

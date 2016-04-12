@@ -6,6 +6,9 @@
             android:id="@+id/nav_home"
             android:title="@string/action_home"/>
         <item
+            android:id="@+id/nav_track"
+            android:title="@string/action_track"/>
+        <item
             android:id="@+id/nav_views"
             android:title="@string/action_views"/>
         <item

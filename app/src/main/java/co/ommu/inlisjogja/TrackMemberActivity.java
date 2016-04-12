@@ -21,7 +21,7 @@ import co.ommu.inlisjogja.fragment.LikeFragment;
 import co.ommu.inlisjogja.fragment.ViewFragment;
 
 public class TrackMemberActivity extends AppCompatActivity {
-    int tabPosition;
+    int tabPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class TrackMemberActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ViewFragment(), getResources().getString(R.string.action_views));
+        adapter.addFragment(new ViewFragment(), getResources().getString(R.string.action_viewed));
         adapter.addFragment(new BookmarkFragment(), getResources().getString(R.string.action_bookmarks));
         adapter.addFragment(new LikeFragment(), getResources().getString(R.string.action_likes));
         viewPager.setAdapter(adapter);
