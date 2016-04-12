@@ -17,6 +17,7 @@ import co.ommu.inlisjogja.fragment.HomeFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static String token = "2aff7d8198a8444e9a7909823f91f98d";
     private DrawerLayout drawer;
     private NavigationView navigationView;
 

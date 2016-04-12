@@ -49,24 +49,18 @@ public class CollectionListAdapter extends BaseAdapter {
             holder = new Holder();
             vi = inflater.inflate(R.layout.adapter_inlis_collection_list, null);
             holder.tvTitle = (TextView) vi.findViewById(R.id.tvTitle);
-            holder.tvLocation = (TextView) vi.findViewById(R.id.tvLocation);
-            holder.tvStatus = (TextView) vi.findViewById(R.id.tvStatus);
             vi.setTag(holder);
         } else {
             holder = (Holder) vi.getTag();
         }
 
         holder.tvTitle.setText(array.get(position).title);
-        holder.tvLocation.setText(array.get(position).location);
-        holder.tvStatus.setText(array.get(position).status);
 		
         return vi;
     }
 
     static class Holder {
         TextView tvTitle;
-        TextView tvLocation;
-        TextView tvStatus;
     }
 
 }

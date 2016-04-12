@@ -1,4 +1,4 @@
-package co.ommu.mlibjogja.components;
+package co.ommu.inlisjogja.components;
 
 import android.content.Context;
 
