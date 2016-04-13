@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -58,7 +56,6 @@ public class PopularFragment extends Fragment
     }
 
     private void build() {
-
         if (firstTimeLoad) {
             if (Integer.parseInt(itemCount) > 20) {
                 Log.i("load", "true");
@@ -79,7 +76,7 @@ public class PopularFragment extends Fragment
 
     private void getResult() {
         if (firstTimeLoad) {
-            //dialog = ProgressDialog.show(PopularFragment.this, "", "Please wait...", true, true);
+            dialog = ProgressDialog.show(getActivity(), "", "Please wait...", true, true);
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface arg0) {
@@ -97,6 +94,7 @@ public class PopularFragment extends Fragment
                 // super.onSuccess(response);
                 try {
                     JSONArray ja = response.getJSONArray("data");
+                    Log.i("result", ja.toString());
                     for (int i = 0; i < ja.length(); i++) {
                         PopularModel item = new PopularModel();
                         item.catalog_id = ja.getJSONObject(i).getString("catalog_id");
@@ -109,17 +107,16 @@ public class PopularFragment extends Fragment
                         item.subject = ja.getJSONObject(i).getString("subject");
                         array.add(item);
                     }
-                    JSONObject jso = response.getJSONObject("pager");
-                    itemCount = jso.getString("itemCount");
-                    nextPage = jso.getString("nextPage");
-                    pageSize = jso.getString("pageSize");
-                    url = response.getString("nextpage");
+                    JSONObject jo = response.getJSONObject("pager");
+                    itemCount = jo.getString("itemCount");
+                    pageSize = jo.getString("pageSize");
+                    nextPage = jo.getString("nextPage");
+                    url = response.getString("nextPager");
                     Log.i("nextpage", url);
                     build();
                     if (dialog.isShowing()) {
                         dialog.dismiss();
                     }
-                    Log.i("result", ja.toString());
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -136,7 +133,7 @@ public class PopularFragment extends Fragment
             //@Override
             public void onFailure(int statusCode, Header[] headers, Throwable error, String content) {
                 // TODO Auto-generated method stub
-                //super.onFailure(statusCode, headers, error, content);
+                // super.onFailure(statusCode, headers, error, content);
                 if (firstTimeLoad) {
                     if (dialog.isShowing()) {
                         dialog.dismiss();

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import co.ommu.inlisjogja.fragment.FavouriteFragment;
 import co.ommu.inlisjogja.fragment.HomeFragment;
+import co.ommu.inlisjogja.fragment.PopularFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
