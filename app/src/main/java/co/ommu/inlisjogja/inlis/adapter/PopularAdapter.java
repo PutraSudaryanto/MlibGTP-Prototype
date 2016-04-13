@@ -15,18 +15,18 @@ import android.widget.TextView;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
 
-    private List<PopularModel> array;
+    private ArrayList<PopularModel> array;
     private Context context;
 
-    public PopularAdapter(Context context) {
-        array = new ArrayList<>();
+    public PopularAdapter(Context context, ArrayList<PopularModel> array) {
+        this.array = array;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_inlis_collection_list, parent, false);
+                .inflate(R.layout.adapter_inlis_tracks, null);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -36,6 +36,18 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         PopularModel model = array.get(position);
 
         holder.tvTitle.setText(model.title);
+        if(!model.author.equals("-"))
+            holder.tvAuthor.setText(model.author);
+        if(!model.subject.equals("-"))
+            holder.tvSubject.setText(model.subject);
+        if(!model.publisher.equals("-") && !model.publish_year.equals("-"))
+            holder.tvPublish.setText(model.publisher +" / "+ model.publish_year);
+        else {
+            if(!model.publisher.equals("-"))
+                holder.tvPublish.setText(model.publisher);
+            else
+                holder.tvPublish.setText(model.publish_year);
+        }
 
         /*
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -53,17 +65,23 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return array.size();
+        return (null != array ? array.size() : 0);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         //public final View mView;
         public TextView tvTitle;
+        public TextView tvAuthor;
+        public TextView tvSubject;
+        public TextView tvPublish;
 
         public ViewHolder(View view) {
             super(view);
             //mView = view;
             tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+            tvAuthor = (TextView) view.findViewById(R.id.tvAuthor);
+            tvSubject = (TextView) view.findViewById(R.id.tvSubject);
+            tvPublish = (TextView) view.findViewById(R.id.tvPublish);
         }
     }
 

@@ -42,10 +42,17 @@ public class PopularFragment extends Fragment
     View footerView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_track_content, container, false);
-        recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
         relativeNull = (RelativeLayout) view.findViewById(R.id.responseNull);
+        relativeNull.setVisibility(View.GONE);
+        recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
+        recycleNotNull.setVisibility(View.GONE);
         footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.include_footer, null, false);
 
@@ -57,14 +64,17 @@ public class PopularFragment extends Fragment
 
     private void build() {
         if (firstTimeLoad) {
+            if(array.size() == 0)
+                relativeNull.setVisibility(View.VISIBLE);
+            else
+                recycleNotNull.setVisibility(View.VISIBLE);
+
             if (Integer.parseInt(itemCount) > 20) {
                 Log.i("load", "true");
             }
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recycleNotNull.setLayoutManager(layoutManager);
+            recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
             recycleNotNull.setHasFixedSize(true);
-
-            adapter = new PopularAdapter(getActivity());
+            adapter = new PopularAdapter(getActivity(), array);
             recycleNotNull.setAdapter(adapter);
 
         } else {
@@ -94,19 +104,8 @@ public class PopularFragment extends Fragment
                 // super.onSuccess(response);
                 try {
                     JSONArray ja = response.getJSONArray("data");
-                    Log.i("result", ja.toString());
-                    for (int i = 0; i < ja.length(); i++) {
-                        PopularModel item = new PopularModel();
-                        item.catalog_id = ja.getJSONObject(i).getString("catalog_id");
-                        item.loans = ja.getJSONObject(i).getString("loans");
-                        item.title = ja.getJSONObject(i).getString("title");
-                        item.author = ja.getJSONObject(i).getString("author");
-                        item.publish_year = ja.getJSONObject(i).getString("publish_year");
-                        item.publisher = ja.getJSONObject(i).getString("publisher");
-                        item.publish_location = ja.getJSONObject(i).getString("publish_location");
-                        item.subject = ja.getJSONObject(i).getString("subject");
-                        array.add(item);
-                    }
+                    Log.i("DEBUG", ja.toString());
+                    array.addAll(PopularModel.fromJson(ja)); // add new items
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = jo.getString("itemCount");
                     pageSize = jo.getString("pageSize");
