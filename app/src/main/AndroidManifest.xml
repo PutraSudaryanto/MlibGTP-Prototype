@@ -11,15 +11,15 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".TrackActivity"
-            android:label="@string/title_track">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".TrackActivity"
+            android:label="@string/title_track">
         </activity>
         <activity
             android:name=".SearchActivity"

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null)
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new HomeFragment())
+                    .add(R.id.container, new PopularFragment())
                     .commit();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
