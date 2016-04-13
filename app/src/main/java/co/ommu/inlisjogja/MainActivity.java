@@ -34,11 +34,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null)
             getSupportFragmentManager()
                     .beginTransaction()
-<<<<<<< HEAD
                     .add(R.id.container, new BookFragment())
-=======
-                    .add(R.id.container, new PopularFragment())
->>>>>>> origin/master
                     .commit();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
