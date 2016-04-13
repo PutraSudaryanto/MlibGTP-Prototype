@@ -7,8 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class SearchAdvancedActivity extends AppCompatActivity {
+
+    TextView btnSearchSim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,17 @@ public class SearchAdvancedActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+
+
+        btnSearchSim = (TextView)  findViewById(R.id.tv_menu_search);
+        btnSearchSim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -27,7 +42,7 @@ public class SearchAdvancedActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_advanced, menu);
         return true;
@@ -47,4 +62,5 @@ public class SearchAdvancedActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }
