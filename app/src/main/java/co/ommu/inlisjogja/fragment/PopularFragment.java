@@ -53,12 +53,13 @@ public class PopularFragment extends Fragment
         relativeNull.setVisibility(View.GONE);
         recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
         recycleNotNull.setVisibility(View.GONE);
+
         footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.include_footer, null, false);
 
         url = Utility.inlisLoanPopularPathURL + "/data/JSON";
         Log.i("url", url);
-        getResult();
+        getData();
         return view;
     }
 
@@ -84,7 +85,7 @@ public class PopularFragment extends Fragment
         firstTimeLoad = false;
     }
 
-    private void getResult() {
+    private void getData() {
         if (firstTimeLoad) {
             dialog = ProgressDialog.show(getActivity(), "", "Please wait...", true, true);
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

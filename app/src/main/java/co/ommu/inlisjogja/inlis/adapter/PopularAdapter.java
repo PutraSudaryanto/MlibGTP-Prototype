@@ -65,7 +65,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return (null != array ? array.size() : 0);
+        return (array != null ? array.size() : 0);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
