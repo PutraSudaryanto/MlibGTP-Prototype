@@ -1,6 +1,7 @@
 package co.ommu.inlisjogja.components;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -22,7 +23,9 @@ public class AsynRestClient {
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
-        return Utility.baseURL + relativeUrl;
+        String urlPath = Utility.baseURL + relativeUrl;
+        Log.i("result", urlPath);
+        return urlPath;
     }
 
     public static void cancelAllRequests(Context context) {

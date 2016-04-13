@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import co.ommu.inlisjogja.fragment.BookFragment;
 import co.ommu.inlisjogja.fragment.FavouriteFragment;
 import co.ommu.inlisjogja.fragment.HomeFragment;
+import co.ommu.inlisjogja.fragment.PopularFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,7 +34,11 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null)
             getSupportFragmentManager()
                     .beginTransaction()
+<<<<<<< HEAD
                     .add(R.id.container, new BookFragment())
+=======
+                    .add(R.id.container, new PopularFragment())
+>>>>>>> origin/master
                     .commit();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

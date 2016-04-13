@@ -30,11 +30,9 @@ public class TrackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
 
-        /*
         if (getIntent().getExtras() != null) {
             tabPosition = getIntent().getExtras().getInt("tab_position");
         }
-        */
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,7 +80,6 @@ public class TrackActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new PopularFragment(), getResources().getString(R.string.action_popular));
         adapter.addFragment(new ViewFragment(), getResources().getString(R.string.action_views));
         adapter.addFragment(new BookmarkFragment(), getResources().getString(R.string.action_bookmarks));
         adapter.addFragment(new FavouriteFragment(), getResources().getString(R.string.action_favourites));
