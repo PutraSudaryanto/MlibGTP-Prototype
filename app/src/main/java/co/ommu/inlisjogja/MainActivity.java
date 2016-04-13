@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import co.ommu.inlisjogja.fragment.BookFragment;
 import co.ommu.inlisjogja.fragment.FavouriteFragment;
 import co.ommu.inlisjogja.fragment.HomeFragment;
 
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null)
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new HomeFragment())
+                    .add(R.id.container, new BookFragment())
                     .commit();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

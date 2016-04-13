@@ -79,7 +79,7 @@ public class PopularFragment extends Fragment
 
     private void getResult() {
         if (firstTimeLoad) {
-            //dialog = ProgressDialog.show(PopularFragment.this, "", "Please wait...", true, true);
+            dialog = ProgressDialog.show(getActivity(), "", "Please wait...", true, true);
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface arg0) {
