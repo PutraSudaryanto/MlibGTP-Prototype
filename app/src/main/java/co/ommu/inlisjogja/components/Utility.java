@@ -7,6 +7,7 @@ public class Utility {
     public static String inlisViewListPathURL = "/inlis/api/view/list";
     public static String inlisBookmarkListPathURL = "/inlis/api/bookmark/list";
     public static String inlisLikeListPathURL = "/inlis/api/like/list";
+    public static String inlisFavouriteListPathURL = "/inlis/api/favourite/list";
     public static String mediaPathURL = "/public";
     public static String MSG_ERROR = "<center>Terjadi masalah koneksi atau server sedang error. Tap untuk mencoba lagi.</center>";
 }

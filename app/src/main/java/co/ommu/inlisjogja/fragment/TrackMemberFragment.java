@@ -50,6 +50,8 @@ public class TrackMemberFragment extends Fragment
             url = Utility.inlisBookmarkListPathURL + "/data/JSON";
         else if(this.name == "likes")
             url = Utility.inlisLikeListPathURL + "/data/JSON";
+        else if(this.name == "favourites")
+            url = Utility.inlisFavouriteListPathURL + "/data/JSON";
     }
 
     @Override

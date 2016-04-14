@@ -10,6 +10,10 @@
             android:id="@+id/nav_track"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/action_track"/>
+        <item
+            android:id="@+id/nav_track_favourite"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/action_favourites"/>
     </group>
 
     <item android:title="Sub items">

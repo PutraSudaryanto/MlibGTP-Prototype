@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import co.ommu.inlisjogja.fragment.HomeFragment;
 import co.ommu.inlisjogja.fragment.TrackFragment;
+import co.ommu.inlisjogja.fragment.TrackMemberFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
         } else if (id == R.id.nav_track) {
             startActivity(new Intent(getBaseContext(), TrackMemberActivity.class));
+        } else if (id == R.id.nav_track_favourite) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
         } else if (id == R.id.nav_popular || id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes || id == R.id.nav_favourites) {
             Intent intent = new Intent(getBaseContext(), TrackActivity.class);
             if (id == R.id.nav_popular)
