@@ -22,31 +22,34 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import co.ommu.inlisjogja.MainActivity;
 import co.ommu.inlisjogja.R;
 import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.Utility;
-import co.ommu.inlisjogja.inlis.adapter.TrackAdapter;
-import co.ommu.inlisjogja.inlis.model.TrackModel;
+import co.ommu.inlisjogja.inlis.adapter.TrackMemberAdapter;
+import co.ommu.inlisjogja.inlis.model.TrackMemberModel;
 import cz.msebera.android.httpclient.Header;
 
-public class TrackFragment extends Fragment
+public class TrackMemberFragment extends Fragment
 {
     public boolean firstTimeLoad = true, loadingMore = false;
-    public ArrayList<TrackModel> array = new ArrayList<TrackModel>();
+    public ArrayList<TrackMemberModel> array = new ArrayList<TrackMemberModel>();
     private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
     ProgressDialog dialog;
     RelativeLayout relativeNull;
     RecyclerView recycleNotNull;
-    TrackAdapter adapter;
+    TrackMemberAdapter adapter;
 
-    public TrackFragment(String name) {
+    public TrackMemberFragment(String name) {
         this.name = name;
-        if(this.name == null || this.name == "popular")
-            url = Utility.inlisLoanPopularPathURL + "/data/JSON";
-        else
-            url = Utility.inlisCatalogTrackPathURL + "/data/JSON";
+        if(this.name == null || this.name == "views")
+            url = Utility.inlisViewListPathURL + "/data/JSON";
+        else if(this.name == "bookmarks")
+            url = Utility.inlisBookmarkListPathURL + "/data/JSON";
+        else if(this.name == "likes")
+            url = Utility.inlisLikeListPathURL + "/data/JSON";
     }
 
     @Override
@@ -56,7 +59,7 @@ public class TrackFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_track, container, false);
+        View view = inflater.inflate(R.layout.fragment_track_member, container, false);
         relativeNull = (RelativeLayout) view.findViewById(R.id.responseNull);
         relativeNull.setVisibility(View.GONE);
         recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
@@ -79,7 +82,7 @@ public class TrackFragment extends Fragment
             }
             recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
             recycleNotNull.setHasFixedSize(true);
-            adapter = new TrackAdapter(getActivity(), array);
+            adapter = new TrackMemberAdapter(getActivity(), array);
             recycleNotNull.setAdapter(adapter);
 
         } else {
@@ -103,8 +106,7 @@ public class TrackFragment extends Fragment
         }
 
         RequestParams params = new RequestParams();
-        if(this.name != "popular")
-            params.put("type", this.name);
+        params.put("token", MainActivity.token);
 
         AsynRestClient.post(getActivity(), url, params, new JsonHttpResponseHandler() {
             //@Override
@@ -114,7 +116,7 @@ public class TrackFragment extends Fragment
                 try {
                     JSONArray ja = response.getJSONArray("data");
                     Log.i("DEBUG", ja.toString());
-                    array.addAll(TrackModel.fromJson(ja)); // add new items
+                    array.addAll(TrackMemberModel.fromJson(ja)); // add new items
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = jo.getString("itemCount");
                     pageSize = jo.getString("pageSize");

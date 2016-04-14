@@ -16,9 +16,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.ommu.inlisjogja.fragment.BookmarkFragment;
-import co.ommu.inlisjogja.fragment.LikeFragment;
-import co.ommu.inlisjogja.fragment.ViewFragment;
+import co.ommu.inlisjogja.fragment.TrackMemberFragment;
 
 public class TrackMemberActivity extends AppCompatActivity {
     int tabPosition = 0;
@@ -75,9 +73,9 @@ public class TrackMemberActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ViewFragment(), getResources().getString(R.string.action_viewed));
-        adapter.addFragment(new BookmarkFragment(), getResources().getString(R.string.action_bookmarks));
-        adapter.addFragment(new LikeFragment(), getResources().getString(R.string.action_likes));
+        adapter.addFragment(new TrackMemberFragment("views"), getResources().getString(R.string.action_viewed));
+        adapter.addFragment(new TrackMemberFragment("bookmarks"), getResources().getString(R.string.action_bookmarks));
+        adapter.addFragment(new TrackMemberFragment("likes"), getResources().getString(R.string.action_likes));
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(tabPosition);
     }

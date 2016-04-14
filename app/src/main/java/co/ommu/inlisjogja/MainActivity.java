@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import co.ommu.inlisjogja.fragment.BookFragment;
-import co.ommu.inlisjogja.fragment.FavouriteFragment;
 import co.ommu.inlisjogja.fragment.HomeFragment;
 import co.ommu.inlisjogja.fragment.TrackFragment;
 
