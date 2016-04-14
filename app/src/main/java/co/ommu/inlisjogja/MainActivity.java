@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import co.ommu.inlisjogja.fragment.BookFragment;
 import co.ommu.inlisjogja.fragment.FavouriteFragment;
 import co.ommu.inlisjogja.fragment.HomeFragment;
-import co.ommu.inlisjogja.fragment.PopularFragment;
+import co.ommu.inlisjogja.fragment.TrackFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null)
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new BookFragment())
+                    .add(R.id.container, new TrackFragment(null))
                     .commit();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -88,17 +88,19 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
         } else if (id == R.id.nav_track) {
             startActivity(new Intent(getBaseContext(), TrackMemberActivity.class));
-        } else if (id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes) {
-            Intent intent = new Intent(getBaseContext(), TrackMemberActivity.class);
-            if (id == R.id.nav_views)
+        } else if (id == R.id.nav_popular || id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes || id == R.id.nav_favourites) {
+            Intent intent = new Intent(getBaseContext(), TrackActivity.class);
+            if (id == R.id.nav_popular)
                 intent.putExtra("tab_position", 0);
-            if (id == R.id.nav_bookmarks)
+            else if (id == R.id.nav_views)
                 intent.putExtra("tab_position", 1);
-            if (id == R.id.nav_likes)
+            else if (id == R.id.nav_bookmarks)
                 intent.putExtra("tab_position", 2);
+            else if (id == R.id.nav_likes)
+                intent.putExtra("tab_position", 3);
+            else if (id == R.id.nav_favourites)
+                intent.putExtra("tab_position", 4);
             startActivity(intent);
-        } else if (id == R.id.nav_favourites) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new FavouriteFragment()).commit();
         }
 
         drawer.closeDrawer(GravityCompat.START);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.ommu.inlisjogja.R;
-import co.ommu.inlisjogja.inlis.model.PopularModel;
+import co.ommu.inlisjogja.inlis.model.TrackModel;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
+public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> {
 
-    private ArrayList<PopularModel> array;
+    private ArrayList<TrackModel> array;
     private Context context;
 
-    public PopularAdapter(Context context, ArrayList<PopularModel> array) {
+    public TrackAdapter(Context context, ArrayList<TrackModel> array) {
         this.array = array;
         this.context = context;
     }
@@ -33,7 +33,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        PopularModel model = array.get(position);
+        TrackModel model = array.get(position);
 
         holder.tvTitle.setText(model.title);
         if(!model.author.equals("-"))

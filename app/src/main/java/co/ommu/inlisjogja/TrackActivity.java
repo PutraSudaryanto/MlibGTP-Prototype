@@ -16,11 +16,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.ommu.inlisjogja.fragment.PopularFragment;
-import co.ommu.inlisjogja.fragment.BookmarkFragment;
-import co.ommu.inlisjogja.fragment.FavouriteFragment;
-import co.ommu.inlisjogja.fragment.LikeFragment;
-import co.ommu.inlisjogja.fragment.ViewFragment;
+import co.ommu.inlisjogja.fragment.TrackFragment;
 
 public class TrackActivity extends AppCompatActivity {
     int tabPosition = 0;
@@ -80,10 +76,11 @@ public class TrackActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ViewFragment(), getResources().getString(R.string.action_views));
-        adapter.addFragment(new BookmarkFragment(), getResources().getString(R.string.action_bookmarks));
-        adapter.addFragment(new FavouriteFragment(), getResources().getString(R.string.action_favourites));
-        adapter.addFragment(new LikeFragment(), getResources().getString(R.string.action_likes));
+        adapter.addFragment(new TrackFragment("popular"), getResources().getString(R.string.action_popular));
+        adapter.addFragment(new TrackFragment("view"), getResources().getString(R.string.action_views));
+        adapter.addFragment(new TrackFragment("bookmark"), getResources().getString(R.string.action_bookmarks));
+        adapter.addFragment(new TrackFragment("favourite"), getResources().getString(R.string.action_favourites));
+        adapter.addFragment(new TrackFragment("like"), getResources().getString(R.string.action_likes));
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(tabPosition);
     }

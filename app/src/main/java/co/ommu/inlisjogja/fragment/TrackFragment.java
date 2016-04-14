@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,21 +26,29 @@ import java.util.ArrayList;
 import co.ommu.inlisjogja.R;
 import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.Utility;
-import co.ommu.inlisjogja.inlis.adapter.PopularAdapter;
-import co.ommu.inlisjogja.inlis.model.PopularModel;
+import co.ommu.inlisjogja.inlis.adapter.TrackAdapter;
+import co.ommu.inlisjogja.inlis.model.TrackModel;
 import cz.msebera.android.httpclient.Header;
 
-public class PopularFragment extends Fragment
+public class TrackFragment extends Fragment
 {
     public boolean firstTimeLoad = true, loadingMore = false;
-    public ArrayList<PopularModel> array = new ArrayList<PopularModel>();
+    public ArrayList<TrackModel> array = new ArrayList<TrackModel>();
+    private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
     ProgressDialog dialog;
     RelativeLayout relativeNull;
     RecyclerView recycleNotNull;
-    PopularAdapter adapter;
-    View footerView;
+    TrackAdapter adapter;
+
+    public TrackFragment(String name) {
+        this.name = name;
+        if(this.name == null || this.name == "popular")
+            url = Utility.inlisLoanPopularPathURL + "/data/JSON";
+        else
+            url = Utility.inlisCatalogTrackPathURL + "/data/JSON";
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +63,6 @@ public class PopularFragment extends Fragment
         recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
         recycleNotNull.setVisibility(View.GONE);
 
-        footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.include_footer, null, false);
-
-        url = Utility.inlisLoanPopularPathURL + "/data/JSON";
         Log.i("url", url);
         getData();
         return view;
@@ -75,7 +80,7 @@ public class PopularFragment extends Fragment
             }
             recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
             recycleNotNull.setHasFixedSize(true);
-            adapter = new PopularAdapter(getActivity(), array);
+            adapter = new TrackAdapter(getActivity(), array);
             recycleNotNull.setAdapter(adapter);
 
         } else {
@@ -98,7 +103,11 @@ public class PopularFragment extends Fragment
             });
         }
 
-        AsynRestClient.post(getActivity(), url, null, new JsonHttpResponseHandler() {
+        RequestParams params = new RequestParams();
+        if(this.name != "popular")
+            params.put("type", this.name);
+
+        AsynRestClient.post(getActivity(), url, params, new JsonHttpResponseHandler() {
             //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
@@ -106,7 +115,7 @@ public class PopularFragment extends Fragment
                 try {
                     JSONArray ja = response.getJSONArray("data");
                     Log.i("DEBUG", ja.toString());
-                    array.addAll(PopularModel.fromJson(ja)); // add new items
+                    array.addAll(TrackModel.fromJson(ja)); // add new items
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = jo.getString("itemCount");
                     pageSize = jo.getString("pageSize");
