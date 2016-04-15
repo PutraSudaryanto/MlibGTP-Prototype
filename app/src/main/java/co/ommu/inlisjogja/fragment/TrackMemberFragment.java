@@ -41,12 +41,11 @@ public class TrackMemberFragment extends Fragment
     private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
+    int pos =0;
     ProgressDialog dialog;
     RelativeLayout relativeNull;
     RecyclerView recycleNotNull;
     TrackMemberAdapter adapter;
-    int pos =0;
-
 
     public TrackMemberFragment(String name) {
         this.name = name;
@@ -75,25 +74,19 @@ public class TrackMemberFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_track_member, container, false);
+		relativeNull = (RelativeLayout) view.findViewById(R.id.responseNull);
+		relativeNull.setVisibility(View.GONE);
 
-      relativeNull = (RelativeLayout) view.findViewById(R.id.responseNull);
-      relativeNull.setVisibility(View.GONE);
-
-
-       relativeNull.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+        relativeNull.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                getData();
-
-           }
-       });
-
-
+            }
+        });
 
         recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
-      recycleNotNull.setVisibility(View.GONE);
+        recycleNotNull.setVisibility(View.GONE);
 
         Log.i("url member", url);
         getData();
@@ -116,14 +109,13 @@ public class TrackMemberFragment extends Fragment
             adapter = new TrackMemberAdapter(getActivity(), array);
             recycleNotNull.setAdapter(adapter);
 
-        //} else {
+        //} else
         //    adapter.notifyDataSetChanged();
-        //}
+
         //firstTimeLoad = false;
     }
 
     private void getData() {
-
         relativeNull.setVisibility(View.GONE);
 
         if (firstTimeLoad) {
@@ -134,7 +126,6 @@ public class TrackMemberFragment extends Fragment
                 @Override
                 public void onCancel(DialogInterface arg0) {
                     // TODO Auto-generated method stub
-
                     relativeNull.setVisibility(View.VISIBLE);
                     AsynRestClient.cancelAllRequests(getActivity());
                 }
@@ -166,16 +157,14 @@ public class TrackMemberFragment extends Fragment
                     Log.i("nextpage member", url);
 
                     build();
-                    if (dialog.isShowing()) {
+                    if (dialog.isShowing())
                         dialog.dismiss();
-                    }
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                    if (dialog.isShowing()) {
+                    if (dialog.isShowing())
                         dialog.dismiss();
-                    }
 
                     recycleNotNull.setVisibility(View.GONE);
                     relativeNull.setVisibility(View.VISIBLE);
@@ -193,9 +182,8 @@ public class TrackMemberFragment extends Fragment
                         Toast.makeText(getActivity(), "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
                         relativeNull.setVisibility(View.VISIBLE);
                     }
-                } else {
+                } else
                     loadingMore = false;
-                }
             }
         });
 
