@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,10 @@ import co.ommu.inlisjogja.fragment.TrackMemberFragment;
 
 public class TrackMemberActivity extends AppCompatActivity {
     int tabPosition = 0;
+    TabLayout tabLayout;
+
+    ViewPager viewPager;
+    public static String [] URL_NEXT = {"kosong0","kosong1","kosong2"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +46,12 @@ public class TrackMemberActivity extends AppCompatActivity {
             }
         });
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
-            setupViewPager(viewPager);
+            setupViewPager();
         }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -71,13 +76,38 @@ public class TrackMemberActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager() {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new TrackMemberFragment("views"), getResources().getString(R.string.action_viewed));
         adapter.addFragment(new TrackMemberFragment("bookmarks"), getResources().getString(R.string.action_bookmarks));
         adapter.addFragment(new TrackMemberFragment("likes"), getResources().getString(R.string.action_likes));
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(tabPosition);
+
+        viewPager.setCurrentItem(tabPosition);
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setSaveEnabled(true);
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+
+                tabPosition = position;
+                viewPager.setCurrentItem(tabPosition);
+                viewPager.setSaveEnabled(true);
+                tabLayout.getTabAt(position).select();
+
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     static class Adapter extends FragmentPagerAdapter {

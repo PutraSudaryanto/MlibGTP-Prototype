@@ -62,7 +62,7 @@ public class TrackFragment extends Fragment
         recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
         recycleNotNull.setVisibility(View.GONE);
 
-        Log.i("url", url);
+        Log.i("url umum", url);
         getData();
         return view;
     }
@@ -75,7 +75,7 @@ public class TrackFragment extends Fragment
                 recycleNotNull.setVisibility(View.VISIBLE);
 
             if (Integer.parseInt(itemCount) > 20) {
-                Log.i("load", "true");
+                Log.i("load umum", "true");
             }
             recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
             recycleNotNull.setHasFixedSize(true);
@@ -96,7 +96,6 @@ public class TrackFragment extends Fragment
                 @Override
                 public void onCancel(DialogInterface arg0) {
                     // TODO Auto-generated method stub
-                    getActivity().onBackPressed();
                     AsynRestClient.cancelAllRequests(getActivity());
                 }
             });
@@ -113,14 +112,14 @@ public class TrackFragment extends Fragment
                 // super.onSuccess(response);
                 try {
                     JSONArray ja = response.getJSONArray("data");
-                    Log.i("DEBUG", ja.toString());
+                    Log.i("DEBUG umum", ja.toString());
                     array.addAll(TrackModel.fromJson(ja)); // add new items
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = jo.getString("itemCount");
                     pageSize = jo.getString("pageSize");
                     nextPage = jo.getString("nextPage");
                     url = response.getString("nextPager");
-                    Log.i("nextpage", url);
+                    Log.i("nextpage umum", url);
                     build();
                     if (dialog.isShowing()) {
                         dialog.dismiss();
@@ -129,7 +128,7 @@ public class TrackFragment extends Fragment
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                    build();
+
                     if (dialog.isShowing()) {
                         dialog.dismiss();
                     }
