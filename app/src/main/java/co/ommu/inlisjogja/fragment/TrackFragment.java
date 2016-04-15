@@ -59,6 +59,14 @@ public class TrackFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_track, container, false);
         relativeNull = (RelativeLayout) view.findViewById(R.id.responseNull);
         relativeNull.setVisibility(View.GONE);
+
+        relativeNull.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+            }
+        });
+
         recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
         recycleNotNull.setVisibility(View.GONE);
 
@@ -68,7 +76,8 @@ public class TrackFragment extends Fragment
     }
 
     private void build() {
-        if (firstTimeLoad) {
+        relativeNull.setVisibility(View.GONE);
+        //if (firstTimeLoad) {
             if(array.size() == 0)
                 relativeNull.setVisibility(View.VISIBLE);
             else
@@ -82,20 +91,24 @@ public class TrackFragment extends Fragment
             adapter = new TrackAdapter(getActivity(), array);
             recycleNotNull.setAdapter(adapter);
 
-        } else {
-            adapter.notifyDataSetChanged();
-        }
+        //} else
+        //    adapter.notifyDataSetChanged();
 
-        firstTimeLoad = false;
+        //firstTimeLoad = false;
     }
 
     private void getData() {
+        relativeNull.setVisibility(View.GONE);
+
         if (firstTimeLoad) {
+            array = new ArrayList<TrackModel>();
+
             dialog = ProgressDialog.show(getActivity(), "", "Please wait...", true, true);
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface arg0) {
                     // TODO Auto-generated method stub
+                    relativeNull.setVisibility(View.VISIBLE);
                     AsynRestClient.cancelAllRequests(getActivity());
                 }
             });
@@ -120,18 +133,18 @@ public class TrackFragment extends Fragment
                     nextPage = jo.getString("nextPage");
                     url = response.getString("nextPager");
                     Log.i("nextpage umum", url);
+
                     build();
-                    if (dialog.isShowing()) {
+                    if (dialog.isShowing())
                         dialog.dismiss();
-                    }
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
 
-                    if (dialog.isShowing()) {
+                    if (dialog.isShowing())
                         dialog.dismiss();
-                    }
+
                     recycleNotNull.setVisibility(View.GONE);
                     relativeNull.setVisibility(View.VISIBLE);
                 }
@@ -146,9 +159,8 @@ public class TrackFragment extends Fragment
                         dialog.dismiss();
                         Toast.makeText(getActivity(), "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
                     }
-                } else {
+                } else
                     loadingMore = false;
-                }
             }
         });
     }

@@ -91,12 +91,10 @@ public class TrackMemberActivity extends AppCompatActivity {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-
                 tabPosition = position;
                 viewPager.setCurrentItem(tabPosition);
                 viewPager.setSaveEnabled(true);
                 tabLayout.getTabAt(position).select();
-
             }
 
             @Override
