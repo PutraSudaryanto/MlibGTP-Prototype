@@ -144,11 +144,12 @@ public class TrackMemberFragment extends Fragment
         RequestParams params = new RequestParams();
         params.put("token", MainActivity.token);
 
+
         AsynRestClient.post(getActivity(), url, params, new JsonHttpResponseHandler() {
-            //@Override
+
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
-                // super.onSuccess(response);
+                //super.onSuccess(response);
                 try {
                     JSONArray ja = response.getJSONArray("data");
                     Log.i("DEBUG member",MainActivity.token+"_"+ja.toString());
@@ -181,11 +182,11 @@ public class TrackMemberFragment extends Fragment
                 }
             }
 
-            //@Override
-            public void onFailure(int statusCode, Header[] headers, Throwable error, String content) {
+            @Override
+            public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
-                // super.onFailure(statusCode, headers, error, content);
-
+                 //super.onFailure(statusCode, headers, error, content);
+                Log.i("data","_"+statusCode);
                 if (firstTimeLoad) {
                     if (dialog.isShowing()) {
                         dialog.dismiss();
@@ -197,5 +198,13 @@ public class TrackMemberFragment extends Fragment
                 }
             }
         });
+
+
+
+
+
     }
+
+
+
 }

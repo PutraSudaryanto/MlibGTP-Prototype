@@ -1,0 +1,83 @@
+package co.ommu.inlisjogja.fragment;
+
+
+import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.viewpagerindicator.CirclePageIndicator;
+
+import java.util.ArrayList;
+
+import co.ommu.inlisjogja.R;
+import co.ommu.inlisjogja.inlis.adapter.RecyclerViewBookAdapter;
+import co.ommu.inlisjogja.inlis.model.SectionBookModel;
+import co.ommu.inlisjogja.inlis.model.SingleBookItemModel;
+
+
+public class WelcomeFragment extends Fragment {
+
+
+    ArrayList<SectionBookModel> allSampleData;
+    RecyclerView recyclerView;
+    RecyclerViewBookAdapter adapter;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_welcome, container, false);
+
+
+        allSampleData = new ArrayList<SectionBookModel>();
+
+        createDummyData();
+
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
+
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new RecyclerViewBookAdapter(getActivity(), allSampleData);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        recyclerView.setAdapter(adapter);
+
+
+        return view;
+    }
+
+
+    public void createDummyData() {
+        for (int i = 1; i <= 5; i++) {
+
+            SectionBookModel dm = new SectionBookModel();
+
+            dm.setHeaderTitle("Section " + i);
+
+            ArrayList<SingleBookItemModel> singleItem = new ArrayList<SingleBookItemModel>();
+            for (int j = 0; j <= 5; j++) {
+                singleItem.add(new SingleBookItemModel("Item " + j, "URL " + j));
+            }
+
+            dm.setAllItemsInSection(singleItem);
+
+            allSampleData.add(dm);
+
+        }
+    }
+
+
+}

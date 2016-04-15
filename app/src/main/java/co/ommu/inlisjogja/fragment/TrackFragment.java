@@ -91,11 +91,13 @@ public class TrackFragment extends Fragment
 
     private void getData() {
         if (firstTimeLoad) {
+            array = new ArrayList<TrackModel>();
             dialog = ProgressDialog.show(getActivity(), "", "Please wait...", true, true);
             dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface arg0) {
                     // TODO Auto-generated method stub
+
                     AsynRestClient.cancelAllRequests(getActivity());
                 }
             });
@@ -128,7 +130,6 @@ public class TrackFragment extends Fragment
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-
                     if (dialog.isShowing()) {
                         dialog.dismiss();
                     }
@@ -137,8 +138,8 @@ public class TrackFragment extends Fragment
                 }
             }
 
-            //@Override
-            public void onFailure(int statusCode, Header[] headers, Throwable error, String content) {
+            @Override
+            public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
                 // super.onFailure(statusCode, headers, error, content);
                 if (firstTimeLoad) {
