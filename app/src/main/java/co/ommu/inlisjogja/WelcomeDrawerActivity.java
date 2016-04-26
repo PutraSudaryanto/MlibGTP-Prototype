@@ -25,7 +25,8 @@ import com.bumptech.glide.Glide;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import co.ommu.inlisjogja.fragment.HomeFragment;
-import co.ommu.inlisjogja.fragment.TrackFragment;
+import co.ommu.inlisjogja.fragment.TrackTabMemberFragment;
+import co.ommu.inlisjogja.fragment.TrackTabFragment;
 import co.ommu.inlisjogja.fragment.TrackMemberFragment;
 import co.ommu.inlisjogja.fragment.WelcomeFragment;
 
@@ -131,28 +132,41 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
         } else if (id == R.id.nav_track) {
-            startActivity(new Intent(getBaseContext(), TrackMemberActivity.class));
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
         } else if (id == R.id.nav_popular || id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes || id == R.id.nav_favourites) {
-            Intent intent = new Intent(getBaseContext(), TrackActivity.class);
-            if (id == R.id.nav_popular)
-                intent.putExtra("tab_position", 0);
-            else if (id == R.id.nav_views)
-                intent.putExtra("tab_position", 1);
-            else if (id == R.id.nav_bookmarks)
-                intent.putExtra("tab_position", 2);
-            else if (id == R.id.nav_likes)
-                intent.putExtra("tab_position", 3);
-            else if (id == R.id.nav_favourites)
-                intent.putExtra("tab_position", 4);
-            startActivity(intent);
+            int pos = 0;
+            switch (id) {
+                case R.id.nav_popular:
+                    pos = 0;
+                    break;
+                case R.id.nav_views:
+                    pos = 1;
+                    break;
+                case R.id.nav_bookmarks:
+                    pos = 2;
+                    break;
+                case R.id.nav_likes:
+                    pos = 3;
+                    break;
+                case R.id.nav_favourites:
+                    pos = 4;
+                    break;
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabFragment(pos)).commit();
+
         }
 
-        rlPager.setVisibility(View.GONE);
-        collapsingToolbar.setTitleEnabled(false);
+        if (id != R.id.nav_home) {
+            rlPager.setVisibility(View.GONE);
+            collapsingToolbar.setTitleEnabled(false);
+        } else {
+            rlPager.setVisibility(View.VISIBLE);
+            collapsingToolbar.setTitleEnabled(true);
+        }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
