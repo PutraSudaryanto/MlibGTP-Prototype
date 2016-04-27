@@ -25,6 +25,16 @@
             android:name=".SearchActivity"
             android:label="@string/title_search"></activity>
         <activity
+            android:name=".BookDetailActivity"
+            android:label="@string/title_book_detail"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".SearchResultActivity"
+            android:label="@string/title_search_result"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
             android:name=".SearchAdvancedActivity"
             android:label="@string/title_search_advance"></activity>
         <activity

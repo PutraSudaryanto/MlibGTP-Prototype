@@ -18,8 +18,10 @@
     <string name="action_search">Search</string>
     <string name="action_search_simple">Simple</string>
     <string name="action_search_advance">Advanced</string>
+    <string name="title_book_detail">Book Detail</string>
     <string name="title_track">Track</string>
     <string name="title_search">Search</string>
+    <string name="title_search_result">Search Result</string>
     <string name="title_search_advance">Advanced</string>
     <string name="input_search_keyword">Keyword</string>
     <string name="input_search_category">Category</string>
@@ -31,4 +33,5 @@
     <string name="input_search_callnumber">Call Number</string>
     <string name="input_search_bibid">BIBID</string>
     <string name="input_search_isbn">ISBN</string>
+    <string name="msg_error">Terjadi masalah koneksi atau server sedang error. Tap untuk mencoba lagi.</string>
 </resources>

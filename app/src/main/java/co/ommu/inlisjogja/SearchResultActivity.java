@@ -1,12 +1,20 @@
 package co.ommu.inlisjogja;
+/**
+ * Created by KurniawanD on 4/27/2016.
+ */
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -24,48 +32,29 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import co.ommu.inlisjogja.components.AsynRestClient;
+import co.ommu.inlisjogja.components.OnLoadMoreListener;
 import co.ommu.inlisjogja.components.Utility;
 import co.ommu.inlisjogja.inlis.adapter.BookSearchAdapter;
 import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
 import cz.msebera.android.httpclient.Header;
 
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
-import android.support.v7.widget.LinearLayoutManager;
+public class SearchResultActivity extends AppCompatActivity {
 
-import co.ommu.inlisjogja.components.OnLoadMoreListener;
-
-import android.os.Handler;
-
-public class SearchActivity extends AppCompatActivity {
-
-    TextView btnSearchAdv, tvKosong;
+    TextView tvKosong;
 
     String token = "2aff7d8198a8444e9a7909823f91f98d";
-
-    EditText edKeyword;
-    RelativeLayout btnSearch, btnError;
-    Spinner spWork, spCategory;
+    RelativeLayout btnError;
 
     ArrayList<CatalogSearchModel> arr;
     String nextPager = "";
-    Boolean firstTime = true;
 
     int itemCount = 0, pageSize = 0, pageCount = 0, currentPage = 0, nextPage = 0;
 
     ProgressBar pb;
 
-    String[] nameCategory = {"Title", "Author", "Publisher", "Publish Year", "Subject", "Call Number", "Bibid", "Isbn"};
 
-    String[] nameWorkSheet = {"Monograf", "Berkas Komputer", "Film", "Tebitan Berkala", "Bahan Kartografis", "Bahan Grafis",
-            "Rekaman Video", "Musik", "Bahan Campuran", "Rekaman Suara", "Bentuk Mikro",
-            "Manuskrip", "Serial", "Braille",};
-    String[] idWorkSheet = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",};
+    String valCatSelect = "title", valWorkSelect = "1", fromActivity = "simple", keyword = "";
 
-    String valCatSelect = "title", valWorkSelect = "1";
-
-    ArrayAdapter<String> adapSpinCategory = null, adapSpinWork = null;
     RecyclerView rv;
     BookSearchAdapter adapter;
 
@@ -73,64 +62,20 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_search_result);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        valCatSelect = getIntent().getStringExtra("category");
+        valWorkSelect = getIntent().getStringExtra("worksheet");
+        fromActivity = getIntent().getStringExtra("from");
+        keyword = getIntent().getStringExtra("keyword");
 
-        edKeyword = (EditText) findViewById(R.id.input_keyword);
-        btnSearch = (RelativeLayout) findViewById(R.id.rl_search);
 
         rv = (RecyclerView) findViewById(R.id.recycleView);
-
-        spCategory = (Spinner) findViewById(R.id.sp_category);
-        spWork = (Spinner) findViewById(R.id.sp_worksheet);
-
-
-        adapSpinCategory = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nameCategory);
-
-        spCategory.setAdapter(adapSpinCategory);
-        // spCategory.setSelection(0);
-        adapSpinCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spCategory.getSelectedItemPosition();
-
-        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                valCatSelect = nameCategory[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                valCatSelect = nameCategory[0];
-            }
-
-        });
-
-        adapSpinWork = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nameWorkSheet);
-
-        spWork.setAdapter(adapSpinWork);
-        // spCategory.setSelection(0);
-        adapSpinWork.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spWork.getSelectedItemPosition();
-
-        spWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                valWorkSelect = idWorkSheet[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                valWorkSelect = idWorkSheet[0];
-            }
-
-        });
 
         tvKosong = (TextView) findViewById(R.id.tv_kosong);
         pb = (ProgressBar) findViewById(R.id.progressBar);
@@ -139,49 +84,7 @@ public class SearchActivity extends AppCompatActivity {
         tvKosong.setVisibility(View.GONE);
         pb.setVisibility(View.GONE);
 
-
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (edKeyword.getText().toString().isEmpty()) {
-                    edKeyword.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Keyword is empty", Toast.LENGTH_LONG).show();
-                } else {
-                    /*
-                    try {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                    }
-*/
-                    // setList();
-
-                    startActivity(new Intent(getApplicationContext(), SearchResultActivity.class)
-                            .putExtra("category", valCatSelect.toLowerCase().replace(" ", ""))
-                            .putExtra("worksheet", valWorkSelect)
-                            .putExtra("from", "simple")
-                            .putExtra("keyword", edKeyword.getText().toString())
-                    );
-                }
-
-
-            }
-        });
-
-
-        btnSearchAdv = (TextView) findViewById(R.id.tv_menu_search);
-        btnSearchAdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                startActivity(new Intent(getBaseContext(), SearchAdvancedActivity.class));
-
-            }
-        });
-
+        setList();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,12 +109,12 @@ public class SearchActivity extends AppCompatActivity {
 
         RequestParams params = new RequestParams();
         params.put("token", token);
-        params.put("keyword", edKeyword.getText().toString());
+        params.put("keyword", keyword);
         params.put("category", valCatSelect.toLowerCase().replace(" ", ""));
         params.put("worksheet", valWorkSelect);
 
 
-        AsynRestClient.post(SearchActivity.this, urlReq, params, new JsonHttpResponseHandler() {
+        AsynRestClient.post(SearchResultActivity.this, urlReq, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
@@ -266,6 +169,13 @@ public class SearchActivity extends AppCompatActivity {
                     buildError();
                 }
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[]  header, Throwable e, JSONObject jo) {
+                if (!isLoadmore) {
+                    buildError();
+                }
+            }
         });
 
 
@@ -304,7 +214,7 @@ public class SearchActivity extends AppCompatActivity {
 
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BookSearchAdapter(SearchActivity.this, arr, rv);
+        adapter = new BookSearchAdapter(SearchResultActivity.this, arr, rv);
         rv.setAdapter(adapter);
         getRequest(false, adapter);
 
