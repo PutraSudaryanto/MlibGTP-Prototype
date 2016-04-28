@@ -36,7 +36,8 @@
             android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".SearchAdvancedActivity"
-            android:label="@string/title_search_advance"></activity>
+            android:label="@string/title_search_advance"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".TrackMemberActivity"
             android:label="@string/title_track"></activity>

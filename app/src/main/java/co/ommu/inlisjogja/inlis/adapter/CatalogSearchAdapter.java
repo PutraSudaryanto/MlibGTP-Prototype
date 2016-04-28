@@ -3,7 +3,7 @@ package co.ommu.inlisjogja.inlis.adapter;
 import java.util.ArrayList;
 
 import co.ommu.inlisjogja.R;
-import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
+import co.ommu.inlisjogja.inlis.model.CatalogBookModel;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,9 +15,9 @@ import android.widget.TextView;
 public class CatalogSearchAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
-    ArrayList<CatalogSearchModel> array;
+    ArrayList<CatalogBookModel> array;
 
-    public CatalogSearchAdapter(ArrayList<CatalogSearchModel> array, Context context) {
+    public CatalogSearchAdapter(ArrayList<CatalogBookModel> array, Context context) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.array = array;
     }

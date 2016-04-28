@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorAccent"
+    android:minHeight="150dp"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:minHeight="150dp">
+    android:paddingBottom="8dp">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -37,10 +37,10 @@
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:layout_marginBottom="8dp"
                     android:text="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet"
                     android:textColor="#000"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -67,8 +67,6 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-
-
     </FrameLayout>
 
 </LinearLayout>

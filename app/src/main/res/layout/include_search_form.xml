@@ -81,25 +81,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-             />
-
+        <include layout="@layout/include_recycleview" />
         <include layout="@layout/include_error" />
+        <include layout="@layout/include_textview_kosong" />
 
-        <TextView
-            android:id="@+id/tv_kosong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Data buku yang anda cari tidak di temukan !!!"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@android:color/darker_gray"
-            android:layout_centerInParent="true"/>
+
 
     </RelativeLayout>
 

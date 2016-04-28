@@ -26,10 +26,9 @@ import java.util.ArrayList;
 import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.Utility;
 import co.ommu.inlisjogja.inlis.adapter.BookSearchAdapter;
-import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
+import co.ommu.inlisjogja.inlis.model.CatalogBookModel;
 import cz.msebera.android.httpclient.Header;
 
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
     RelativeLayout btnSearch, btnError;
     Spinner spWork, spCategory;
 
-    ArrayList<CatalogSearchModel> arr;
+    ArrayList<CatalogBookModel> arr;
     String nextPager = "";
     Boolean firstTime = true;
 
@@ -218,21 +217,7 @@ public class SearchActivity extends AppCompatActivity {
                 try {
 
                     JSONArray ja = response.getJSONArray("data");
-
-                    for (int i = 0; i < ja.length(); i++) {
-                        CatalogSearchModel item = new CatalogSearchModel();
-                        item.id = ja.getJSONObject(i).getString("id");
-                        item.title = ja.getJSONObject(i).getString("title");
-                        item.author = ja.getJSONObject(i).getString("author");
-                        item.publisher = ja.getJSONObject(i).getString("publisher");
-                        item.publish_location = ja.getJSONObject(i).getString("publish_location");
-                        item.publish_year = ja.getJSONObject(i).getString("publish_year");
-                        item.subject = ja.getJSONObject(i).getString("subject");
-                        item.isbn = ja.getJSONObject(i).getString("isbn");
-                        item.callnumber = ja.getJSONObject(i).getString("callnumber");
-                        item.worksheet = ja.getJSONObject(i).getString("worksheet");
-                        arr.add(item);
-                    }
+                    arr.addAll(CatalogBookModel.fromJson(ja));
 
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = Integer.parseInt(jo.getString("itemCount"));

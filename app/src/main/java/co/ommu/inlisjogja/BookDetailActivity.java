@@ -24,7 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import co.ommu.inlisjogja.components.AsynRestClient;
-import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
+import co.ommu.inlisjogja.inlis.model.CatalogBookModel;
 import cz.msebera.android.httpclient.Header;
 
 public class BookDetailActivity extends AppCompatActivity {
@@ -32,7 +32,7 @@ public class BookDetailActivity extends AppCompatActivity {
     String token = "2aff7d8198a8444e9a7909823f91f98d", id_book = "0";
     RelativeLayout btnError;
     ProgressBar pb;
-    CatalogSearchModel item;
+    CatalogBookModel item;
     LinearLayout llContent;
 
     ImageView ivPhoto;
@@ -95,7 +95,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 try {
 
 
-                    item = new CatalogSearchModel();
+                    item = new CatalogBookModel();
                     item.id = response.getString("id");
                     item.title = response.getString("title");
                     item.author = response.getString("author");

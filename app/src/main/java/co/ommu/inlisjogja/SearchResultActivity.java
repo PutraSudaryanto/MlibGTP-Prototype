@@ -3,7 +3,6 @@ package co.ommu.inlisjogja;
  * Created by KurniawanD on 4/27/2016.
  */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -35,7 +28,7 @@ import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.OnLoadMoreListener;
 import co.ommu.inlisjogja.components.Utility;
 import co.ommu.inlisjogja.inlis.adapter.BookSearchAdapter;
-import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
+import co.ommu.inlisjogja.inlis.model.CatalogBookModel;
 import cz.msebera.android.httpclient.Header;
 
 public class SearchResultActivity extends AppCompatActivity {
@@ -45,7 +38,7 @@ public class SearchResultActivity extends AppCompatActivity {
     String token = "2aff7d8198a8444e9a7909823f91f98d";
     RelativeLayout btnError;
 
-    ArrayList<CatalogSearchModel> arr;
+    ArrayList<CatalogBookModel> arr;
     String nextPager = "";
 
     int itemCount = 0, pageSize = 0, pageCount = 0, currentPage = 0, nextPage = 0;
@@ -54,6 +47,10 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
     String valCatSelect = "title", valWorkSelect = "1", fromActivity = "simple", keyword = "";
+
+
+    String title = "", author = "", publisher = "", publishYear = "", subject = "", callNumber = "",
+            bibid = "", ibsn = "";
 
     RecyclerView rv;
     BookSearchAdapter adapter;
@@ -69,10 +66,23 @@ public class SearchResultActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        valCatSelect = getIntent().getStringExtra("category");
-        valWorkSelect = getIntent().getStringExtra("worksheet");
+
         fromActivity = getIntent().getStringExtra("from");
-        keyword = getIntent().getStringExtra("keyword");
+
+        if (fromActivity.equals("simple")) {
+            valCatSelect = getIntent().getStringExtra("category");
+            valWorkSelect = getIntent().getStringExtra("worksheet");
+            keyword = getIntent().getStringExtra("keyword");
+        } else {
+            title = getIntent().getStringExtra("title");
+            author = getIntent().getStringExtra("author");
+            publisher = getIntent().getStringExtra("publisher");
+            publishYear = getIntent().getStringExtra("publishyear");
+            subject = getIntent().getStringExtra("subject");
+            callNumber = getIntent().getStringExtra("callnumber");
+            bibid = getIntent().getStringExtra("bibid");
+            ibsn = getIntent().getStringExtra("ibsn");
+        }
 
 
         rv = (RecyclerView) findViewById(R.id.recycleView);
@@ -98,20 +108,32 @@ public class SearchResultActivity extends AppCompatActivity {
         //private void requestSearch() {
 
         // gak boleh load jika nextPager.equals("-");
+        RequestParams params = new RequestParams();
+        params.put("token", token);
 
         String urlReq = "";
         if (!isLoadmore) {
-            urlReq = "/inlis/api/site/search";
+            if (fromActivity.equals("simple")) {
+                urlReq = "/inlis/api/site/search";
+                params.put("keyword", keyword);
+                params.put("category", valCatSelect.toLowerCase().replace(" ", ""));
+                params.put("worksheet", valWorkSelect);
+            } else {
+                urlReq = "/inlis/api/site/advanced";
+                params.put("title", title);
+                params.put("author", author);
+                params.put("publisher", publisher);
+                params.put("publishyear", publishYear);
+                params.put("subject", subject);
+                params.put("callnumber", callNumber);
+                params.put("bibid", bibid);
+                params.put("ibsn", ibsn);
+
+            }
         } else {
             String[] split = nextPager.split(Utility.baseURL);
             urlReq = split[1];
         }
-
-        RequestParams params = new RequestParams();
-        params.put("token", token);
-        params.put("keyword", keyword);
-        params.put("category", valCatSelect.toLowerCase().replace(" ", ""));
-        params.put("worksheet", valWorkSelect);
 
 
         AsynRestClient.post(SearchResultActivity.this, urlReq, params, new JsonHttpResponseHandler() {
@@ -122,20 +144,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
                     JSONArray ja = response.getJSONArray("data");
 
-                    for (int i = 0; i < ja.length(); i++) {
-                        CatalogSearchModel item = new CatalogSearchModel();
-                        item.id = ja.getJSONObject(i).getString("id");
-                        item.title = ja.getJSONObject(i).getString("title");
-                        item.author = ja.getJSONObject(i).getString("author");
-                        item.publisher = ja.getJSONObject(i).getString("publisher");
-                        item.publish_location = ja.getJSONObject(i).getString("publish_location");
-                        item.publish_year = ja.getJSONObject(i).getString("publish_year");
-                        item.subject = ja.getJSONObject(i).getString("subject");
-                        item.isbn = ja.getJSONObject(i).getString("isbn");
-                        item.callnumber = ja.getJSONObject(i).getString("callnumber");
-                        item.worksheet = ja.getJSONObject(i).getString("worksheet");
-                        arr.add(item);
-                    }
+                    arr.addAll(CatalogBookModel.fromJson(ja));
 
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = Integer.parseInt(jo.getString("itemCount"));
@@ -144,7 +153,6 @@ public class SearchResultActivity extends AppCompatActivity {
                     nextPager = response.getString("nextPager");
 
                     // Log.i("DEBUG search", "_" + ja.toString());
-
 
                     if (!isLoadmore) {
                         buildData();
@@ -171,7 +179,7 @@ public class SearchResultActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[]  header, Throwable e, JSONObject jo) {
+            public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
                 if (!isLoadmore) {
                     buildError();
                 }

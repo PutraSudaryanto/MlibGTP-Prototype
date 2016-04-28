@@ -11,14 +11,12 @@ import android.widget.TextView;
 import android.content.Context;
 import android.content.Intent;
 
-import com.bumptech.glide.Glide;
-
 
 import java.util.ArrayList;
 
 
 import co.ommu.inlisjogja.BookDetailActivity;
-import co.ommu.inlisjogja.inlis.model.CatalogSearchModel;
+import co.ommu.inlisjogja.inlis.model.CatalogBookModel;
 import co.ommu.inlisjogja.R;
 import co.ommu.inlisjogja.components.OnLoadMoreListener;
 
@@ -27,7 +25,7 @@ import co.ommu.inlisjogja.components.OnLoadMoreListener;
  */
 public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    ArrayList<CatalogSearchModel> listItem;
+    ArrayList<CatalogBookModel> listItem;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private OnLoadMoreListener mOnLoadMoreListener;
@@ -39,7 +37,7 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     Context context;
 
 
-    public BookSearchAdapter(Context context, ArrayList<CatalogSearchModel> item, RecyclerView mRecyclerView) {
+    public BookSearchAdapter(Context context, ArrayList<CatalogBookModel> item, RecyclerView mRecyclerView) {
         this.listItem = item;
         this.context = context;
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
@@ -115,7 +113,7 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (holder instanceof MyViewHolder) {
 
-           final CatalogSearchModel item = listItem.get(position);
+           final CatalogBookModel item = listItem.get(position);
             MyViewHolder myViewHolder = (MyViewHolder) holder;
             myViewHolder.title.setText(item.title);
             myViewHolder.date.setText(item.publish_year);
