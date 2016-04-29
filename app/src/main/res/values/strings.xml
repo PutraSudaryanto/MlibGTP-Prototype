@@ -6,6 +6,7 @@
     <!-- Drawer Menu -->
     <string name="action_home">Home</string>
     <string name="action_track">Track</string>
+
     <string name="action_viewed">Viewed</string>
     <string name="action_bookmarks">Bookmarks</string>
     <string name="action_likes">Likes</string>
@@ -20,6 +21,7 @@
     <string name="action_search_advance">Advanced</string>
     <string name="title_book_detail">Book Detail</string>
     <string name="title_track">Track</string>
+    <string name="title_registrasi">Registrasi</string>
     <string name="title_search">Search</string>
     <string name="title_search_result">Search Result</string>
     <string name="title_search_advance">Advanced</string>
@@ -34,4 +36,14 @@
     <string name="input_search_bibid">BIBID</string>
     <string name="input_search_isbn">ISBN</string>
     <string name="msg_error">Terjadi masalah koneksi atau server sedang error. Tap untuk mencoba lagi.</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="later">Later</string>
+    <string name="repo_waiting">GitHub repo is waiting for your star!</string>
+    <string name="rate_title">Rate the library!</string>
+    <string name="rate_message">Your star won\'t change or influence anything (maybe will make me a bit happier).</string>
+    <string name="text_input_title">Type your name</string>
+    <string name="text_input_message">Input must match \\\\w+ or dialog won\'t accept it. That is because TextFilter object is set.</string>
+    <string name="text_input_error_message">I told you. Please type something correct.</string>
+
 </resources>

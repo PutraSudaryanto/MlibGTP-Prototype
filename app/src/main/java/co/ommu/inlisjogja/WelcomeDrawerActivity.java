@@ -24,13 +24,17 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import co.ommu.inlisjogja.components.CustomDialog;
 import co.ommu.inlisjogja.fragment.HomeFragment;
 import co.ommu.inlisjogja.fragment.TrackTabMemberFragment;
 import co.ommu.inlisjogja.fragment.TrackTabFragment;
 import co.ommu.inlisjogja.fragment.TrackMemberFragment;
 import co.ommu.inlisjogja.fragment.WelcomeFragment;
-//import  android.app.FragmentTransaction;
-import android.support.v4.app.FragmentTransaction;
+import  android.widget.Toast;
+import co.ommu.inlisjogja.components.LovelyStandardDialog;
+import co.ommu.inlisjogja.components.LovelySaveStateHandler;
+import co.ommu.inlisjogja.components.LovelyTextInputDialog;
+
 
 public class WelcomeDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,9 +52,17 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     RelativeLayout rlPager;
     CollapsingToolbarLayout collapsingToolbar;
 
+    Bundle bunSaved;
+    //This can be any numbers. R.id.* were chosen for simplicity of example
+   // private static final int ID_STANDARD_DIALOG = R.id.btn_standard_dialog;
+
+    private LovelySaveStateHandler saveStateHandler;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bunSaved = savedInstanceState;
         setContentView(R.layout.activity_welcome_drawer);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -134,7 +146,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
+           getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
+
+
         } else if (id == R.id.nav_track) {
            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
 
@@ -242,4 +256,8 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             return rootView;
         }
     }
+
+
+
+
 }
