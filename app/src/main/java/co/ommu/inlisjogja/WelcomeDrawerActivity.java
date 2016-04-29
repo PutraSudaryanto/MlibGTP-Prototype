@@ -29,6 +29,8 @@ import co.ommu.inlisjogja.fragment.TrackTabMemberFragment;
 import co.ommu.inlisjogja.fragment.TrackTabFragment;
 import co.ommu.inlisjogja.fragment.TrackMemberFragment;
 import co.ommu.inlisjogja.fragment.WelcomeFragment;
+//import  android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 
 public class WelcomeDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -134,10 +136,11 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
         } else if (id == R.id.nav_track) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
+           getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
+
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
-        } else if (id == R.id.nav_popular || id == R.id.nav_views || id == R.id.nav_bookmarks || id == R.id.nav_likes || id == R.id.nav_favourites) {
+        } else {
             int pos = 0;
             switch (id) {
                 case R.id.nav_popular:
@@ -156,7 +159,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity
                     pos = 4;
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabFragment(pos)).commit();
+
+            // Create new fragment and transaction
+           getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabFragment(pos)).commit();
 
         }
 
@@ -168,9 +173,13 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             collapsingToolbar.setTitleEnabled(true);
         }
 
+        item.setChecked(true);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 
     public class PhotoAdapter extends FragmentStatePagerAdapter {
 

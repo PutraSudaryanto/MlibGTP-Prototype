@@ -1,9 +1,7 @@
 package co.ommu.inlisjogja.fragment;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,42 +25,41 @@ import java.util.ArrayList;
 
 import co.ommu.inlisjogja.MainActivity;
 import co.ommu.inlisjogja.R;
-import co.ommu.inlisjogja.SearchAdvancedActivity;
-import co.ommu.inlisjogja.TrackMemberActivity;
 import co.ommu.inlisjogja.components.AsynRestClient;
+import co.ommu.inlisjogja.components.CheckConnection;
+import co.ommu.inlisjogja.components.OnLoadMoreListener;
 import co.ommu.inlisjogja.components.Utility;
-import co.ommu.inlisjogja.inlis.adapter.TrackMemberAdapter;
+import co.ommu.inlisjogja.inlis.adapter.TrackAdapter;
 import co.ommu.inlisjogja.inlis.model.TrackMemberModel;
 import cz.msebera.android.httpclient.Header;
 
-public class TrackMemberFragment extends Fragment
-{
-    public boolean firstTimeLoad = true, loadingMore = false;
+public class TrackMemberFragment extends Fragment {
     public ArrayList<TrackMemberModel> array = new ArrayList<TrackMemberModel>();
     private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
-    int pos =0;
-    ProgressDialog dialog;
-    RelativeLayout relativeNull;
+    String nextPager = "";
+    int pos = 0;
+
     RecyclerView recycleNotNull;
-    TrackMemberAdapter adapter;
+    TrackAdapter adapter;
+
+    RelativeLayout btnError;
+    ProgressBar pb;
+    TextView tvKosong;
 
     public TrackMemberFragment(String name) {
         this.name = name;
-        if(this.name == null || this.name == "views") {
+        if (this.name == null || this.name == "views") {
             url = Utility.inlisViewListPathURL + "/data/JSON";
-            pos =0;
-        }
-        else if(this.name == "bookmarks") {
+            pos = 0;
+        } else if (this.name == "bookmarks") {
             url = Utility.inlisBookmarkListPathURL + "/data/JSON";
-            pos =1;
-        }
-        else if(this.name == "likes") {
+            pos = 1;
+        } else if (this.name == "likes") {
             url = Utility.inlisLikeListPathURL + "/data/JSON";
-            pos =2;
-        }
-        else if(this.name == "favourites") {
+            pos = 2;
+        } else if (this.name == "favourites") {
             url = Utility.inlisFavouriteListPathURL + "/data/JSON";
             pos = 0;
         }
@@ -75,124 +73,167 @@ public class TrackMemberFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_track_member, container, false);
-		relativeNull = (RelativeLayout) view.findViewById(R.id.responseNull);
-		relativeNull.setVisibility(View.GONE);
 
-        relativeNull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               getData();
-            }
-        });
 
-        recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
-        recycleNotNull.setVisibility(View.GONE);
+        recycleNotNull = (RecyclerView) view.findViewById(R.id.recycleView);
+
+
+        pb = (ProgressBar) view.findViewById(R.id.progressBar);
+        btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
+        tvKosong = (TextView) view.findViewById(R.id.tv_kosong);
+
+
+
+
 
         Log.i("url member", url);
-        getData();
+        buildError();
+        if(CheckConnection.isOnline(getActivity())) {
+            setList();
+        } else {
+            buildError();
+        }
         return view;
     }
 
     private void build() {
-        relativeNull.setVisibility(View.GONE);
-        //if (firstTimeLoad) {
-            if(array.size() == 0)
-                relativeNull.setVisibility(View.VISIBLE);
-            else
-                recycleNotNull.setVisibility(View.VISIBLE);
+        btnError.setVisibility(View.GONE);
+        pb.setVisibility(View.GONE);
 
-            if (Integer.parseInt(itemCount) > 20) {
-                Log.i("load member", "true");
-            }
-            recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recycleNotNull.setHasFixedSize(true);
-            adapter = new TrackMemberAdapter(getActivity(), array);
-            recycleNotNull.setAdapter(adapter);
+        if (array.size() == 0)
+            tvKosong.setVisibility(View.VISIBLE);
+        else
+            tvKosong.setVisibility(View.GONE);
 
-        //} else
-        //    adapter.notifyDataSetChanged();
 
-        //firstTimeLoad = false;
     }
 
-    private void getData() {
-        relativeNull.setVisibility(View.GONE);
 
-        if (firstTimeLoad) {
-            array = new ArrayList<TrackMemberModel>();
+    private void buildError() {
 
-            dialog = ProgressDialog.show(getActivity(), "", "Please wait...", true, true);
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface arg0) {
-                    // TODO Auto-generated method stub
-                    relativeNull.setVisibility(View.VISIBLE);
-                    AsynRestClient.cancelAllRequests(getActivity());
-                }
-            });
-        }
+        pb.setVisibility(View.GONE);
+        btnError.setVisibility(View.VISIBLE);
+        tvKosong.setVisibility(View.GONE);
+        btnError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setList();
+
+            }
+        });
+
+    }
+
+    private void setList() {
+
+        array = new ArrayList<>();
+        btnError.setVisibility(View.GONE);
+        tvKosong.setVisibility(View.GONE);
+        pb.setVisibility(View.VISIBLE);
+
+
+        recycleNotNull.setHasFixedSize(true);
+        recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new TrackAdapter(getActivity(), array, recycleNotNull, true);
+        recycleNotNull.setAdapter(adapter);
+        getRequest(false, adapter);
+
+        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                Log.e("haint", "Load More member");
+                array.add(null);
+                adapter.notifyItemInserted(array.size() - 1);
+                //Load more data for reyclerview
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("haint", "Load More 2 member");
+                        //Remove loading item
+                        array.remove(array.size() - 1);
+                        adapter.notifyItemRemoved(array.size());
+
+                        if (!nextPager.equals("-"))
+                            getRequest(true, adapter);
+                    }
+                }, 1000);
+            }
+        });
+
+    }
+
+    private void getRequest(final boolean isLoadmore, final TrackAdapter adap) {
 
         RequestParams params = new RequestParams();
         params.put("token", MainActivity.token);
 
+        String urlReq = "";
+        if (!isLoadmore) {
 
-        AsynRestClient.post(getActivity(), url, params, new JsonHttpResponseHandler() {
+            urlReq = url;
+
+        } else {
+            String[] split = nextPager.split(Utility.baseURL);
+            urlReq = split[1];
+        }
+
+
+        AsynRestClient.post(getActivity(), urlReq, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
-                //super.onSuccess(response);
                 try {
+
                     JSONArray ja = response.getJSONArray("data");
-                    Log.i("DEBUG member",MainActivity.token+"_"+ja.toString());
-                    array.addAll(TrackMemberModel.fromJson(ja)); // add new items
+
+                    array.addAll(TrackMemberModel.fromJson(ja, true));
+
+
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = jo.getString("itemCount");
                     pageSize = jo.getString("pageSize");
                     nextPage = jo.getString("nextPage");
-                    String urlNext=response.getString("nextPager");
-                    if(!urlNext.equals("-")) {
-                        TrackMemberActivity.URL_NEXT[pos] = urlNext;
-                        url = TrackMemberActivity.URL_NEXT[pos];
-                    }
-                    Log.i("nextpage member", url);
 
-                    build();
-                    if (dialog.isShowing())
-                        dialog.dismiss();
+                    nextPager = response.getString("nextPager");
+
+                    // Log.i("DEBUG search", "_" + ja.toString());
+
+                    if (!isLoadmore) {
+                        build();
+                    }
+
+
+                    adap.notifyDataSetChanged();
+                    adap.setLoaded();
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                    if (dialog.isShowing())
-                        dialog.dismiss();
-
-                    recycleNotNull.setVisibility(View.GONE);
-                    relativeNull.setVisibility(View.VISIBLE);
+                    Log.i("infffffooo", "ada parsingan yg salah");
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
-                 //super.onFailure(statusCode, headers, error, content);
-                Log.i("data","_"+statusCode);
-                if (firstTimeLoad) {
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
-                        Toast.makeText(getActivity(), "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
-                        relativeNull.setVisibility(View.VISIBLE);
-                    }
-                } else
-                    loadingMore = false;
+                Log.i("data", "_" + statusCode);
+                if (!isLoadmore) {
+                    buildError();
+                }
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
+                if (!isLoadmore) {
+                    buildError();
+                }
+            }
+
+
         });
 
 
-
-
-
     }
-
 
 
 }

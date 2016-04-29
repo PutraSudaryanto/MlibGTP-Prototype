@@ -56,6 +56,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
         pb = (ProgressBar) findViewById(R.id.progressBar);
         btnError = (RelativeLayout) findViewById(R.id.rl_error);
+
         llContent = (LinearLayout) findViewById(R.id.ll_content);
         ivPhoto= (ImageView) findViewById(R.id.photo);
         tvTitle =(TextView) findViewById(R.id.tv_title);
@@ -152,7 +153,6 @@ public class BookDetailActivity extends AppCompatActivity {
 
         pb.setVisibility(View.GONE);
         btnError.setVisibility(View.VISIBLE);
-
         btnError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

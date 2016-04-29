@@ -1,53 +1,38 @@
 package co.ommu.inlisjogja.fragment;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import co.ommu.inlisjogja.R;
-import co.ommu.inlisjogja.components.AsynRestClient;
-import co.ommu.inlisjogja.components.Utility;
-import co.ommu.inlisjogja.inlis.adapter.TrackAdapter;
-import co.ommu.inlisjogja.inlis.model.TrackModel;
-import cz.msebera.android.httpclient.Header;
 
-public class TrackTabMemberFragment extends Fragment
-{
+public class TrackTabMemberFragment extends Fragment {
 
     int tabPosition = 0;
     TabLayout tabLayout;
 
-    ViewPager viewPager;
-    public static String [] URL_NEXT = {"kosong0","kosong1","kosong2"};
+    View view;
+
+    ViewPager viewPager2;
+    public static String[] URL_NEXT = {"kosong0", "kosong1", "kosong2"};
+
 
     public TrackTabMemberFragment(int pos) {
 
         tabPosition = pos;
 
+
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,26 +40,30 @@ public class TrackTabMemberFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_track_full, container, false);
+        view = inflater.inflate(R.layout.fragment_track_tab_memberl, container, false);
 
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        if (viewPager != null) {
-            setupViewPager();
+        viewPager2 = (ViewPager) view.findViewById(R.id.viewpager);
+        if (viewPager2 != null) {
+            setupViewPager(viewPager2);
         }
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager2);
         //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
 
         return view;
     }
 
-    private void setupViewPager() {
+    private void setupViewPager(final ViewPager viewPager) {
         Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
+
+
         adapter.addFragment(new TrackMemberFragment("views"), getResources().getString(R.string.action_viewed));
         adapter.addFragment(new TrackMemberFragment("bookmarks"), getResources().getString(R.string.action_bookmarks));
         adapter.addFragment(new TrackMemberFragment("likes"), getResources().getString(R.string.action_likes));
+
+
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(tabPosition);
 
@@ -85,6 +74,7 @@ public class TrackTabMemberFragment extends Fragment
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                viewPager.getAdapter().notifyDataSetChanged();
                 tabPosition = position;
                 viewPager.setCurrentItem(tabPosition);
                 viewPager.setSaveEnabled(true);
@@ -102,7 +92,7 @@ public class TrackTabMemberFragment extends Fragment
         });
     }
 
-    static class Adapter extends FragmentPagerAdapter {
+    class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> oFragment = new ArrayList<>();
         private final List<String> oFragmentTitle = new ArrayList<>();
 
@@ -129,6 +119,16 @@ public class TrackTabMemberFragment extends Fragment
         public CharSequence getPageTitle(int position) {
             return oFragmentTitle.get(position);
         }
+
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (view.getParent() != null) {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
+        super.onDestroyView();
     }
 
 }

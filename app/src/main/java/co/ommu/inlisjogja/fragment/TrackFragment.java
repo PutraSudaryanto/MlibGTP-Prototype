@@ -1,8 +1,8 @@
 package co.ommu.inlisjogja.fragment;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
+
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -22,28 +24,35 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
 import co.ommu.inlisjogja.R;
 import co.ommu.inlisjogja.components.AsynRestClient;
+import co.ommu.inlisjogja.components.OnLoadMoreListener;
 import co.ommu.inlisjogja.components.Utility;
+import co.ommu.inlisjogja.components.CheckConnection;
 import co.ommu.inlisjogja.inlis.adapter.TrackAdapter;
-import co.ommu.inlisjogja.inlis.model.TrackModel;
+import co.ommu.inlisjogja.inlis.model.TrackMemberModel;
 import cz.msebera.android.httpclient.Header;
 
-public class TrackFragment extends Fragment
-{
-    public boolean firstTimeLoad = true, loadingMore = false;
-    public ArrayList<TrackModel> array = new ArrayList<TrackModel>();
+public class TrackFragment extends Fragment {
+
+    public ArrayList<TrackMemberModel> array = new ArrayList<TrackMemberModel>();
     private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
-    ProgressDialog dialog;
-    RelativeLayout relativeNull;
+    String nextPager = "";
+
     RecyclerView recycleNotNull;
     TrackAdapter adapter;
 
+
+    RelativeLayout btnError;
+    ProgressBar pb;
+    TextView tvKosong;
+
     public TrackFragment(String name) {
         this.name = name;
-        if(this.name == null || this.name == "popular")
+        if (this.name == null || this.name == "popular")
             url = Utility.inlisLoanPopularPathURL + "/data/JSON";
         else
             url = Utility.inlisCatalogTrackPathURL + "/data/JSON";
@@ -57,109 +66,147 @@ public class TrackFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_track, container, false);
-        relativeNull = (RelativeLayout) view.findViewById(R.id.responseNull);
-        relativeNull.setVisibility(View.GONE);
 
-        relativeNull.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData();
-            }
-        });
+        recycleNotNull = (RecyclerView) view.findViewById(R.id.recycleView);
 
-        recycleNotNull = (RecyclerView) view.findViewById(R.id.responseNotNull);
-        recycleNotNull.setVisibility(View.GONE);
+
+        pb = (ProgressBar) view.findViewById(R.id.progressBar);
+        btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
+        tvKosong = (TextView) view.findViewById(R.id.tv_kosong);
 
         Log.i("url umum", url);
-        getData();
+        if(CheckConnection.isOnline(getActivity())) {
+            setList();
+        } else {
+            buildError();
+        }
         return view;
     }
 
     private void build() {
-        relativeNull.setVisibility(View.GONE);
-        //if (firstTimeLoad) {
-            if(array.size() == 0)
-                relativeNull.setVisibility(View.VISIBLE);
-            else
-                recycleNotNull.setVisibility(View.VISIBLE);
+        btnError.setVisibility(View.GONE);
+        pb.setVisibility(View.GONE);
 
-            if (Integer.parseInt(itemCount) > 20) {
-                Log.i("load umum", "true");
-            }
-            recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recycleNotNull.setHasFixedSize(true);
-            adapter = new TrackAdapter(getActivity(), array);
-            recycleNotNull.setAdapter(adapter);
+        if (array.size() == 0)
+            tvKosong.setVisibility(View.VISIBLE);
+        else
+            tvKosong.setVisibility(View.GONE);
 
-        //} else
-        //    adapter.notifyDataSetChanged();
 
-        //firstTimeLoad = false;
     }
 
-    private void getData() {
-        relativeNull.setVisibility(View.GONE);
 
-        if (firstTimeLoad) {
-            array = new ArrayList<TrackModel>();
-            dialog = ProgressDialog.show(getActivity(), "", "Please wait...", true, true);
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface arg0) {
-                    // TODO Auto-generated method stub
-                    relativeNull.setVisibility(View.VISIBLE);
-                    AsynRestClient.cancelAllRequests(getActivity());
-                }
-            });
-        }
+    private void buildError() {
+
+        pb.setVisibility(View.GONE);
+        btnError.setVisibility(View.VISIBLE);
+        tvKosong.setVisibility(View.GONE);
+        btnError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setList();
+            }
+        });
+    }
+
+    private void setList() {
+
+        array = new ArrayList<>();
+        btnError.setVisibility(View.GONE);
+        pb.setVisibility(View.VISIBLE);
+
+
+        recycleNotNull.setHasFixedSize(true);
+        recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new TrackAdapter(getActivity(), array, recycleNotNull, false);
+        recycleNotNull.setAdapter(adapter);
+        getRequest(false, adapter);
+
+        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                Log.e("haint", "Load More umum");
+                array.add(null);
+                adapter.notifyItemInserted(array.size() - 1);
+                //Load more data for reyclerview
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("haint", "Load More 2 umum");
+                        //Remove loading item
+                        array.remove(array.size() - 1);
+                        adapter.notifyItemRemoved(array.size());
+
+                        if (!nextPager.equals("-"))
+                            getRequest(true, adapter);
+                    }
+                }, 1000);
+            }
+        });
+
+    }
+
+    private void getRequest(final boolean isLoadmore, final TrackAdapter adap) {
 
         RequestParams params = new RequestParams();
-        if(this.name != "popular")
-            params.put("type", this.name);
+        if (this.name != "popular")
+            params.put("type", name);
 
-        AsynRestClient.post(getActivity(), url, params, new JsonHttpResponseHandler() {
-            //@Override
+        String urlReq = "";
+        if (!isLoadmore) {
+            urlReq = url;
+        } else {
+            String[] split = nextPager.split(Utility.baseURL);
+            urlReq = split[1];
+        }
+
+
+        AsynRestClient.post(getActivity(), urlReq, params, new JsonHttpResponseHandler() {
+
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
-                // super.onSuccess(response);
                 try {
+
                     JSONArray ja = response.getJSONArray("data");
-                    Log.i("DEBUG umum", ja.toString());
-                    array.addAll(TrackModel.fromJson(ja)); // add new items
+                    array.addAll(TrackMemberModel.fromJson(ja, false)); // add new items
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = jo.getString("itemCount");
                     pageSize = jo.getString("pageSize");
                     nextPage = jo.getString("nextPage");
-                    url = response.getString("nextPager");
-                    Log.i("nextpage umum", url);
 
-                    build();
-                    if (dialog.isShowing())
-                        dialog.dismiss();
+                    nextPager = response.getString("nextPager");
+                    if (!isLoadmore) {
+                        build();
+                    }
+
+
+                    adap.notifyDataSetChanged();
+                    adap.setLoaded();
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                    if (dialog.isShowing())
-                        dialog.dismiss();
-
-                    recycleNotNull.setVisibility(View.GONE);
-                    relativeNull.setVisibility(View.VISIBLE);
+                    Log.i("infffffooo", "ada parsingan yg salah");
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
-                // super.onFailure(statusCode, headers, error, content);
-                if (firstTimeLoad) {
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
-                        Toast.makeText(getActivity(), "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
-                    }
-                } else
-                    loadingMore = false;
+                Log.i("data", "_" + statusCode);
+                if (!isLoadmore) {
+                    buildError();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
+                if (!isLoadmore) {
+                    buildError();
+                }
             }
         });
+
+
     }
 }

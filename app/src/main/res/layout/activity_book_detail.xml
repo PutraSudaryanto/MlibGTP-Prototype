@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:padding="16dp">
 
-                <include layout="@layout/include_error" />
+
 
                 <LinearLayout
                     android:id="@+id/ll_content"
@@ -70,9 +70,8 @@
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
-
                 </LinearLayout>
+                <include layout="@layout/include_error" />
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>

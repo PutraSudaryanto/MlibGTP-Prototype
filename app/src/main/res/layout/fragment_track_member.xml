@@ -6,33 +6,14 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/responseNull"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f5f5f5">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tes Center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Terjadi masalah koneksi" />
-
-        </LinearLayout>
+        android:padding="16dp">
+        <include layout="@layout/include_textview_kosong" />
+        <include layout="@layout/include_recycleview" />
+        <include layout="@layout/include_error" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/responseNotNull"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
 </android.support.design.widget.CoordinatorLayout>

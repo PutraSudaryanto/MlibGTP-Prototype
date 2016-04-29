@@ -197,7 +197,7 @@ public class SearchActivity extends AppCompatActivity {
 
         String urlReq = "";
         if (!isLoadmore) {
-            urlReq = "/inlis/api/site/search";
+            urlReq = "/inlis/api/search/list";
         } else {
             String[] split = nextPager.split(Utility.baseURL);
             urlReq = split[1];

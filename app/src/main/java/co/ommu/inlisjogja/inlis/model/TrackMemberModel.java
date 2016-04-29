@@ -7,12 +7,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class TrackMemberModel {
-    public String catalog_id ,creation_date,title,author,publisher,publish_location,
-            publish_year, subject;
+    public String catalog_id, creation_date, title, author, publisher, publish_location,
+            publish_year, subject, count;
 
 
     // Decodes array of json results into model objects
-    public static ArrayList<TrackMemberModel> fromJson(JSONArray ja) {
+    public static ArrayList<TrackMemberModel> fromJson(JSONArray ja, Boolean status) {
 
         ArrayList<TrackMemberModel> array = new ArrayList<TrackMemberModel>(ja.length());
 
@@ -22,7 +22,15 @@ public class TrackMemberModel {
             for (int i = 0; i < ja.length(); i++) {
                 TrackMemberModel item = new TrackMemberModel();
                 item.catalog_id = ja.getJSONObject(i).getString("catalog_id");
-                item.creation_date = ja.getJSONObject(i).getString("creation_date");
+
+                if (!status) {
+                    // punya biasa track
+                    item.count = ja.getJSONObject(i).getString("count");
+                } else {
+                    // punya member
+                    item.creation_date = ja.getJSONObject(i).getString("creation_date");
+                }
+
                 item.title = ja.getJSONObject(i).getString("title");
                 item.author = ja.getJSONObject(i).getString("author");
                 item.publisher = ja.getJSONObject(i).getString("publisher");
@@ -31,7 +39,11 @@ public class TrackMemberModel {
                 item.subject = ja.getJSONObject(i).getString("subject");
                 array.add(item);
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e
+                )
+
+        {
             e.printStackTrace();
 
         }
