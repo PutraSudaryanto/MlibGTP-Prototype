@@ -7,8 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="match_parent" >
         <include layout="@layout/include_textview_kosong" />
         <include layout="@layout/include_recycleview" />
         <include layout="@layout/include_error" />

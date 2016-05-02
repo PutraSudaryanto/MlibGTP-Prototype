@@ -147,11 +147,8 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
            getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
-
-
         } else if (id == R.id.nav_track) {
            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
-
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
         } else {
