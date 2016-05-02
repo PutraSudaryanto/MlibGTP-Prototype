@@ -12,7 +12,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    
+
     <style name="DialogButton">
         <item name="android:textAllCaps">true</item>
         <item name="android:clickable">true</item>
