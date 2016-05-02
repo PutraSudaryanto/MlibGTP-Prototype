@@ -4,18 +4,20 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- Drawer Menu -->
+    <string name="action_login">Login</string>
     <string name="action_home">Home</string>
     <string name="action_track">Track</string>
-
+    <string name="action_favourites">Favourites</string>
+    <string name="nav_activity">Public Activity</string>
+    <string name="action_popular">Popular</string>
     <string name="action_viewed">Viewed</string>
     <string name="action_bookmarks">Bookmarks</string>
     <string name="action_likes">Likes</string>
-    <string name="action_favourites">Favourites</string>
-    <!-- Track -->
-    <string name="action_popular">Popular</string>
     <string name="action_views">Views</string>
-    <!-- Track -->
+    <string name="nav_settings">Settings</string>
     <string name="action_settings">Settings</string>
+    <string name="action_helps">Help &amp; Feedback</string>
+    <!-- Track -->
     <string name="action_search">Search</string>
     <string name="action_search_simple">Simple</string>
     <string name="action_search_advance">Advanced</string>
