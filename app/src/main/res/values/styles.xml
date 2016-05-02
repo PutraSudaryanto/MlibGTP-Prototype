@@ -9,10 +9,10 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    
     <style name="DialogButton">
         <item name="android:textAllCaps">true</item>
         <item name="android:clickable">true</item>
@@ -24,6 +24,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/ld_primaryText</item>
     </style>
+
     <style name="EditTextTintTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/ld_primaryText</item>
     </style>
