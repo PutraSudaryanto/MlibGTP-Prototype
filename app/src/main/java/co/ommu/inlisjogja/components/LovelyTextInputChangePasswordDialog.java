@@ -12,63 +12,65 @@ import android.widget.TextView;
 
 import co.ommu.inlisjogja.R;
 
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
+
 /**
  * Created by yarolegovich on 16.04.2016.
  */
-public class LovelyTextInputUserDialog extends AbsLovelyDialog<LovelyTextInputUserDialog> {
+public class LovelyTextInputChangePasswordDialog extends AbsLovelyDialog<LovelyTextInputChangePasswordDialog> {
 
     private static final String KEY_HAS_ERROR = "key_has_error";
     private static final String KEY_TYPED_TEXT = "key_typed_text";
     private static final String KEY_TYPED_MEMBER = "key_typed_text";
     private static final String KEY_TYPED_NAME = "key_typed_text";
 
-    private EditText edEmail, edName, edNumber;
+    private ShowHidePasswordEditText edEmail, edName, edNumber;
     private TextView errorMessage;
     private TextView confirmButton;
 
-    private TextFilter filter1,filter2,filter3;
 
-    public LovelyTextInputUserDialog(Context context) {
+    private TextFilter filter1, filter2, filter3;
+
+    public LovelyTextInputChangePasswordDialog(Context context) {
         super(context);
     }
 
-    public LovelyTextInputUserDialog(Context context, int theme) {
+    public LovelyTextInputChangePasswordDialog(Context context, int theme) {
         super(context, theme);
     }
 
     {
         confirmButton = findView(R.id.ld_btn_confirm);
 
-        edEmail = findView(R.id.ed_email);
-                edName = findView(R.id.ed_name);
-        edNumber= findView(R.id.ed_member);
-
+        edEmail = findView(R.id.input_old_password);
+        edName = findView(R.id.input_new_password);
+        edNumber = findView(R.id.input_confirm_password);
 
 
         errorMessage = findView(R.id.ld_error_message);
         edEmail.addTextChangedListener(new HideErrorOnTextChanged());
     }
 
-    public LovelyTextInputUserDialog setConfirmButton(@StringRes int text, OnTextInputConfirmListener listener) {
+    public LovelyTextInputChangePasswordDialog setConfirmButton(@StringRes int text, OnTextInputConfirmListener listener) {
         return setConfirmButton(string(text), listener);
     }
 
-    public LovelyTextInputUserDialog setConfirmButton(String text, OnTextInputConfirmListener listener) {
+    public LovelyTextInputChangePasswordDialog setConfirmButton(String text, OnTextInputConfirmListener listener) {
         confirmButton.setText(text);
         confirmButton.setOnClickListener(new TextInputListener(listener));
         return this;
     }
 
-    public LovelyTextInputUserDialog setConfirmButtonColor(int color) {
+    public LovelyTextInputChangePasswordDialog setConfirmButtonColor(int color) {
         confirmButton.setTextColor(color);
         return this;
     }
 
-    public LovelyTextInputUserDialog setInputFilter(@StringRes int errorMessage, TextFilter email,TextFilter name,TextFilter member) {
-        return setInputFilter(string(errorMessage), email,name,member);
+    public LovelyTextInputChangePasswordDialog setInputFilter(@StringRes int errorMessage, TextFilter email, TextFilter name, TextFilter member) {
+        return setInputFilter(string(errorMessage), email, name, member);
     }
 
-    public LovelyTextInputUserDialog setInputFilter(String errorMessage, TextFilter email,TextFilter name,TextFilter member) {
+    public LovelyTextInputChangePasswordDialog setInputFilter(String errorMessage, TextFilter email, TextFilter name, TextFilter member) {
         filter1 = email;
         filter2 = name;
         filter3 = member;
@@ -78,26 +80,26 @@ public class LovelyTextInputUserDialog extends AbsLovelyDialog<LovelyTextInputUs
         return this;
     }
 
-    public LovelyTextInputUserDialog setErrorMessageColor(int color) {
+    public LovelyTextInputChangePasswordDialog setErrorMessageColor(int color) {
         errorMessage.setTextColor(color);
         return this;
     }
 
-    public LovelyTextInputUserDialog setInputType(int inputType) {
+    public LovelyTextInputChangePasswordDialog setInputType(int inputType) {
         edEmail.setInputType(inputType);
         return this;
     }
 
-    public LovelyTextInputUserDialog addTextWatcher(TextWatcher textWatcher) {
+    public LovelyTextInputChangePasswordDialog addTextWatcher(TextWatcher textWatcher) {
         edEmail.addTextChangedListener(textWatcher);
         return this;
     }
 
-    public LovelyTextInputUserDialog setInitialInput(@StringRes int email,@StringRes int name,@StringRes int member) {
-        return setInitialInput(string(email),string(name),string(member));
+    public LovelyTextInputChangePasswordDialog setInitialInput(@StringRes int email, @StringRes int name, @StringRes int member) {
+        return setInitialInput(string(email), string(name), string(member));
     }
 
-    public LovelyTextInputUserDialog setInitialInput(String email,String name,String member ) {
+    public LovelyTextInputChangePasswordDialog setInitialInput(String email, String name, String member) {
         edEmail.setText(email);
         edName.setText(name);
         edNumber.setText(member);
@@ -105,11 +107,11 @@ public class LovelyTextInputUserDialog extends AbsLovelyDialog<LovelyTextInputUs
         return this;
     }
 
-    public LovelyTextInputUserDialog setHint(@StringRes int hint) {
+    public LovelyTextInputChangePasswordDialog setHint(@StringRes int hint) {
         return setHint(string(hint));
     }
 
-    public LovelyTextInputUserDialog setHint(String text) {
+    public LovelyTextInputChangePasswordDialog setHint(String text) {
         edEmail.setHint(text);
         return this;
     }
@@ -142,7 +144,7 @@ public class LovelyTextInputUserDialog extends AbsLovelyDialog<LovelyTextInputUs
 
     @Override
     protected int getLayout() {
-        return R.layout.dialog_user_generate;
+        return R.layout.dialog_change_password;
     }
 
     private class TextInputListener implements View.OnClickListener {
@@ -161,25 +163,25 @@ public class LovelyTextInputUserDialog extends AbsLovelyDialog<LovelyTextInputUs
 
             if (filter1 != null && filter2 != null && filter3 != null) {
                 boolean isWrongInput = !filter1.check(email);
-               boolean isWrongInput1 = !filter2.check(name);
-               boolean isWrongInput2 = !filter3.check(member);
+                boolean isWrongInput1 = !filter2.check(name);
+                boolean isWrongInput2 = !filter3.check(member);
 
-                Log.i("tes data",isWrongInput+"_"+isWrongInput1+"_"+isWrongInput);
-                if (isWrongInput ) {
+                Log.i("tes data", isWrongInput + "_" + isWrongInput1 + "_" + isWrongInput);
+                if (isWrongInput) {
                     setError();
                     return;
-                } else if(isWrongInput1){
+                } else if (isWrongInput1) {
                     setError();
                     return;
-                } else if(isWrongInput2){
+                } else if (isWrongInput2) {
                     setError();
                     return;
                 }
             }
 
-                if (wrapped != null) {
-                    wrapped.onTextInputConfirmed(email, name, member);
-                }
+            if (wrapped != null) {
+                wrapped.onTextInputConfirmed(email, name, member);
+            }
 
             dismiss();
         }
@@ -204,7 +206,7 @@ public class LovelyTextInputUserDialog extends AbsLovelyDialog<LovelyTextInputUs
     }
 
     public interface OnTextInputConfirmListener {
-        void onTextInputConfirmed(String email,String name,String member );
+        void onTextInputConfirmed(String email, String name, String member);
     }
 
     public interface TextFilter {
