@@ -7,8 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class TrackMemberModel {
-    public String catalog_id, creation_date, title, author, publisher, publish_location,
-            publish_year, subject, count;
+    public String catalog_id, creation_date, title, author, publisher, publish_location, publish_year, subject, count;
 
 
     // Decodes array of json results into model objects
@@ -18,7 +17,6 @@ public class TrackMemberModel {
 
         // Process each result in json array, decode and convert to business object
         try {
-
             for (int i = 0; i < ja.length(); i++) {
                 TrackMemberModel item = new TrackMemberModel();
                 item.catalog_id = ja.getJSONObject(i).getString("catalog_id");
@@ -39,13 +37,9 @@ public class TrackMemberModel {
                 item.subject = ja.getJSONObject(i).getString("subject");
                 array.add(item);
             }
-        } catch (
-                Exception e
-                )
 
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-
         }
 
         return array;
