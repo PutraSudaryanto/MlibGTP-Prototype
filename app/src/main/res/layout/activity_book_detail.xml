@@ -6,7 +6,6 @@
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -45,8 +44,6 @@
                 android:layout_height="match_parent"
                 android:padding="16dp">
 
-
-
                 <LinearLayout
                     android:id="@+id/ll_content"
                     android:layout_width="match_parent"
@@ -70,6 +67,8 @@
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <include layout="@layout/include_recycleview" />
                 </LinearLayout>
                 <include layout="@layout/include_error" />
             </RelativeLayout>

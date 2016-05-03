@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -33,11 +34,13 @@ import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.CustomDialog;
 import co.ommu.inlisjogja.components.LovelyTextInputChangePasswordDialog;
 import co.ommu.inlisjogja.fragment.HomeFragment;
+import co.ommu.inlisjogja.fragment.TrackFragment;
 import co.ommu.inlisjogja.fragment.TrackTabMemberFragment;
 import co.ommu.inlisjogja.fragment.TrackTabFragment;
 import co.ommu.inlisjogja.fragment.TrackMemberFragment;
 import co.ommu.inlisjogja.fragment.WelcomeFragment;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -50,7 +53,7 @@ import cz.msebera.android.httpclient.Header;
 
 
 public class WelcomeDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String token = "2aff7d8198a8444e9a7909823f91f98d";
     private DrawerLayout drawer;
@@ -73,12 +76,14 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     String oldPass = "", newPass = "", conPass = "", success = "", message = "";
     ProgressDialog pd;
 
+    Button btnLogin;
+    TextView tvName, tvEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bunSaved = savedInstanceState;
-        setContentView(R.layout.activity_welcome_drawer);
+        setContentView(R.layout.activity_welcome);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,7 +93,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
         rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
 
-
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -96,7 +100,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
                     .commit();
             rlPager.setVisibility(View.VISIBLE);
         }
-
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -107,8 +110,29 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View header = navigationView.getHeaderView(0);
+        //TextView text = (TextView) header.findViewById(R.id.textView);
+
+        btnLogin =(Button) header.findViewById(R.id.loginSignup);
+        tvName = (TextView) header.findViewById(R.id.tvDispayname);
+        tvEmail= (TextView) header.findViewById(R.id.tvEmail);
+
+        tvName.setText("Deanda Putri");
+        tvEmail.setText("Deanda.Putri@gmail.com");
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WelcomeDrawerActivity.this, RegistrasiActivity.class));
+                finish();
+            }
+        });
+
+
         buildPager();
-        dialogChangePassword();
+
+        //dialogChangePassword();
+
 
     }
 
@@ -141,13 +165,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity
                     @Override
                     public void onTextInputConfirmed(String email, String name, String member) {
                         Toast.makeText(getApplicationContext(), email + "_" + name + "_" + member, Toast.LENGTH_SHORT).show();
-
-
                         oldPass = email;
                         newPass = member;
                         conPass = name;
-
-
                         getRequestChangePassword();
                     }
                 })
@@ -171,7 +191,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             @Override
             public void onCancel(DialogInterface arg0) {
                 // TODO Auto-generated method stub
-
                 AsynRestClient.cancelAllRequests(getApplicationContext());
             }
         });
@@ -182,7 +201,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
                 try {
-
                     success = response.getString("success");
                     message = response.getString("message");
                     if (success.equals("1")) {
@@ -215,11 +233,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
 
     private void buildPager() {
-
         pager = (ViewPager) findViewById(R.id.pager);
         PhotoAdapter adap = new PhotoAdapter(getSupportFragmentManager());
         pager.setAdapter(adap);
-
 
         indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
@@ -263,35 +279,28 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_home) { // menu.Basic
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
         } else if (id == R.id.nav_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
-        } else {
-            int pos = 0;
-            switch (id) {
-                case R.id.nav_popular:
-                    pos = 0;
-                    break;
-                case R.id.nav_views:
-                    pos = 1;
-                    break;
-                case R.id.nav_bookmarks:
-                    pos = 2;
-                    break;
-                case R.id.nav_likes:
-                    pos = 3;
-                    break;
-                case R.id.nav_favourites:
-                    pos = 4;
-                    break;
-            }
 
-            // Create new fragment and transaction
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabFragment(pos)).commit();
+        } else if (id == R.id.nav_popular) { // menu.Track
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("popular")).commit();
+        } else if (id == R.id.nav_views) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("view")).commit();
+        } else if (id == R.id.nav_bookmarks) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("bookmark")).commit();
+        } else if (id == R.id.nav_likes) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("like")).commit();
+        } else if (id == R.id.nav_favourites) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("favourite")).commit();
 
+        } else if (id == R.id.nav_settings) { // menu.Setting
+            return true;
+        } else if (id == R.id.nav_helps) {
+            return true;
         }
 
         if (id != R.id.nav_home) {
@@ -309,7 +318,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
 
     public class PhotoAdapter extends FragmentStatePagerAdapter {
-
         public PhotoAdapter(FragmentManager fm) {
             super(fm);
         }
