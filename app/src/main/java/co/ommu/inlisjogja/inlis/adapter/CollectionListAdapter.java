@@ -5,62 +5,51 @@ import java.util.ArrayList;
 import co.ommu.inlisjogja.R;
 import co.ommu.inlisjogja.inlis.model.CollectionListModel;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class CollectionListAdapter extends BaseAdapter {
+import java.util.List;
 
-    LayoutInflater inflater;
-    ArrayList<CollectionListModel> array;
+public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter.MyViewHolder> {
 
-    public CollectionListAdapter(ArrayList<CollectionListModel> array, Context context) {
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.array = array;
-    }
+    private List<CollectionListModel> collList;
 
-    @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return array.size();
-    }
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView location, year, genre;
 
-    @Override
-    public Object getItem(int arg0) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
-        return arg0;
-    }
-
-    @Override
-    public View getView(int position, View view, ViewGroup arg2) {
-        // TODO Auto-generated method stub
-        View vi = view;
-        Holder holder;
-        if (vi == null) {
-            holder = new Holder();
-            vi = inflater.inflate(R.layout.adapter_inlis_collection_list, null);
-            holder.tvTitle = (TextView) vi.findViewById(R.id.tvTitle);
-            vi.setTag(holder);
-        } else {
-            holder = (Holder) vi.getTag();
+        public MyViewHolder(View view) {
+            super(view);
+            location = (TextView) view.findViewById(R.id.tvtitle);
+           // genre = (TextView) view.findViewById(R.id.genre);
+           // year = (TextView) view.findViewById(R.id.year);
         }
-
-        holder.tvTitle.setText(array.get(position).title);
-		
-        return vi;
     }
 
-    static class Holder {
-        TextView tvTitle;
+
+    public CollectionListAdapter(List<CollectionListModel> moviesList) {
+        this.collList = moviesList;
     }
 
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.adapter_inlis_collection_list, parent, false);
+
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        CollectionListModel item = collList.get(position);
+        holder.location.setText(item.location);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return collList.size();
+    }
 }

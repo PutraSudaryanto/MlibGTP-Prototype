@@ -34,7 +34,7 @@ import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import android.content.DialogInterface;
 
-public class RegistrasiActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
 
     String token = "2aff7d8198a8444e9a7909823f91f98d";
@@ -59,7 +59,7 @@ public class RegistrasiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bunSaved = savedInstanceState;
-        setContentView(R.layout.activity_registrasi);
+        setContentView(R.layout.activity_register);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,7 +81,7 @@ public class RegistrasiActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegistrasiActivity.this, WelcomeDrawerActivity.class));
+                startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
 
 
                 /*
@@ -196,7 +196,7 @@ public class RegistrasiActivity extends AppCompatActivity {
         });
 
 
-        AsynRestClient.post(RegistrasiActivity.this, urlReq, params, new JsonHttpResponseHandler() {
+        AsynRestClient.post(RegisterActivity.this, urlReq, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
@@ -212,7 +212,7 @@ public class RegistrasiActivity extends AppCompatActivity {
                         phone_number = response.getString("phone_number");
                         member_type = response.getString("member_type");
                     } else {
-                        new CustomDialog(RegistrasiActivity.this, bunSaved, 0);
+                        new CustomDialog(RegisterActivity.this, bunSaved, 0);
                     }
                     pd.dismiss();
                     userGenerateDialog();
@@ -265,7 +265,7 @@ public class RegistrasiActivity extends AppCompatActivity {
         });
 
 
-        AsynRestClient.post(RegistrasiActivity.this, urlReq, params, new JsonHttpResponseHandler() {
+        AsynRestClient.post(RegisterActivity.this, urlReq, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
@@ -278,7 +278,7 @@ public class RegistrasiActivity extends AppCompatActivity {
                         //member_id = response.getString("member_id");
 
                     } else {
-                        new CustomDialog(RegistrasiActivity.this, bunSaved, 0);
+                        new CustomDialog(RegisterActivity.this, bunSaved, 0);
                     }
                     pd.dismiss();
                     buildData();
@@ -330,7 +330,7 @@ public class RegistrasiActivity extends AppCompatActivity {
         });
 
 
-        AsynRestClient.post(RegistrasiActivity.this, urlReq, params, new JsonHttpResponseHandler() {
+        AsynRestClient.post(RegisterActivity.this, urlReq, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
@@ -347,10 +347,10 @@ public class RegistrasiActivity extends AppCompatActivity {
                                 displayname= response.getString("displayname");
                                 lastlogin_date= response.getString("lastlogin_date");
                                 verified= response.getString("verified");
-                        startActivity(new Intent(RegistrasiActivity.this, WelcomeDrawerActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
 
                     } else {
-                        new CustomDialog(RegistrasiActivity.this, bunSaved, 0);
+                        new CustomDialog(RegisterActivity.this, bunSaved, 0);
                     }
                     pd.dismiss();
 

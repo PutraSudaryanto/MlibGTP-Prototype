@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/loginSignup"
+        android:id="@+id/action_login"
         android:background="@color/colorAccent"
         android:textColor="@color/white"
         android:paddingLeft="@dimen/activity_horizontal_margin"

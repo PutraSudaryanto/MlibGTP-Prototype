@@ -69,7 +69,6 @@ public class TrackFragment extends Fragment {
 
         recycleNotNull = (RecyclerView) view.findViewById(R.id.recycleView);
 
-
         pb = (ProgressBar) view.findViewById(R.id.progressBar);
         btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
         tvKosong = (TextView) view.findViewById(R.id.tv_kosong);
@@ -91,13 +90,10 @@ public class TrackFragment extends Fragment {
             tvKosong.setVisibility(View.VISIBLE);
         else
             tvKosong.setVisibility(View.GONE);
-
-
     }
 
 
     private void buildError() {
-
         pb.setVisibility(View.GONE);
         btnError.setVisibility(View.VISIBLE);
         tvKosong.setVisibility(View.GONE);
@@ -110,11 +106,9 @@ public class TrackFragment extends Fragment {
     }
 
     private void setList() {
-
         array = new ArrayList<>();
         btnError.setVisibility(View.GONE);
         pb.setVisibility(View.VISIBLE);
-
 
         recycleNotNull.setHasFixedSize(true);
         recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
