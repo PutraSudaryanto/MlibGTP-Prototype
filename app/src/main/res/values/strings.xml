@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- Drawer Menu -->
-    <string name="action_login">Login</string>
+    <string name="action_login">Login &amp; Register</string>
     <string name="action_home">Home</string>
     <string name="action_track">Track</string>
     <string name="action_favourites">Favourites</string>

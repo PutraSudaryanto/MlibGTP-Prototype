@@ -4,10 +4,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_login"
-            android:icon="@mipmap/ic_launcher"
-            android:title="@string/action_login" />
-        <item
             android:id="@+id/nav_home"
             android:icon="@mipmap/ic_launcher"
             android:title="@string/action_home" />
@@ -21,24 +17,31 @@
             android:title="@string/action_favourites" />
         <item
             android:id="@+id/nav_popular"
+            android:icon="@mipmap/ic_drawer_label"
             android:title="@string/action_popular" />
         <item
             android:id="@+id/nav_views"
+            android:icon="@mipmap/ic_drawer_label"
             android:title="@string/action_views" />
         <item
             android:id="@+id/nav_bookmarks"
+            android:icon="@mipmap/ic_drawer_label"
             android:title="@string/action_bookmarks" />
         <item
             android:id="@+id/nav_likes"
+            android:icon="@mipmap/ic_drawer_label"
             android:title="@string/action_likes" />
         <item
             android:id="@+id/nav_favourites"
+            android:icon="@mipmap/ic_drawer_label"
             android:title="@string/action_favourites" />
         <item
             android:id="@+id/nav_settings"
+            android:icon="@mipmap/ic_drawer_settings"
             android:title="@string/action_settings" />
         <item
             android:id="@+id/nav_helps"
+            android:icon="@mipmap/ic_drawer_help"
             android:title="@string/action_helps" />
     </group>
 
