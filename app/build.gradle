@@ -10,12 +10,35 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def file = output.outputFile
+                def fileName = file.name.replace(".apk", "_Grhatama_Pustaka_v" + versionName + "-c" + versionCode + ".apk")
+                output.outputFile = new File(file.parentFile, fileName)
+            }
+        }
+
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+            try {
+                signingConfig signingConfigs.debug
+            } catch (ex) {
+            }
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+}
+repositories {
+    maven {
+        url "https://jitpack.io"
     }
 }
 
@@ -29,4 +52,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'org.quanqi:android-view-pager-indicator:0.9.0'
     compile 'com.github.bumptech.glide:glide:3.6.0'
+    compile 'com.github.scottyab:showhidepasswordedittext:0.6'
+
 }

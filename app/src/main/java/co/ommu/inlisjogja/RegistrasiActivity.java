@@ -22,7 +22,6 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 
 import co.ommu.inlisjogja.components.AsynRestClient;
@@ -31,7 +30,7 @@ import co.ommu.inlisjogja.components.LovelyTextInputDialog;
 import cz.msebera.android.httpclient.Header;
 
 
-import co.ommu.inlisjogja.components.LovelyTextInputUserDialog;
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import android.content.DialogInterface;
 
@@ -50,8 +49,10 @@ public class RegistrasiActivity extends AppCompatActivity {
             oauth, email, displayname, lastlogin_date, verified;
     Bundle bunSaved;
     RelativeLayout btnLogin;
-    EditText edEmail, edPassword;
+    EditText edEmail;
     TextView tvRegiter, tvSkip;
+
+    ShowHidePasswordEditText edPassword;
 
 
     @Override
@@ -72,7 +73,7 @@ public class RegistrasiActivity extends AppCompatActivity {
 
         btnLogin = (RelativeLayout) findViewById(R.id.rl_login);
         edEmail = (EditText) findViewById(R.id.input_username);
-        edPassword = (EditText) findViewById(R.id.input_password);
+        edPassword = (ShowHidePasswordEditText) findViewById(R.id.input_password);
 
         tvRegiter = (TextView) findViewById(R.id.tv_register);
         tvSkip = (TextView) findViewById(R.id.tv_skip);
@@ -80,7 +81,10 @@ public class RegistrasiActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(RegistrasiActivity.this, WelcomeDrawerActivity.class));
 
+
+                /*
                 if (edEmail.getText().toString().isEmpty()) {
                     edEmail.requestFocus();
                     Toast.makeText(getApplicationContext(), "Email Belum Di isi !", Toast.LENGTH_LONG).show();
@@ -89,6 +93,7 @@ public class RegistrasiActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password Belum Di isi !", Toast.LENGTH_LONG).show();
                 } else
                     getRequestLogin();
+                    */
 
             }
         });
