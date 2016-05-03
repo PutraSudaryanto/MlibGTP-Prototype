@@ -43,7 +43,7 @@
             android:label="@string/title_track"></activity>
 
         <activity
-            android:name=".RegistrasiActivity"
+            android:name=".RegisterActivity"
             android:label="@string/title_registrasi"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustResize">

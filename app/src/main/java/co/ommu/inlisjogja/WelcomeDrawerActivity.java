@@ -50,7 +50,7 @@ import cz.msebera.android.httpclient.Header;
 
 
 public class WelcomeDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String token = "2aff7d8198a8444e9a7909823f91f98d";
     private DrawerLayout drawer;
@@ -78,7 +78,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bunSaved = savedInstanceState;
-        setContentView(R.layout.activity_welcome_drawer);
+        setContentView(R.layout.activity_welcome);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,7 +92,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new WelcomeFragment())
+                    .add(R.id.main_container, new WelcomeFragment())
                     .commit();
             rlPager.setVisibility(View.VISIBLE);
         }
@@ -141,13 +141,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity
                     @Override
                     public void onTextInputConfirmed(String email, String name, String member) {
                         Toast.makeText(getApplicationContext(), email + "_" + name + "_" + member, Toast.LENGTH_SHORT).show();
-
-
                         oldPass = email;
                         newPass = member;
                         conPass = name;
-
-
                         getRequestChangePassword();
                     }
                 })
@@ -171,7 +167,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             @Override
             public void onCancel(DialogInterface arg0) {
                 // TODO Auto-generated method stub
-
                 AsynRestClient.cancelAllRequests(getApplicationContext());
             }
         });
@@ -182,7 +177,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
                 try {
-
                     success = response.getString("success");
                     message = response.getString("message");
                     if (success.equals("1")) {
@@ -263,12 +257,21 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        // menu.Basic
         if (id == R.id.nav_home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
         } else if (id == R.id.nav_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
+        // menu.Login and Signup
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(getBaseContext(), RegisterActivity.class));
+        // menu.Setting
+        } else if (id == R.id.nav_settings) {
+            true;
+        } else if (id == R.id.nav_helps) {
+            true;
         } else {
             int pos = 0;
             switch (id) {
