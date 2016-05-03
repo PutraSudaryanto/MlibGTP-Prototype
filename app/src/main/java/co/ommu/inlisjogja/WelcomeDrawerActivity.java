@@ -33,6 +33,7 @@ import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.CustomDialog;
 import co.ommu.inlisjogja.components.LovelyTextInputChangePasswordDialog;
 import co.ommu.inlisjogja.fragment.HomeFragment;
+import co.ommu.inlisjogja.fragment.TrackFragment;
 import co.ommu.inlisjogja.fragment.TrackTabMemberFragment;
 import co.ommu.inlisjogja.fragment.TrackTabFragment;
 import co.ommu.inlisjogja.fragment.TrackMemberFragment;
@@ -83,20 +84,16 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
-
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.main_container, new WelcomeFragment())
+                    .add(R.id.container, new WelcomeFragment())
                     .commit();
             rlPager.setVisibility(View.VISIBLE);
         }
-
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -109,7 +106,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
         buildPager();
         dialogChangePassword();
-
     }
 
     private void dialogChangePassword() {
@@ -209,11 +205,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
 
     private void buildPager() {
-
         pager = (ViewPager) findViewById(R.id.pager);
         PhotoAdapter adap = new PhotoAdapter(getSupportFragmentManager());
         pager.setAdapter(adap);
-
 
         indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
@@ -257,44 +251,28 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        // menu.Basic
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_home) { // menu.Basic
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
         } else if (id == R.id.nav_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
-        // menu.Login and Signup
-        } else if (id == R.id.nav_login) {
-            startActivity(new Intent(getBaseContext(), RegisterActivity.class));
-        // menu.Setting
-        } else if (id == R.id.nav_settings) {
-            true;
+
+        } else if (id == R.id.nav_popular) { // menu.Track
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("popular")).commit();
+        } else if (id == R.id.nav_views) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("view")).commit();
+        } else if (id == R.id.nav_bookmarks) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("bookmark")).commit();
+        } else if (id == R.id.nav_likes) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("like")).commit();
+        } else if (id == R.id.nav_favourites) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("favourite")).commit();
+
+        } else if (id == R.id.nav_settings) { // menu.Setting
+            return true;
         } else if (id == R.id.nav_helps) {
-            true;
-        } else {
-            int pos = 0;
-            switch (id) {
-                case R.id.nav_popular:
-                    pos = 0;
-                    break;
-                case R.id.nav_views:
-                    pos = 1;
-                    break;
-                case R.id.nav_bookmarks:
-                    pos = 2;
-                    break;
-                case R.id.nav_likes:
-                    pos = 3;
-                    break;
-                case R.id.nav_favourites:
-                    pos = 4;
-                    break;
-            }
-
-            // Create new fragment and transaction
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabFragment(pos)).commit();
-
+            return true;
         }
 
         if (id != R.id.nav_home) {
@@ -312,7 +290,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
 
     public class PhotoAdapter extends FragmentStatePagerAdapter {
-
         public PhotoAdapter(FragmentManager fm) {
             super(fm);
         }
