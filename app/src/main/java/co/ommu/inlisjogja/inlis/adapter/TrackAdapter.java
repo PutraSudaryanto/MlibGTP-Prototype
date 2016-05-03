@@ -37,7 +37,6 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     Context context;
     Boolean statusTrack = true;
 
-
     public TrackAdapter(Context context, ArrayList<TrackMemberModel> item, RecyclerView mRecyclerView, Boolean status) {
         this.listItem = item;
         this.context = context;
@@ -62,10 +61,7 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         });
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
         public TextView tvTitle;
         public TextView tvAuthor;
         public TextView tvSubject;
@@ -125,8 +121,6 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof MyViewHolder) {
-
-
             TrackMemberModel model = listItem.get(position);
             MyViewHolder myViewHolder = (MyViewHolder) holder;
 
@@ -144,7 +138,6 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     myViewHolder.tvPublish.setText(model.publish_year);
             }
 
-
             myViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -152,8 +145,6 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 //                    context.startActivity(new Intent(context, BookDetailActivity.class)
 //                            .putExtra("id",item.id)
 //                    );
-
-
                 }
             });
 

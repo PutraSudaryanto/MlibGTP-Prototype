@@ -88,9 +88,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
 
         if (savedInstanceState == null) {
@@ -130,10 +128,14 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
 
         buildPager();
+<<<<<<< HEAD
 
         //dialogChangePassword();
 
 
+=======
+        dialogChangePassword();
+>>>>>>> origin/master
     }
 
     private void dialogChangePassword() {
