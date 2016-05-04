@@ -150,8 +150,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void userGenerateDialog() {
-
-
         new LovelyTextInputDialog(this, R.style.EditTextTintTheme)
                 .setTopColorRes(R.color.darkDeepOrange)
                 .setTitle(R.string.text_input_title)
@@ -175,7 +173,6 @@ public class RegisterActivity extends AppCompatActivity {
                 })
                 .setSavedInstanceState(bunSaved)
                 .show();
-
     }
 
 
@@ -342,11 +339,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if (success.equals("1")) {
                         token= response.getString("token");
-                                oauth= response.getString("oauth");
-                                email= response.getString("email");
-                                displayname= response.getString("displayname");
-                                lastlogin_date= response.getString("lastlogin_date");
-                                verified= response.getString("verified");
+                        oauth= response.getString("oauth");
+                        email= response.getString("email");
+                        displayname= response.getString("displayname");
+                        lastlogin_date= response.getString("lastlogin_date");
+                        verified= response.getString("verified");
                         startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
 
                     } else {
@@ -391,9 +388,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void buildError() {
-
         btnError.setVisibility(View.VISIBLE);
-
         btnError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -402,6 +397,5 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }
