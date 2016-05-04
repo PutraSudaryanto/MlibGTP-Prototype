@@ -150,8 +150,8 @@ public class TrackMemberFragment extends Fragment {
                     public void run() {
                         Log.e("haint", "Load More 2 member");
                         //Remove loading item
-                        array.remove(array.size() - 1);
-                        adapter.notifyItemRemoved(array.size());
+                       // array.remove(array.size() - 1);
+                       // adapter.notifyItemRemoved(array.size());
 
                         if (!nextPager.equals("-"))
                             getRequest(true, adapter);
@@ -183,6 +183,12 @@ public class TrackMemberFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
                 try {
+
+
+                    if (isLoadmore) {
+                        array.remove(array.size() - 1);
+                        adapter.notifyItemRemoved(array.size());
+                    }
 
                     JSONArray ja = response.getJSONArray("data");
 

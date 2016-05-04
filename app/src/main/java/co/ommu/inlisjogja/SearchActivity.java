@@ -216,6 +216,13 @@ public class SearchActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 try {
 
+
+                    if (isLoadmore) {
+                        arr.remove(arr.size() - 1);
+                        adapter.notifyItemRemoved(arr.size());
+                    }
+
+
                     JSONArray ja = response.getJSONArray("data");
                     arr.addAll(CatalogBookModel.fromJson(ja));
 
@@ -305,8 +312,8 @@ public class SearchActivity extends AppCompatActivity {
                     public void run() {
                         Log.e("haint", "Load More 2");
                         //Remove loading item
-                        arr.remove(arr.size() - 1);
-                        adapter.notifyItemRemoved(arr.size());
+                       // arr.remove(arr.size() - 1);
+                       // adapter.notifyItemRemoved(arr.size());
 
                         if (!nextPager.equals("-"))
                             getRequest(true, adapter);

@@ -4,20 +4,16 @@
     android:layout_height="wrap_content"
     android:minHeight="150dp"
     android:orientation="vertical"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/card_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/action_bar_size"
-            android:background="@android:color/white"
-            android:layout_gravity="right"/>
+
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -74,6 +70,19 @@
                         android:textColor="#000" />
                 </LinearLayout>
             </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_more_menu"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="right">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_more_menu" />
+
         </RelativeLayout>
     </FrameLayout>
 

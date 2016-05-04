@@ -161,7 +161,13 @@ public class BookDetailActivity extends AppCompatActivity {
         tvTitle.setText(item.title);
 
         item.cover = "http://2.bp.blogspot.com/-CNNkVbtyfcc/Vq1L-GgL0VI/AAAAAAAAD0Y/hWaxsYx8uw0/s1600/deanda-puteri8.jpg";
-        Glide.with(this).load(item.cover.replace(" ", "%20")).centerCrop().into(ivPhoto);
+
+        try {
+            Glide.with(this).load(item.cover.replace(" ", "%20")).centerCrop().into(ivPhoto);
+        } catch (Exception e) {
+            Log.i("INFO", "gagal gambar");
+        }
+
 
 
         adapter = new CollectionListAdapter(arr);

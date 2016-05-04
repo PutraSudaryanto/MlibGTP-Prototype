@@ -141,6 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // 0 = belum login, 1=sudah login, 2= skip
 
+        /*
         isLogin = pref.getInt("isFirst", 0);
         switch (isLogin) {
             case 0:
@@ -157,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                 break;
         }
 
-
+*/
     }
 
     private void updatePref() {

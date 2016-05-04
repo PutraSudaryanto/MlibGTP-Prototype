@@ -109,6 +109,7 @@ public class TrackFragment extends Fragment {
         array = new ArrayList<>();
         btnError.setVisibility(View.GONE);
         pb.setVisibility(View.VISIBLE);
+        tvKosong.setVisibility(View.GONE);
 
         recycleNotNull.setHasFixedSize(true);
         recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -128,8 +129,8 @@ public class TrackFragment extends Fragment {
                     public void run() {
                         Log.e("haint", "Load More 2 umum");
                         //Remove loading item
-                        array.remove(array.size() - 1);
-                        adapter.notifyItemRemoved(array.size());
+                       // array.remove(array.size() - 1);
+                       // adapter.notifyItemRemoved(array.size());
 
                         if (!nextPager.equals("-"))
                             getRequest(true, adapter);
@@ -152,6 +153,7 @@ public class TrackFragment extends Fragment {
         } else {
             String[] split = nextPager.split(Utility.baseURL);
             urlReq = split[1];
+            Log.i("info url 2",urlReq);
         }
 
 
@@ -160,6 +162,11 @@ public class TrackFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
                 try {
+
+                    if (isLoadmore) {
+                        array.remove(array.size() - 1);
+                        adapter.notifyItemRemoved(array.size());
+                    }
 
                     JSONArray ja = response.getJSONArray("data");
                     array.addAll(TrackMemberModel.fromJson(ja, false)); // add new items
@@ -190,6 +197,8 @@ public class TrackFragment extends Fragment {
                 Log.i("data", "_" + statusCode);
                 if (!isLoadmore) {
                     buildError();
+                } else {
+                    getRequest(isLoadmore,adap);
                 }
             }
 
@@ -197,6 +206,8 @@ public class TrackFragment extends Fragment {
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
                 if (!isLoadmore) {
                     buildError();
+                }  else {
+                    getRequest(isLoadmore,adap);
                 }
             }
         });

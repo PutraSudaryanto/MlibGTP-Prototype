@@ -1,8 +1,10 @@
 package co.ommu.inlisjogja;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
@@ -33,6 +35,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.CustomDialog;
 import co.ommu.inlisjogja.components.LovelyTextInputChangePasswordDialog;
+import co.ommu.inlisjogja.components.Utility;
 import co.ommu.inlisjogja.fragment.HomeFragment;
 import co.ommu.inlisjogja.fragment.TrackFragment;
 import co.ommu.inlisjogja.fragment.TrackTabMemberFragment;
@@ -53,7 +56,7 @@ import cz.msebera.android.httpclient.Header;
 
 
 public class WelcomeDrawerActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String token = "2aff7d8198a8444e9a7909823f91f98d";
     private DrawerLayout drawer;
@@ -78,6 +81,11 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
     Button btnLogin;
     TextView tvName, tvEmail;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    int isLogin = 0;
+    String userName = "Pengunjung", userEmail = "-";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +118,41 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
 
-        btnLogin =(Button) header.findViewById(R.id.action_login);
+        btnLogin = (Button) header.findViewById(R.id.action_login);
         tvName = (TextView) header.findViewById(R.id.tvDispayname);
-        tvEmail= (TextView) header.findViewById(R.id.tvEmail);
+        tvEmail = (TextView) header.findViewById(R.id.tvEmail);
 
-        tvName.setText("Deanda Putri");
-        tvEmail.setText("Deanda.Putri@gmail.com");
+
+        loadPref();
+        buildPager();
+        //dialogChangePassword();
+    }
+
+    public void loadPref() {
+        // TODO Auto-generated method stub
+
+        pref = getSharedPreferences(Utility.prefName, Context.MODE_PRIVATE);
+
+        // 0 = belum login, 1=sudah login, 2= skip
+
+
+        isLogin = pref.getInt("isFirst", 0);
+
+        userName = pref.getString("displayname", "Pengunjung");
+        userEmail = pref.getString("email", "-");
+        //token= pref.getString("token", "");
+        switch (isLogin) {
+
+            case 1:
+                btnLogin.setVisibility(View.GONE);
+                break;
+
+
+        }
+        userName = "Deanda Putri";
+        userEmail = "Deanda.Putri@gmail.com";
+        tvName.setText(userName);
+        tvEmail.setText(userEmail);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,8 +163,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         });
 
 
-        buildPager();
-        //dialogChangePassword();
     }
 
     private void dialogChangePassword() {
@@ -276,7 +311,12 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_home) { // menu.Basic
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
         } else if (id == R.id.nav_track) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
+            // jadi activity
+            //getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
+            startActivity(new Intent(WelcomeDrawerActivity.this, TrackMemberActivity.class));
+
+
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
 
@@ -297,12 +337,12 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             return true;
         }
 
-        if (id != R.id.nav_home) {
-            rlPager.setVisibility(View.GONE);
-            collapsingToolbar.setTitleEnabled(false);
-        } else {
+        if (id == R.id.nav_home || id == R.id.nav_track ) {
             rlPager.setVisibility(View.VISIBLE);
             collapsingToolbar.setTitleEnabled(true);
+        } else {
+            rlPager.setVisibility(View.GONE);
+            collapsingToolbar.setTitleEnabled(false);
         }
 
         item.setChecked(true);

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.content.Context;
 import android.content.Intent;
@@ -72,7 +73,7 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TextView title, category, date;
         public ImageView img;
         public final View mView;
-        Toolbar tb;
+        public RelativeLayout btnMoreMenu;
 
         public MyViewHolder(View view) {
             super(view);
@@ -80,8 +81,8 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             title = (TextView) view.findViewById(R.id.tvTitle);
             category = (TextView) view.findViewById(R.id.tvCategory);
             date = (TextView) view.findViewById(R.id.tvDate);
-            tb = (Toolbar) view.findViewById(R.id.card_toolbar);
-           // img = (ImageView) view.findViewById(R.id.imgView);
+            btnMoreMenu = (RelativeLayout) view.findViewById(R.id.rl_more_menu);
+            // img = (ImageView) view.findViewById(R.id.imgView);
         }
     }
 
@@ -122,35 +123,42 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (holder instanceof MyViewHolder) {
 
-           final CatalogBookModel item = listItem.get(position);
+            final CatalogBookModel item = listItem.get(position);
             MyViewHolder myViewHolder = (MyViewHolder) holder;
             myViewHolder.title.setText(item.title);
             myViewHolder.date.setText(item.publish_year);
             myViewHolder.category.setText(item.author);
+            
+            final PopupMenu popup = new PopupMenu(this.context, myViewHolder.btnMoreMenu);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.others, popup.getMenu());
 
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-          //  PopupMenu popup = new PopupMenu(this.context, myViewHolder.tb);
-          //  MenuInflater inflater = popup.getMenuInflater();
-          //  inflater.inflate(R.menu.others, popup.getMenu());
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.action_settings:
+                            // do what you need.
+                            Toast.makeText(context, "setting_" + position, Toast.LENGTH_LONG).show();
+                            break;
+                        case R.id.action_search:
+                            // do what you need.
+                            Toast.makeText(context, "search_" + position, Toast.LENGTH_LONG).show();
+                            break;
 
-
-         /*   popup.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case R.id.action_cancel:
-                        cancelItem();
-                        return true;
-                    default:
-                        return true;
+                        default:
+                            return false;
+                    }
+                    return false;
                 }
             });
-            vh.btnMenu.setOnClickListener(btn -> popup.show());
-            */
 
-            myViewHolder.tb.setOnClickListener(new View.OnClickListener() {
+            myViewHolder.btnMoreMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    showPopup(v,position);
+                    popup.show();
 
                 }
             });
@@ -163,16 +171,17 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View v) {
                     Context context = v.getContext();
                     context.startActivity(new Intent(context, BookDetailActivity.class)
-                            .putExtra("id",item.id)
+                            .putExtra("id", item.id)
                     );
 
 
                 }
             });
 
+
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
-            loadingViewHolder.pbKit= pb;
+            loadingViewHolder.pbKit = pb;
         }
 
 
@@ -187,30 +196,5 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return listItem == null ? 0 : listItem.size();
     }
 
-    private void showPopup(View view, final int position) {
-        // pass the imageview id
-      // View menuItemView = view.findViewById(R.id.btn_song_list_more);
-        PopupMenu popup = new PopupMenu(context, view);
-        MenuInflater inflate = popup.getMenuInflater();
-        inflate.inflate(R.menu.others, popup.getMenu());
-        Log.i("position -- ", ""+ position);
 
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_settings:
-                        // do what you need.
-                        Toast.makeText(context,"eaeaea",Toast.LENGTH_LONG).show();
-                        break;
-
-                    default:
-                        return false;
-                }
-                return false;
-            }
-        });
-        popup.show();
-    }
 }
