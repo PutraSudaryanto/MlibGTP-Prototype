@@ -22,10 +22,10 @@ public class TrackMemberModel {
                 item.catalog_id = ja.getJSONObject(i).getString("catalog_id");
 
                 if (!status) {
-                    // punya biasa track
+                    // punya biasa track, popolar
                     item.count = ja.getJSONObject(i).getString("count");
                 } else {
-                    // punya member
+                    // punya member , bookmark, like, view, favorit
                     item.creation_date = ja.getJSONObject(i).getString("creation_date");
                 }
 

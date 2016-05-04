@@ -11,4 +11,5 @@ public class Utility {
     public static String inlisFavouriteListPathURL = "/inlis/api/favourite/list";
     public static String mediaPathURL = "/public";
     public static String MSG_ERROR = "<center>Terjadi masalah koneksi atau server sedang error. Tap untuk mencoba lagi.</center>";
+    public static String prefName = "isLogin";
 }

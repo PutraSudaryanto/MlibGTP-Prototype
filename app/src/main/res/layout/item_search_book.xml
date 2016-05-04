@@ -12,6 +12,13 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/card_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/action_bar_size"
+            android:background="@android:color/white"
+            android:layout_gravity="right"/>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

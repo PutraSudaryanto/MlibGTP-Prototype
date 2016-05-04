@@ -27,7 +27,11 @@ import org.json.JSONObject;
 import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.CustomDialog;
 import co.ommu.inlisjogja.components.LovelyTextInputDialog;
+import co.ommu.inlisjogja.components.Utility;
 import cz.msebera.android.httpclient.Header;
+
+import android.content.SharedPreferences;
+import android.content.Context;
 
 
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
@@ -37,7 +41,7 @@ import android.content.DialogInterface;
 public class RegisterActivity extends AppCompatActivity {
 
 
-    String token = "2aff7d8198a8444e9a7909823f91f98d";
+    String token = "";
     RelativeLayout btnError;
 
 
@@ -53,6 +57,10 @@ public class RegisterActivity extends AppCompatActivity {
     TextView tvRegiter, tvSkip;
 
     ShowHidePasswordEditText edPassword;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    int isLogin = 0;
 
 
     @Override
@@ -108,6 +116,8 @@ public class RegisterActivity extends AppCompatActivity {
         tvSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isLogin = 2;
+                updatePref();
                 Toast.makeText(getApplicationContext(), "Skip", Toast.LENGTH_LONG).show();
 
             }
@@ -120,6 +130,54 @@ public class RegisterActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        loadPref();
+    }
+
+    public void loadPref() {
+        // TODO Auto-generated method stub
+
+        pref = getSharedPreferences(Utility.prefName, Context.MODE_PRIVATE);
+
+        // 0 = belum login, 1=sudah login, 2= skip
+
+        isLogin = pref.getInt("isFirst", 0);
+        switch (isLogin) {
+            case 0:
+                Toast.makeText(getApplicationContext(), "Belum Login", Toast.LENGTH_LONG).show();
+                break;
+            case 1:
+                Toast.makeText(getApplicationContext(), "Sudah Login", Toast.LENGTH_LONG).show();
+                break;
+            case 2:
+                Toast.makeText(getApplicationContext(), "Skip Login", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "Belum Login", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+
+    }
+
+    private void updatePref() {
+
+        editor = pref.edit();
+        //editor.putString("member_id", member_id);
+        //editor.putString("fullname", fullname);
+        //editor.putString("birthday", birthday);
+        //editor.putInt("phone_number", phone_number);
+        //editor.putInt("member_type",  member_type);
+
+        editor.putString("token", token);
+        editor.putString("oauth", oauth);
+        editor.putString("email", email);
+        editor.putString("displayname", displayname);
+        editor.putString("member_type", member_type);
+        editor.putString("lastlogin_date", lastlogin_date);
+        editor.putString("verified", verified);
+        editor.putInt("isFirst", isLogin);
+        editor.commit();
     }
 
     private void inputMemberDialog() {
@@ -338,13 +396,17 @@ public class RegisterActivity extends AppCompatActivity {
                     message = response.getString("message");
 
                     if (success.equals("1")) {
-                        token= response.getString("token");
-                        oauth= response.getString("oauth");
-                        email= response.getString("email");
-                        displayname= response.getString("displayname");
-                        lastlogin_date= response.getString("lastlogin_date");
-                        verified= response.getString("verified");
+                        token = response.getString("token");
+                        oauth = response.getString("oauth");
+                        email = response.getString("email");
+                        displayname = response.getString("displayname");
+                        lastlogin_date = response.getString("lastlogin_date");
+                        verified = response.getString("verified");
+                        isLogin = 1;
+                        updatePref();
                         startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
+                        finish();
+
 
                     } else {
                         new CustomDialog(RegisterActivity.this, bunSaved, 0);

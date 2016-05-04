@@ -109,7 +109,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View header = navigationView.getHeaderView(0);
-        //TextView text = (TextView) header.findViewById(R.id.textView);
 
         btnLogin =(Button) header.findViewById(R.id.action_login);
         tvName = (TextView) header.findViewById(R.id.tvDispayname);
