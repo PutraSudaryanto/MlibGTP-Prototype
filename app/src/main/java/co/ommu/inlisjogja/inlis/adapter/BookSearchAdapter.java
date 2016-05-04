@@ -2,6 +2,7 @@ package co.ommu.inlisjogja.inlis.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,12 @@ import co.ommu.inlisjogja.BookDetailActivity;
 import co.ommu.inlisjogja.inlis.model.CatalogBookModel;
 import co.ommu.inlisjogja.R;
 import co.ommu.inlisjogja.components.OnLoadMoreListener;
+
+import android.view.MenuInflater;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by KurniawanD on 4/27/2016.
@@ -65,6 +72,7 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public TextView title, category, date;
         public ImageView img;
         public final View mView;
+        Toolbar tb;
 
         public MyViewHolder(View view) {
             super(view);
@@ -72,6 +80,7 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             title = (TextView) view.findViewById(R.id.tvTitle);
             category = (TextView) view.findViewById(R.id.tvCategory);
             date = (TextView) view.findViewById(R.id.tvDate);
+            tb = (Toolbar) view.findViewById(R.id.card_toolbar);
            // img = (ImageView) view.findViewById(R.id.imgView);
         }
     }
@@ -109,7 +118,7 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof MyViewHolder) {
 
@@ -118,6 +127,34 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             myViewHolder.title.setText(item.title);
             myViewHolder.date.setText(item.publish_year);
             myViewHolder.category.setText(item.author);
+
+
+          //  PopupMenu popup = new PopupMenu(this.context, myViewHolder.tb);
+          //  MenuInflater inflater = popup.getMenuInflater();
+          //  inflater.inflate(R.menu.others, popup.getMenu());
+
+
+         /*   popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.action_cancel:
+                        cancelItem();
+                        return true;
+                    default:
+                        return true;
+                }
+            });
+            vh.btnMenu.setOnClickListener(btn -> popup.show());
+            */
+
+            myViewHolder.tb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    showPopup(v,position);
+
+                }
+            });
+
 
 //            myViewHolder.img;
 //            Glide.with(context).load(item.imgUrl.replace(" ", "%20")).centerCrop().into(myViewHolder.img);
@@ -148,5 +185,32 @@ public class BookSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemCount() {
         return listItem == null ? 0 : listItem.size();
+    }
+
+    private void showPopup(View view, final int position) {
+        // pass the imageview id
+      // View menuItemView = view.findViewById(R.id.btn_song_list_more);
+        PopupMenu popup = new PopupMenu(context, view);
+        MenuInflater inflate = popup.getMenuInflater();
+        inflate.inflate(R.menu.others, popup.getMenu());
+        Log.i("position -- ", ""+ position);
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_settings:
+                        // do what you need.
+                        Toast.makeText(context,"eaeaea",Toast.LENGTH_LONG).show();
+                        break;
+
+                    default:
+                        return false;
+                }
+                return false;
+            }
+        });
+        popup.show();
     }
 }
