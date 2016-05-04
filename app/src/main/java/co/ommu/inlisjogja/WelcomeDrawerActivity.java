@@ -111,7 +111,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         //TextView text = (TextView) header.findViewById(R.id.textView);
 
-        btnLogin =(Button) header.findViewById(R.id.loginSignup);
+        btnLogin =(Button) header.findViewById(R.id.action_login);
         tvName = (TextView) header.findViewById(R.id.tvDispayname);
         tvEmail= (TextView) header.findViewById(R.id.tvEmail);
 
@@ -121,21 +121,14 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeDrawerActivity.this, RegistrasiActivity.class));
+                startActivity(new Intent(WelcomeDrawerActivity.this, RegisterActivity.class));
                 finish();
             }
         });
 
 
         buildPager();
-<<<<<<< HEAD
-
         //dialogChangePassword();
-
-
-=======
-        dialogChangePassword();
->>>>>>> origin/master
     }
 
     private void dialogChangePassword() {
