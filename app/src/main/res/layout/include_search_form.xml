@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical"
-      android:padding="@dimen/activity_vertical_margin"
-      >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_vertical_margin">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,69 +11,71 @@
         android:gravity="center"
         android:text="Worksheet : "
         android:textColor="@android:color/darker_gray"
-        android:textSize="14dp"
-        />
+        android:textSize="14dp" />
 
     <Spinner
         android:id="@+id/sp_worksheet"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="4dp"
-         />
+        android:layout_marginTop="4dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Category : "
         android:textColor="@android:color/darker_gray"
-        android:textSize="14dp"
-        android:layout_marginTop="8dp"
-        />
+        android:textSize="14dp" />
 
     <Spinner
         android:id="@+id/sp_category"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="4dp"
-        />
+        android:layout_marginTop="4dp" />
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_keyword"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:hint="@string/input_search_keyword"
-            android:singleLine="true"
             android:imeOptions="actionDone"
-            />
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_search"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/colorPrimary"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SEARCH"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:layout_centerInParent="true"/>
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="SEARCH"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -82,9 +83,10 @@
         android:layout_height="match_parent">
 
         <include layout="@layout/include_recycleview" />
-        <include layout="@layout/include_textview_kosong" />
-        <include layout="@layout/include_error" />
 
+        <include layout="@layout/include_textview_kosong" />
+
+        <include layout="@layout/include_error" />
 
 
     </RelativeLayout>

@@ -1,172 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:padding="@dimen/activity_vertical_margin"
-     >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_vertical_margin">
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_title"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
+            android:gravity="start"
+            android:hint="@string/input_search_title"
             android:imeOptions="actionNext"
-            android:hint="@string/input_search_title" />
+            android:inputType="text"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_author"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
+            android:gravity="start"
+            android:hint="@string/input_search_author"
             android:imeOptions="actionNext"
-            android:hint="@string/input_search_author" />
+            android:inputType="text"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_publisher"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
+            android:gravity="start"
+            android:hint="@string/input_search_publisher"
             android:imeOptions="actionNext"
-            android:hint="@string/input_search_publisher" />
+            android:inputType="text"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_publish_year"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="phone|numberDecimal"
+            android:gravity="start"
+            android:hint="@string/input_search_publish_year"
             android:imeOptions="actionNext"
-            android:hint="@string/input_search_publish_year" />
+            android:inputType="phone|numberDecimal"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_subject"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
+            android:gravity="start"
+            android:hint="@string/input_search_subject"
             android:imeOptions="actionNext"
-            android:hint="@string/input_search_subject" />
+            android:inputType="text"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_callnumber"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="phone|numberDecimal"
+            android:gravity="start"
+            android:hint="@string/input_search_callnumber"
             android:imeOptions="actionNext"
-            android:hint="@string/input_search_callnumber" />
+            android:inputType="phone|numberDecimal"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_bibid"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
+            android:gravity="start"
+            android:hint="@string/input_search_bibid"
             android:imeOptions="actionNext"
-            android:hint="@string/input_search_bibid" />
+            android:inputType="text"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:gravity="start"
-        android:textAlignment="viewStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textAlignment="viewStart">
 
         <EditText
             android:id="@+id/input_isbn"
-            android:gravity="start"
-            android:textAlignment="viewStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="phone|numberDecimal"
+            android:gravity="start"
+            android:hint="@string/input_search_isbn"
             android:imeOptions="actionDone"
-            android:hint="@string/input_search_isbn" />
+            android:inputType="phone|numberDecimal"
+            android:singleLine="true"
+            android:textAlignment="viewStart" />
     </android.support.design.widget.TextInputLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_search"
+
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/colorPrimary"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SEARCH"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:layout_centerInParent="true"/>
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="SEARCH"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </RelativeLayout>
-
 
 
 </LinearLayout>
