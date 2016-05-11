@@ -189,12 +189,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
-                buildError(R.string.msg_error);
+
+
+
+
+                buildError(getResources().getString(R.string.msg_error));
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
-                buildError(R.string.msg_error);
+                buildError(getResources().getString(R.string.msg_error));
             }
         });
     }
@@ -355,13 +359,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
-                buildError(R.string.msg_error);
+                buildError(getResources().getString(R.string.msg_error));
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
-                buildError(R.string.msg_error);
+                buildError(getResources().getString(R.string.msg_error));
 
             }
         });
@@ -418,13 +422,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
-                buildError(R.string.msg_error);
+                buildError(getResources().getString(R.string.msg_error));
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
-                buildError(R.string.msg_error);
+                buildError(getResources().getString(R.string.msg_error));
 
             }
         });
