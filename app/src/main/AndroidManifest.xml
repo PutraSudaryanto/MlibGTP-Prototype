@@ -15,52 +15,45 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".TrackActivity"
-            android:label="@string/title_track">
-        </activity>
+            android:label="@string/title_track" />
         <activity
             android:name=".SearchActivity"
-            android:label="@string/title_search"></activity>
+            android:label="@string/title_search" />
         <activity
             android:name=".BookDetailActivity"
-            android:label="@string/title_book_detail"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
+            android:label="@string/title_book_detail"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".SearchResultActivity"
-            android:label="@string/title_search_result"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
+            android:label="@string/title_search_result"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".SearchAdvancedActivity"
             android:label="@string/title_search_advance"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".TrackMemberActivity"
-            android:label="@string/title_track"></activity>
-
+            android:label="@string/title_track" />
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_registrasi"
             android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_registrasi"
+            android:screenOrientation="sensorPortrait"
             android:windowSoftInputMode="adjustResize">
-
-            </activity>
-
-        <activity
-            android:name=".WelcomeDrawerActivity"
-            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
+
+        <activity
+            android:name=".WelcomeDrawerActivity"
+            android:label="@string/app_name"></activity>
     </application>
 
 </manifest>
