@@ -107,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isLogin = 2;
                 updatePref();
-                Toast.makeText(getApplicationContext(), "Skip", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
             }
         });
 
