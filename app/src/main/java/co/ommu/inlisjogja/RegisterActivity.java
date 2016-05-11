@@ -38,20 +38,16 @@ import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import android.content.DialogInterface;
 
-public class RegisterActivity extends AppCompatActivity {
-    RelativeLayout btnError;
-
-    ProgressDialog pd;
-    ProgressBar pb;
-
+public class RegisterActivity extends AppCompatActivity
+{
     int isLogin = 0;
-    String success = "", error = "", message = "",  //login success and error
+    String success = "", error = "",  //login success and error
         token = "", oauth = "", email = "", displayname = "", lastlogin_date = "", enabled = "", verified = "", //login success
         member_id = "", member_number = "", address = "", photo = "", birthday = "", phone_number = "",  //login success
         status = "", member_type = "", change_password = "",     //login success
-        membernumber = "",
-        fullname = "",
-        userEmail = "";
+        membernumber = "",  //getMember request
+        userEmail = ""; //generateMember request
+    ProgressDialog pd;
     Bundle bunSaved;
     RelativeLayout btnLogin;
     EditText edEmail;
@@ -67,11 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bunSaved = savedInstanceState;
         setContentView(R.layout.activity_register);
-
-        pb = (ProgressBar) findViewById(R.id.progressBar);
-        pb.setVisibility(View.GONE);
-        btnError = (RelativeLayout) findViewById(R.id.rl_error);
-        btnError.setVisibility(View.GONE);
 
         edEmail = (EditText) findViewById(R.id.input_username);
         edPassword = (ShowHidePasswordEditText) findViewById(R.id.input_password);
@@ -114,17 +105,46 @@ public class RegisterActivity extends AppCompatActivity {
         loadPref();
     }
 
-    private void buildData() {
-        btnError.setVisibility(View.GONE);
-        pb.setVisibility(View.GONE);
-    }
-
     private void buildError(String message) {
         pd.dismiss();
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    // Login
+    public void loadPref() {
+        // TODO Auto-generated method stub
+        pref = getSharedPreferences(Utility.prefName, Context.MODE_PRIVATE);
+
+        // 0=belum login, 1=sudah login, 2=skip
+        isLogin = pref.getInt("isFirst", 0);
+        if (isLogin != 0)
+            startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
+    }
+
+    private void updatePref()
+    {
+        editor = pref.edit();
+        editor.putString("token", token);
+        editor.putString("oauth", oauth);
+        editor.putString("email", email);
+        editor.putString("displayname", displayname);
+        editor.putString("member_type", member_type);
+        editor.putString("lastlogin_date", lastlogin_date);
+        editor.putString("enabled", enabled);
+        editor.putString("verified", verified);
+        editor.putString("member_id", member_id);
+        editor.putString("member_number", member_number);
+        editor.putString("address", address);
+        editor.putString("photo", photo);
+        editor.putString("birthday", birthday);
+        editor.putString("phone_number", phone_number);
+        editor.putString("status", status);
+        editor.putString("member_type", member_type);
+        editor.putString("change_password", change_password);
+        editor.putInt("isFirst", isLogin);
+        editor.commit();
+    }
+
+    // user.Login
     private void getRequestLogin() {
         String urlReq = Utility.inlisUserLoginPathURL;
         RequestParams params = new RequestParams();
@@ -171,12 +191,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                     } else {
                         error = response.getString("error");
-                        message = response.getString("message");
-
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
                     }
                     pd.dismiss();
-                    //buildData();
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -199,113 +216,34 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void loadPref() {
-        // TODO Auto-generated method stub
-
-        pref = getSharedPreferences(Utility.prefName, Context.MODE_PRIVATE);
-
-        // 0 = belum login, 1=sudah login, 2= skip
-
-        /*
-        isLogin = pref.getInt("isFirst", 0);
-        switch (isLogin) {
-            case 0:
-                Toast.makeText(getApplicationContext(), "Belum Login", Toast.LENGTH_LONG).show();
-                break;
-            case 1:
-                Toast.makeText(getApplicationContext(), "Sudah Login", Toast.LENGTH_LONG).show();
-                break;
-            case 2:
-                Toast.makeText(getApplicationContext(), "Skip Login", Toast.LENGTH_LONG).show();
-                break;
-            default:
-                Toast.makeText(getApplicationContext(), "Belum Login", Toast.LENGTH_LONG).show();
-                break;
-        }
-
-*/
-    }
-
-    private void updatePref()
-    {
-        editor = pref.edit();
-        editor.putString("token", token);
-        editor.putString("oauth", oauth);
-        editor.putString("email", email);
-        editor.putString("displayname", displayname);
-        editor.putString("member_type", member_type);
-        editor.putString("lastlogin_date", lastlogin_date);
-        editor.putString("enabled", enabled);
-        editor.putString("verified", verified);
-        editor.putString("member_id", member_id);
-        editor.putString("member_number", member_number);
-        editor.putString("address", address);
-        editor.putString("photo", photo);
-        editor.putString("birthday", birthday);
-        editor.putString("phone_number", phone_number);
-        editor.putString("status", status);
-        editor.putString("member_type", member_type);
-        editor.putString("change_password", change_password);
-        editor.putInt("isFirst", isLogin);
-        editor.commit();
-    }
-
+    // user.GetMember
     private void inputMemberDialog() {
         new LovelyTextInputDialog(this, R.style.EditTextTintTheme)
-                .setTopColorRes(R.color.darkDeepOrange)
-                .setTitle(R.string.text_input_title)
-                .setMessage(R.string.text_input_message)
-                .setIcon(R.mipmap.ic_launcher)
-                //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
-                .setInputFilter(R.string.text_input_error_message, new LovelyTextInputDialog.TextFilter() {
-                    @Override
-                    public boolean check(String text) {
-                        return text.matches("\\w+");
-                    }
-                })
-                .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
-                    @Override
-                    public void onTextInputConfirmed(String text) {
-                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-                        membernumber = text;
-                        getRequestMember();
-
-                    }
-                })
-                .setSavedInstanceState(bunSaved)
-                .show();
-
-    }
-
-    private void userGenerateDialog() {
-        new LovelyTextInputDialog(this, R.style.EditTextTintTheme)
-                .setTopColorRes(R.color.darkDeepOrange)
-                .setTitle(R.string.text_input_title)
-                .setMessage(R.string.text_input_message)
-                .setIcon(R.mipmap.ic_launcher)
-                //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
-                .setInputFilter(R.string.text_input_error_message, new LovelyTextInputDialog.TextFilter() {
-                    @Override
-                    public boolean check(String text) {
-                        return text.matches("\\w+");
-                    }
-                })
-                .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
-                    @Override
-                    public void onTextInputConfirmed(String text) {
-                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-                        userEmail = text;
-                        getRequestUserGenerate();
-
-                    }
-                })
-                .setSavedInstanceState(bunSaved)
-                .show();
+            .setTopColorRes(R.color.darkDeepOrange)
+            .setTitle(R.string.text_input_title)
+            .setMessage(R.string.text_input_message)
+            .setIcon(R.mipmap.ic_launcher)
+            //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
+            .setInputFilter(R.string.text_input_error_message, new LovelyTextInputDialog.TextFilter() {
+                @Override
+                public boolean check(String text) {
+                    return text.matches("\\w+");
+                }
+            })
+            .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
+                @Override
+                public void onTextInputConfirmed(String text) {
+                    Toast.makeText(getApplicationContext(), "Member Number: "+text, Toast.LENGTH_SHORT).show();
+                    membernumber = text;
+                    getRequestMember();
+                }
+            })
+            .setSavedInstanceState(bunSaved)
+            .show();
     }
 
 
     private void getRequestMember() {
-
         String urlReq = Utility.inlisUserGetMemberPathURL;
         RequestParams params = new RequestParams();
         params.put("membernumber", membernumber);
@@ -315,34 +253,30 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onCancel(DialogInterface arg0) {
                 // TODO Auto-generated method stub
-
                 AsynRestClient.cancelAllRequests(getApplicationContext());
             }
         });
 
-
         AsynRestClient.post(RegisterActivity.this, urlReq, params, new JsonHttpResponseHandler() {
-
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
                 try {
-
                     success = response.getString("success");
-                    //error = response.getString("error");
-                    message = response.getString("message");
-                    if (success.equals("1")) {
-                        member_id = response.getString("member_id");
-                        fullname = response.getString("fullname");
-                        birthday = response.getString("birthday");
-                        phone_number = response.getString("phone_number");
-                        member_type = response.getString("member_type");
-                    } else {
-                        new CustomDialog(RegisterActivity.this, bunSaved, 0);
+
+                    member_id = response.getString("member_id");
+                    member_number = response.getString("member_number");
+                    displayname = response.getString("fullname");
+                    email = response.getString("email");
+                    phone_number = response.getString("phone_number");
+                    status = response.getString("status");
+                    member_type = response.getString("member_type");
+
+                    if (success.equals("0")) {
+                        error = response.getString("error");
+                        Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
                     }
                     pd.dismiss();
                     userGenerateDialog();
-                    buildData();
-
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -356,56 +290,67 @@ public class RegisterActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
                 buildError(getResources().getString(R.string.msg_error));
-
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
                 buildError(getResources().getString(R.string.msg_error));
-
             }
         });
+    }
 
-
+    // user.GenerateMember
+    private void userGenerateDialog() {
+        new LovelyTextInputDialog(this, R.style.EditTextTintTheme)
+            .setTopColorRes(R.color.darkDeepOrange)
+            .setTitle(R.string.text_input_title)
+            .setMessage(R.string.text_input_message)
+            .setIcon(R.mipmap.ic_launcher)
+            //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
+            .setInputFilter(R.string.text_input_error_message, new LovelyTextInputDialog.TextFilter() {
+                @Override
+                public boolean check(String text) {
+                    return text.matches("\\w+");
+                }
+            })
+            .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
+                @Override
+                public void onTextInputConfirmed(String text) {
+                    Toast.makeText(getApplicationContext(), "Email: "+text, Toast.LENGTH_SHORT).show();
+                    userEmail = text;
+                    getRequestUserGenerate();
+                }
+            })
+            .setSavedInstanceState(bunSaved)
+            .show();
     }
 
     private void getRequestUserGenerate() {
-
         String urlReq = Utility.inlisUserGeneratePathURL;
         RequestParams params = new RequestParams();
         params.put("email", userEmail);
         params.put("member", member_id);
-        params.put("displayname", fullname);
+        params.put("displayname", displayname);
 
         pd = ProgressDialog.show(this, "", "Please wait...", true, true);
         pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface arg0) {
                 // TODO Auto-generated method stub
-
                 AsynRestClient.cancelAllRequests(getApplicationContext());
             }
         });
 
-
         AsynRestClient.post(RegisterActivity.this, urlReq, params, new JsonHttpResponseHandler() {
-
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
                 try {
-
                     success = response.getString("success");
-                    error = response.getString("error");
-                    message = response.getString("message");
-                    if (success.equals("1")) {
-                        //member_id = response.getString("member_id");
-
-                    } else {
-                        new CustomDialog(RegisterActivity.this, bunSaved, 0);
+                    if (success.equals("0")) {
+                        error = response.getString("error");
+                        Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
                     }
                     pd.dismiss();
-                    buildData();
-
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -419,17 +364,13 @@ public class RegisterActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
                 buildError(getResources().getString(R.string.msg_error));
-
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
                 buildError(getResources().getString(R.string.msg_error));
-
             }
         });
-
-
     }
 
 }
