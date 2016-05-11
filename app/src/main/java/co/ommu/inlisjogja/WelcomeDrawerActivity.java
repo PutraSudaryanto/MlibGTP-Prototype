@@ -86,6 +86,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     SharedPreferences.Editor editor;
     int isLogin = 0;
     String userName = "Pengunjung", userEmail = "-";
+    RelativeLayout rlMoreActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,10 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
+
+        rlMoreActionBar = (RelativeLayout) findViewById(R.id.more_colortoolbar);
+        rlMoreActionBar.setVisibility(View.GONE);
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -339,8 +344,10 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
         if (id == R.id.nav_home || id == R.id.nav_track ) {
             rlPager.setVisibility(View.VISIBLE);
+            rlMoreActionBar.setVisibility(View.GONE);
             collapsingToolbar.setTitleEnabled(true);
         } else {
+            rlMoreActionBar.setVisibility(View.VISIBLE);
             rlPager.setVisibility(View.GONE);
             collapsingToolbar.setTitleEnabled(false);
         }

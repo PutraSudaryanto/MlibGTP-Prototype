@@ -60,6 +60,14 @@
                         app:snap="true" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/more_colortoolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginTop="@dimen/action_bar_size_more"
+                    />
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
