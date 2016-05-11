@@ -144,10 +144,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // TODO Auto-generated method stub
                 try {
-                    success = response.getString("success");
-                    //error = response.getString("error");
-                    message = response.getString("message");
+                    Log.i("response", ""+response.toString());
 
+                    success = response.getString("success");
                     if (success.equals("1")) {
                         token = response.getString("token");
                         oauth = response.getString("oauth");
@@ -170,13 +169,14 @@ public class RegisterActivity extends AppCompatActivity {
                         startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
                         finish();
 
-                    } else
+                    } else {
+                        error = response.getString("error");
+                        message = response.getString("message");
+
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
+                    }
                     pd.dismiss();
-
                     //buildData();
-
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -189,10 +189,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
-
-
-
-
                 buildError(getResources().getString(R.string.msg_error));
             }
 
