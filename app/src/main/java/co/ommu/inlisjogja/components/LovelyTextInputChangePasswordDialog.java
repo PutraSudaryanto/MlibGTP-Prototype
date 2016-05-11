@@ -161,7 +161,13 @@ public class LovelyTextInputChangePasswordDialog extends AbsLovelyDialog<LovelyT
             String name = edName.getText().toString();
             String member = edNumber.getText().toString();
 
-            if (filter1 != null && filter2 != null && filter3 != null) {
+
+            if (email.isEmpty() || name.isEmpty() || member.isEmpty()) {
+                setError();
+                return;
+            }
+
+           /* if (filter1 != null && filter2 != null && filter3 != null) {
                 boolean isWrongInput = !filter1.check(email);
                 boolean isWrongInput1 = !filter2.check(name);
                 boolean isWrongInput2 = !filter3.check(member);
@@ -178,6 +184,7 @@ public class LovelyTextInputChangePasswordDialog extends AbsLovelyDialog<LovelyT
                     return;
                 }
             }
+            */
 
             if (wrapped != null) {
                 wrapped.onTextInputConfirmed(email, name, member);

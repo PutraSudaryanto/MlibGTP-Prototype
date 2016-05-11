@@ -4,10 +4,13 @@ package co.ommu.inlisjogja;
  */
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,25 +21,16 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import co.ommu.inlisjogja.components.AsynRestClient;
 import co.ommu.inlisjogja.components.CustomDialog;
 import co.ommu.inlisjogja.components.LovelyTextInputDialog;
 import co.ommu.inlisjogja.components.Utility;
 import cz.msebera.android.httpclient.Header;
-
-import android.content.SharedPreferences;
-import android.content.Context;
-
-
-import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
-
-import android.content.DialogInterface;
 
 public class RegisterActivity extends AppCompatActivity {
     RelativeLayout btnError;
@@ -46,12 +40,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     int isLogin = 0;
     String success = "", error = "", message = "",  //login success and error
-        token = "", oauth = "", email = "", displayname = "", lastlogin_date = "", enabled = "", verified = "", //login success
-        member_id = "", member_number = "", address = "", photo = "", birthday = "", phone_number = "",  //login success
-        status = "", member_type = "", change_password = "",     //login success
-        membernumber = "",
-        fullname = "",
-        userEmail = "";
+            token = "", oauth = "", email = "", displayname = "", lastlogin_date = "", enabled = "", verified = "", //login success
+            member_id = "", member_number = "", address = "", photo = "", birthday = "", phone_number = "",  //login success
+            status = "", member_type = "", change_password = "",     //login success
+            membernumber = "",
+            fullname = "",
+            userEmail = "";
     Bundle bunSaved;
     RelativeLayout btnLogin;
     EditText edEmail;
@@ -145,8 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 try {
                     success = response.getString("success");
-                    //error = response.getString("error");
-                    message = response.getString("message");
+
 
                     if (success.equals("1")) {
                         token = response.getString("token");
@@ -170,9 +163,11 @@ public class RegisterActivity extends AppCompatActivity {
                         startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
                         finish();
 
-                    } else
+                    } else {
+                        error = response.getString("error");
+                        message = response.getString("message");
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-
+                    }
                     pd.dismiss();
 
                     //buildData();
@@ -189,8 +184,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
-
-
 
 
                 buildError(getResources().getString(R.string.msg_error));
@@ -230,8 +223,7 @@ public class RegisterActivity extends AppCompatActivity {
 */
     }
 
-    private void updatePref()
-    {
+    private void updatePref() {
         editor = pref.edit();
         editor.putString("token", token);
         editor.putString("oauth", oauth);
@@ -260,11 +252,13 @@ public class RegisterActivity extends AppCompatActivity {
                 .setTitle(R.string.text_input_title)
                 .setMessage(R.string.text_input_message)
                 .setIcon(R.mipmap.ic_launcher)
+                .setHint("Nomor Anggota")
+                .setInputType(InputType.TYPE_CLASS_NUMBER)
                 //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
                 .setInputFilter(R.string.text_input_error_message, new LovelyTextInputDialog.TextFilter() {
                     @Override
                     public boolean check(String text) {
-                        return text.matches("\\w+");
+                        return text.matches("");
                     }
                 })
                 .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
@@ -287,11 +281,13 @@ public class RegisterActivity extends AppCompatActivity {
                 .setTitle(R.string.text_input_title)
                 .setMessage(R.string.text_input_message)
                 .setIcon(R.mipmap.ic_launcher)
+                .setHint("Email")
+                .setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
                 //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
                 .setInputFilter(R.string.text_input_error_message, new LovelyTextInputDialog.TextFilter() {
                     @Override
                     public boolean check(String text) {
-                        return text.matches("\\w+");
+                        return text.matches("");
                     }
                 })
                 .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {

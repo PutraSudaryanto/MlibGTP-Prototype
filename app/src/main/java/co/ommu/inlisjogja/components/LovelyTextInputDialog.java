@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import co.ommu.inlisjogja.R;
 
 /**
@@ -138,13 +139,13 @@ public class LovelyTextInputDialog extends AbsLovelyDialog<LovelyTextInputDialog
         public void onClick(View v) {
             String text = inputField.getText().toString();
 
-            if (filter != null) {
-                boolean isWrongInput = !filter.check(text);
-                if (isWrongInput) {
-                    setError();
-                    return;
-                }
+            // if (filter != null) {
+            // boolean isWrongInput = !filter.check(text);
+            if (text.isEmpty()) {
+                setError();
+                return;
             }
+            //}
 
             if (wrapped != null) {
                 wrapped.onTextInputConfirmed(text);

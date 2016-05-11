@@ -1,4 +1,3 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="action_bar_size_more">20dp</dimen>
 </resources>
