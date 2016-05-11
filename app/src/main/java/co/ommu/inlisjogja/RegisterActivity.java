@@ -220,7 +220,7 @@ public class RegisterActivity extends AppCompatActivity
     private void inputMemberDialog() {
         new LovelyTextInputDialog(this, R.style.EditTextTintTheme)
             .setTopColorRes(R.color.darkDeepOrange)
-            .setTitle(R.string.text_input_title)
+            .setTitle(R.string.text_input_title+" get")
             .setMessage(R.string.text_input_message)
             .setIcon(R.mipmap.ic_launcher)
             //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
@@ -263,25 +263,30 @@ public class RegisterActivity extends AppCompatActivity
                 try {
                     success = response.getString("success");
 
-                    member_id = response.getString("member_id");
-                    member_number = response.getString("member_number");
-                    displayname = response.getString("fullname");
-                    email = response.getString("email");
-                    phone_number = response.getString("phone_number");
-                    status = response.getString("status");
-                    member_type = response.getString("member_type");
-
                     if (success.equals("0")) {
                         error = response.getString("error");
                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_LONG).show();
                     }
+
+                    if(success.equals("1") || (success.equals("0") && !error.equals("MEMBER_NULL"))) {
+                        member_id = response.getString("member_id");
+                        member_number = response.getString("member_number");
+                        displayname = response.getString("fullname");
+                        email = response.getString("email");
+                        phone_number = response.getString("phone_number");
+                        status = response.getString("status");
+                        member_type = response.getString("member_type");
+                    }
+
+                    if (success.equals("1"))
+                        userGenerateDialog();
                     pd.dismiss();
-                    userGenerateDialog();
 
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     Log.i("infffffooo", "ada parsingan yg salah");
+                    pd.dismiss();
                 }
             }
 
@@ -303,14 +308,14 @@ public class RegisterActivity extends AppCompatActivity
     private void userGenerateDialog() {
         new LovelyTextInputDialog(this, R.style.EditTextTintTheme)
             .setTopColorRes(R.color.darkDeepOrange)
-            .setTitle(R.string.text_input_title)
+            .setTitle(R.string.text_input_title+" email")
             .setMessage(R.string.text_input_message)
             .setIcon(R.mipmap.ic_launcher)
             //.setInstanceStateHandler(ID_TEXT_INPUT_DIALOG, saveStateHandler)
             .setInputFilter(R.string.text_input_error_message, new LovelyTextInputDialog.TextFilter() {
                 @Override
                 public boolean check(String text) {
-                    return text.matches("\\w+");
+                    return text.("\\matchesw+");
                 }
             })
             .setConfirmButton(android.R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
@@ -356,6 +361,7 @@ public class RegisterActivity extends AppCompatActivity
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     Log.i("infffffooo", "ada parsingan yg salah");
+                    pd.dismiss();
                 }
             }
 
