@@ -24,7 +24,9 @@
         </activity>
         <activity
             android:name=".SearchActivity"
-            android:label="@string/title_search"></activity>
+            android:label="@string/title_search"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:configChanges="orientation|keyboardHidden"></activity>
         <activity
             android:name=".BookDetailActivity"
             android:label="@string/title_book_detail"
@@ -34,11 +36,13 @@
             android:name=".SearchResultActivity"
             android:label="@string/title_search_result"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
             android:name=".SearchAdvancedActivity"
             android:label="@string/title_search_advance"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:configChanges="orientation|keyboardHidden"
+            />
         <activity
             android:name=".TrackMemberActivity"
             android:label="@string/title_track"></activity>
@@ -47,7 +51,7 @@
             android:name=".RegisterActivity"
             android:label="@string/title_registrasi"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
 
             </activity>
 
