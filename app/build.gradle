@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "co.ommu.inlisjogja"
+        applicationId "co.ommu.inlis"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
@@ -18,11 +18,10 @@ android {
                 output.outputFile = new File(file.parentFile, fileName)
             }
         }
-
     }
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
+            //applicationIdSuffix ".debug"
             versionNameSuffix "-DEBUG"
             try {
                 signingConfig signingConfigs.debug
@@ -36,6 +35,7 @@ android {
         }
     }
 }
+
 repositories {
     maven {
         url "https://jitpack.io"
@@ -43,7 +43,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
@@ -53,5 +53,4 @@ dependencies {
     compile 'org.quanqi:android-view-pager-indicator:0.9.0'
     compile 'com.github.bumptech.glide:glide:3.6.0'
     compile 'com.github.scottyab:showhidepasswordedittext:0.6'
-
 }
