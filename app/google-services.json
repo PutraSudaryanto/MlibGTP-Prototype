@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "603752130867",
+    "firebase_url": "https://mlibgtp.firebaseio.com",
+    "project_id": "mlibgtp",
+    "storage_bucket": "mlibgtp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603752130867:android:72d274a3e1d14ab2",
+        "android_client_info": {
+          "package_name": "co.ommu.mlibgtp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603752130867-nbdv7v6d6e98ovf15c043hrfg87ds0h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuedlfssbnxAAnUhz24eaDZ170FgogbRo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603752130867:android:36c7ec89b15a062a",
+        "android_client_info": {
+          "package_name": "co.ommu.inlis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603752130867-nbdv7v6d6e98ovf15c043hrfg87ds0h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuedlfssbnxAAnUhz24eaDZ170FgogbRo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
