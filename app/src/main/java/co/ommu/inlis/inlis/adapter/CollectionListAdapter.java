@@ -1,10 +1,5 @@
 package co.ommu.inlis.inlis.adapter;
 
-import java.util.ArrayList;
-
-import co.ommu.inlis.R;
-import co.ommu.inlis.inlis.model.CollectionListModel;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import co.ommu.inlis.R;
+import co.ommu.inlis.inlis.model.CollectionListModel;
 
 public class CollectionListAdapter extends RecyclerView.Adapter<CollectionListAdapter.MyViewHolder> {
 

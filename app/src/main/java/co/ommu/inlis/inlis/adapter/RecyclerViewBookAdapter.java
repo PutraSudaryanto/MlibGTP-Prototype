@@ -10,15 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import co.ommu.inlis.R;
 import co.ommu.inlis.inlis.model.SectionBookModel;
-
-import java.util.ArrayList;
 
 public class RecyclerViewBookAdapter extends RecyclerView.Adapter<RecyclerViewBookAdapter.ItemRowHolder> {
 

@@ -5,6 +5,7 @@ package co.ommu.inlis;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,12 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-
 import com.bumptech.glide.Glide;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,14 +28,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import co.ommu.inlis.components.AsynRestClient;
+import co.ommu.inlis.components.DividerItemDecoration;
 import co.ommu.inlis.inlis.adapter.CollectionListAdapter;
-
 import co.ommu.inlis.inlis.model.CatalogBookModel;
 import co.ommu.inlis.inlis.model.CollectionListModel;
 import cz.msebera.android.httpclient.Header;
-import co.ommu.inlis.components.DividerItemDecoration;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.widget.Toast;
 
 public class BookDetailActivity extends AppCompatActivity {
 

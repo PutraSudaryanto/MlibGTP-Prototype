@@ -5,11 +5,8 @@ package co.ommu.inlis.components;
  */
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import co.ommu.inlis.R;

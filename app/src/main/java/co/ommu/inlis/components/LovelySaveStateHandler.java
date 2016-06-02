@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.util.SparseArray;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by yarolegovich on 17.04.2016.

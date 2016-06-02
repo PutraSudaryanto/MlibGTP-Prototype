@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import co.ommu.inlis.R;
-
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
+
+import co.ommu.inlis.R;
 
 /**
  * Created by yarolegovich on 16.04.2016.

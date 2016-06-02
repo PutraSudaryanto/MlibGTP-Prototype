@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import co.ommu.inlis.R;
 import co.ommu.inlis.inlis.model.SingleBookItemModel;
-
-import java.util.ArrayList;
 
 public class SectionListBookAdapter extends RecyclerView.Adapter<SectionListBookAdapter.SingleItemRowHolder> {
 

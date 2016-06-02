@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import co.ommu.inlis.fragment.HomeFragment;
 import co.ommu.inlis.fragment.TrackFragment;
@@ -22,6 +21,8 @@ public class MainActivity extends AppCompatActivity
     public static String token = "2aff7d8198a8444e9a7909823f91f98d";
     private DrawerLayout drawer;
     private NavigationView navigationView;
+
+    String reg_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override

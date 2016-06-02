@@ -2,11 +2,15 @@ package co.ommu.inlis;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -24,18 +28,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import co.ommu.inlis.components.AsynRestClient;
+import co.ommu.inlis.components.OnLoadMoreListener;
 import co.ommu.inlis.components.Utility;
 import co.ommu.inlis.inlis.adapter.BookSearchAdapter;
 import co.ommu.inlis.inlis.model.CatalogBookModel;
 import cz.msebera.android.httpclient.Header;
-
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
-import android.support.v7.widget.LinearLayoutManager;
-
-import co.ommu.inlis.components.OnLoadMoreListener;
-
-import android.os.Handler;
 
 public class SearchActivity extends AppCompatActivity {
 

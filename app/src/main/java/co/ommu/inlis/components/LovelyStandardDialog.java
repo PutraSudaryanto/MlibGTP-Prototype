@@ -6,9 +6,11 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.widget.Button;
+
 import co.ommu.inlis.R;
 
-import static android.view.View.*;
+import static android.view.View.OnClickListener;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by yarolegovich on 16.04.2016.

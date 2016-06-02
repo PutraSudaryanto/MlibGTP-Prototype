@@ -1,32 +1,27 @@
 package co.ommu.inlis.inlis.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.content.Context;
-import android.content.Intent;
-
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
 import co.ommu.inlis.BookDetailActivity;
-import co.ommu.inlis.inlis.model.CatalogBookModel;
 import co.ommu.inlis.R;
 import co.ommu.inlis.components.OnLoadMoreListener;
-
-import android.view.MenuInflater;
-import android.support.v7.widget.PopupMenu;
-import android.view.MenuItem;
-import android.util.Log;
-import android.widget.Toast;
+import co.ommu.inlis.inlis.model.CatalogBookModel;
 
 /**
  * Created by KurniawanD on 4/27/2016.

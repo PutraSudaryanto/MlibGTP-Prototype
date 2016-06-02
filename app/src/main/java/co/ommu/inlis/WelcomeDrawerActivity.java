@@ -26,32 +26,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import co.ommu.inlis.components.AsynRestClient;
-import co.ommu.inlis.components.CustomDialog;
-import co.ommu.inlis.components.LovelyTextInputChangePasswordDialog;
-import co.ommu.inlis.components.Utility;
-import co.ommu.inlis.fragment.HomeFragment;
-import co.ommu.inlis.fragment.TrackFragment;
-import co.ommu.inlis.fragment.TrackTabMemberFragment;
-import co.ommu.inlis.fragment.TrackTabFragment;
-import co.ommu.inlis.fragment.TrackMemberFragment;
-import co.ommu.inlis.fragment.WelcomeFragment;
-
-import android.widget.TextView;
-import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import co.ommu.inlis.components.LovelyStandardDialog;
+import co.ommu.inlis.components.AsynRestClient;
 import co.ommu.inlis.components.LovelySaveStateHandler;
-import co.ommu.inlis.components.LovelyTextInputDialog;
+import co.ommu.inlis.components.LovelyTextInputChangePasswordDialog;
+import co.ommu.inlis.components.Utility;
+import co.ommu.inlis.fragment.TrackFragment;
+import co.ommu.inlis.fragment.TrackMemberFragment;
+import co.ommu.inlis.fragment.WelcomeFragment;
 import cz.msebera.android.httpclient.Header;
 
 
@@ -87,6 +80,8 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     int isLogin = 0;
     String userName = "Pengunjung", userEmail = "-";
     RelativeLayout rlMoreActionBar;
+
+    String reg_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +126,15 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         loadPref();
         buildPager();
         //dialogChangePassword();
+
+        reg_id = FirebaseInstanceId.getInstance().getToken();
+        Log.i("data reg id", "___"+reg_id);
+
+        if(reg_id.equals("null"))
+            reg_id = FirebaseInstanceId.getInstance().getToken();
+        Log.i("data reg id lagi", "___"+reg_id);
+
+        //Toast.makeText(getApplicationContext(),"ini "+reg_id,Toast.LENGTH_LONG).show();
     }
 
     public void loadPref() {

@@ -3,9 +3,10 @@ package co.ommu.inlis.components;
 /**
  * Created by KurniawanD on 4/29/2016.
  */
+
 import android.content.Context;
-import android.net.NetworkInfo;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 public class CheckConnection {
     public static boolean isOnline(Context context) {
         ConnectivityManager cm =

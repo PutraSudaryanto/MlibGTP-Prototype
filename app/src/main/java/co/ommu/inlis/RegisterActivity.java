@@ -14,7 +14,6 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,18 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import co.ommu.inlis.components.AsynRestClient;
-import co.ommu.inlis.components.CustomDialog;
 import co.ommu.inlis.components.LovelyTextInputDialog;
 import co.ommu.inlis.components.Utility;
 import cz.msebera.android.httpclient.Header;
-
-import android.content.SharedPreferences;
-import android.content.Context;
-
-
-import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
-
-import android.content.DialogInterface;
 
 public class RegisterActivity extends AppCompatActivity
 {

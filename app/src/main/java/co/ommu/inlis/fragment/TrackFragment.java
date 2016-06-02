@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -24,12 +23,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
 import co.ommu.inlis.R;
 import co.ommu.inlis.components.AsynRestClient;
+import co.ommu.inlis.components.CheckConnection;
 import co.ommu.inlis.components.OnLoadMoreListener;
 import co.ommu.inlis.components.Utility;
-import co.ommu.inlis.components.CheckConnection;
 import co.ommu.inlis.inlis.adapter.TrackAdapter;
 import co.ommu.inlis.inlis.model.TrackMemberModel;
 import cz.msebera.android.httpclient.Header;

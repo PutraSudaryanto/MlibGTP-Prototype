@@ -1,24 +1,19 @@
 package co.ommu.inlis.inlis.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.content.Context;
-import android.content.Intent;
-
 
 import java.util.ArrayList;
 
-
-import co.ommu.inlis.BookDetailActivity;
-import co.ommu.inlis.inlis.model.TrackMemberModel;
 import co.ommu.inlis.R;
 import co.ommu.inlis.components.OnLoadMoreListener;
+import co.ommu.inlis.inlis.model.TrackMemberModel;
 
 /**
  * Created by KurniawanD on 4/27/2016.
