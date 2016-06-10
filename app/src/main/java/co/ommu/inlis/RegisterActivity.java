@@ -179,6 +179,8 @@ public class RegisterActivity extends AppCompatActivity
                         change_password = response.getString("change_password");
                         isLogin = 1;
                         updatePref();
+						Utility.userToken = token;
+						Utility.userOauth = oauth;
                         startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
                         finish();
 
