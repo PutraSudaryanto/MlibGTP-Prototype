@@ -10,6 +10,7 @@
         <include layout="@layout/include_textview_kosong" />
         <include layout="@layout/include_recycleview" />
         <include layout="@layout/include_error" />
+
     </RelativeLayout>
 
 

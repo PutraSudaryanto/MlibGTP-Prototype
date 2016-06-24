@@ -130,8 +130,11 @@ public class TrackFragment extends Fragment {
                        // array.remove(array.size() - 1);
                        // adapter.notifyItemRemoved(array.size());
 
-                        if (!nextPager.equals("-"))
-                            getRequest(true, adapter);
+                        if (!nextPager.equals("-")) {
+                            getRequest(true, adapter); }
+                        else {
+                            removeProgres();
+                        }
                     }
                 }, 1000);
             }
@@ -162,8 +165,8 @@ public class TrackFragment extends Fragment {
                 try {
 
                     if (isLoadmore) {
-                        array.remove(array.size() - 1);
-                        adapter.notifyItemRemoved(array.size());
+
+                        removeProgres();
                     }
 
                     JSONArray ja = response.getJSONArray("data");
@@ -211,5 +214,10 @@ public class TrackFragment extends Fragment {
         });
 
 
+    }
+
+    private void removeProgres() {
+        array.remove(array.size() - 1);
+        adapter.notifyItemRemoved(array.size());
     }
 }

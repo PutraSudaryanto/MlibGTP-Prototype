@@ -1,7 +1,7 @@
 package co.ommu.inlis.components;
 
 public class Utility {
-    //public static String baseURL = "http://192.168.3.13/_client_bpadjogja.info.opac";
+    //public static String baseURL = "http://192.168.3.13/_client_bpadjogja.info.sso";
     public static String baseURL = "http://103.255.15.77/sso";
     public static String inlisLoanPopularPathURL = "/inlis/api/loan/popular";
     public static String inlisCatalogTrackPathURL = "/inlis/api/site/track";

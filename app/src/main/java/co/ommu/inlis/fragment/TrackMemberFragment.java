@@ -37,7 +37,7 @@ public class TrackMemberFragment extends Fragment {
     private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
-    String nextPager = "";
+    String nextPager = "-";
     int pos = 0;
 
     RecyclerView recycleNotNull;
@@ -80,10 +80,6 @@ public class TrackMemberFragment extends Fragment {
         pb = (ProgressBar) view.findViewById(R.id.progressBar);
         btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
         tvKosong = (TextView) view.findViewById(R.id.tv_kosong);
-
-
-
-
 
         Log.i("url member", url);
         buildError();
@@ -152,8 +148,16 @@ public class TrackMemberFragment extends Fragment {
                        // array.remove(array.size() - 1);
                        // adapter.notifyItemRemoved(array.size());
 
-                        if (!nextPager.equals("-"))
+                        if (!nextPager.equals("-")) {
                             getRequest(true, adapter);
+                            Log.i("data load","atas"+nextPager);
+                        }
+                        else {
+                            removeProgres();
+                            Log.i("data load","bawah"+nextPager);
+                        }
+
+
                     }
                 }, 1000);
             }
@@ -185,8 +189,7 @@ public class TrackMemberFragment extends Fragment {
 
 
                     if (isLoadmore) {
-                        array.remove(array.size() - 1);
-                        adapter.notifyItemRemoved(array.size());
+                        removeProgres();
                     }
 
                     JSONArray ja = response.getJSONArray("data");
@@ -239,6 +242,9 @@ public class TrackMemberFragment extends Fragment {
 
 
     }
-
+    private void removeProgres() {
+        array.remove(array.size() - 1);
+        adapter.notifyItemRemoved(array.size());
+    }
 
 }

@@ -71,6 +71,7 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/rl_more_menu"
             android:layout_width="32dp"
