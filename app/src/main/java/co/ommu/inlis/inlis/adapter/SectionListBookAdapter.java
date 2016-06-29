@@ -88,7 +88,10 @@ public class SectionListBookAdapter extends RecyclerView.Adapter<SectionListBook
                 public void onClick(View v) {
 
                     v.getContext().startActivity(new Intent(v.getContext(), WebviewActivity.class)
-                            .putExtra("url", tvUrl.getText()));
+                            .putExtra("url", tvUrl.getText())
+                            .putExtra("title", tvTitle.getText())
+
+                    );
 
                 }
             });

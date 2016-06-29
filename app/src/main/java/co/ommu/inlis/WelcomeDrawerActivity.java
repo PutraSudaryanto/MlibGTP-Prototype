@@ -35,8 +35,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import co.ommu.inlis.components.AsynRestClient;
 import co.ommu.inlis.components.LovelySaveStateHandler;
@@ -45,7 +48,11 @@ import co.ommu.inlis.components.Utility;
 import co.ommu.inlis.fragment.TrackFragment;
 import co.ommu.inlis.fragment.TrackMemberFragment;
 import co.ommu.inlis.fragment.WelcomeFragment;
+import co.ommu.inlis.inlis.model.ArtikelModel;
+import co.ommu.inlis.inlis.model.SectionBookModel;
+import co.ommu.inlis.inlis.model.SingleBookItemModel;
 import cz.msebera.android.httpclient.Header;
+import co.ommu.inlis.inlis.model.BannerModel;
 
 
 public class WelcomeDrawerActivity extends AppCompatActivity
@@ -58,6 +65,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     static String[] URL = {"http://www.wowkeren.com/images/news/00106843.jpg",
             "http://images.cnnindonesia.com/visual/2016/04/01/30a0c1cc-7c9d-4315-9c86-b183cf787d9c_169.jpg",
             "http://www.gulalives.com/gula/wp-content/uploads/2016/04/Maudy-Ayunda-_-brand-ambassador-_-gulalives-_-foto-by-asky.jpg"};
+
+    static ArrayList<BannerModel> arrBanner = new ArrayList<>();
+
     CirclePageIndicator indicator;
     ViewPager pager;
 
@@ -96,7 +106,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
 
         rlMoreActionBar = (RelativeLayout) findViewById(R.id.more_colortoolbar);
-        rlMoreActionBar.setVisibility(View.GONE);
+
 
 
         if (savedInstanceState == null) {
@@ -124,8 +134,12 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
 
         loadPref();
-        buildPager();
+
+
+       // buildPager();
         //dialogChangePassword();
+
+        getBannerRequest();
 
         reg_id = FirebaseInstanceId.getInstance().getToken();
         Log.i("data reg id", "___"+reg_id);
@@ -383,7 +397,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         @Override
         public int getCount() {
             // For this contrived example, we have a 100-object collection.
-            return URL.length;
+            return arrBanner.size();
         }
 
         @Override
@@ -413,14 +427,100 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             Bundle args = getArguments();
 
             int no = args.getInt(ARG_OBJECT) + 1;
-            int position = args.getInt(ARG_OBJECT);
+            final int position = args.getInt(ARG_OBJECT);
 
 
             ImageView imPhoto = (ImageView) rootView.findViewById(R.id.iv_photo);
-            Glide.with(getActivity()).load(URL[position].replace(" ", "%20")).centerCrop().into(imPhoto);
+
+            //Glide.with(getActivity()).load(URL[position].replace(" ", "%20")).centerCrop().into(imPhoto);
+
+            Glide.with(getActivity()).load(arrBanner.get(position).image.replace(" ", "%20")).centerCrop().into(imPhoto);
+
+            if(!arrBanner.get(position).url.equals("-")) {
+                imPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                            startActivity(new Intent(getActivity(), WebviewActivity.class)
+                                    .putExtra("title", arrBanner.get(position).title)
+                                    .putExtra("url", arrBanner.get(position).url)
+
+                            );
+
+
+
+                    }
+                });
+            }
+
 
             return rootView;
         }
+    }
+
+
+    private void getBannerRequest() {
+
+        rlPager.setVisibility(View.GONE);
+        rlMoreActionBar.setVisibility(View.VISIBLE);
+        arrBanner = new ArrayList<>();
+
+        String url = "http://bpadjogja.info/banner/api/site/list";
+        RequestParams params = new RequestParams();
+        params.put("category", "mlibgtp_main");
+
+
+
+        AsynRestClient.postOther(this, url, params, new JsonHttpResponseHandler() {
+
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                // TODO Auto-generated method stub
+                try {
+
+
+                    for (int j = 0; j < response.length(); j++) {
+
+
+                        BannerModel item = new BannerModel();
+                        item.id = response.getJSONObject(j).getString("id");
+                        item.title = response.getJSONObject(j).getString("title");
+                        item.image = response.getJSONObject(j).getString("image");
+                        item.url = response.getJSONObject(j).getString("url");
+
+                        arrBanner.add(item);
+                    }
+
+                    rlPager.setVisibility(View.VISIBLE);
+                    rlMoreActionBar.setVisibility(View.GONE);
+
+                   buildPager();
+
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    Log.i("infffffooo", "ada parsingan yg salah");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
+                // TODO Auto-generated method stub
+                Log.i("data", "_" + statusCode);
+
+               // buildError();
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
+
+              //  buildError();
+
+            }
+        });
+
+
     }
 
 

@@ -68,6 +68,8 @@
                     android:layout_marginTop="@dimen/action_bar_size_more"
                     />
 
+
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"

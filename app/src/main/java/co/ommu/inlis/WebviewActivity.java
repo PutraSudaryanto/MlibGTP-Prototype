@@ -22,6 +22,7 @@ public class WebviewActivity extends AppCompatActivity {
 
     String url = "http://bpadjogja.info/article/site/view/id/889/t/kunjungan-kantor-perpustakaan-dan-arsip-daerah-kebumen-ke-grhatama-pustaka";
     Boolean webviewSuccess = true;
+    String title="";
     WebView webView;
 
 
@@ -31,11 +32,13 @@ public class WebviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
 
         url = getIntent().getStringExtra("url");
+        title= getIntent().getStringExtra("title");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(title);
 
 
         pb = (ProgressBar) findViewById(R.id.progressBar);
