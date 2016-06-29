@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import co.ommu.inlis.R;
+import co.ommu.inlis.components.DividerItemDecoration;
 import co.ommu.inlis.inlis.model.SectionBookModel;
 
 public class RecyclerViewBookAdapter extends RecyclerView.Adapter<RecyclerViewBookAdapter.ItemRowHolder> {
@@ -48,7 +49,7 @@ public class RecyclerViewBookAdapter extends RecyclerView.Adapter<RecyclerViewBo
         SectionListBookAdapter itemListDataAdapter = new SectionListBookAdapter(mContext, singleSectionItems);
 
         itemRowHolder.recycler_view_list.setHasFixedSize(true);
-        itemRowHolder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        itemRowHolder.recycler_view_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         itemRowHolder.recycler_view_list.setAdapter(itemListDataAdapter);
 
 

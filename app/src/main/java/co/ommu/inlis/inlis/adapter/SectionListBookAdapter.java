@@ -5,17 +5,21 @@ package co.ommu.inlis.inlis.adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import co.ommu.inlis.BookDetailActivity;
 import co.ommu.inlis.R;
+import co.ommu.inlis.WebviewActivity;
 import co.ommu.inlis.inlis.model.SingleBookItemModel;
 
 public class SectionListBookAdapter extends RecyclerView.Adapter<SectionListBookAdapter.SingleItemRowHolder> {
@@ -41,6 +45,12 @@ public class SectionListBookAdapter extends RecyclerView.Adapter<SectionListBook
         SingleBookItemModel singleItem = itemsList.get(i);
 
         holder.tvTitle.setText(singleItem.getName());
+        holder.tvUrl.setText(singleItem.getUrl());
+
+        if (i == itemsList.size() - 1)
+            holder.line.setVisibility(View.GONE);
+        else
+            holder.line.setVisibility(View.VISIBLE);
 
 
        /* Glide.with(mContext)
@@ -58,24 +68,27 @@ public class SectionListBookAdapter extends RecyclerView.Adapter<SectionListBook
 
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
-        protected TextView tvTitle;
+        protected TextView tvTitle,tvUrl;
+        protected LinearLayout line;
 
-        protected ImageView itemImage;
+        //protected ImageView itemImage;
 
 
         public SingleItemRowHolder(View view) {
             super(view);
 
             this.tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-            this.itemImage = (ImageView) view.findViewById(R.id.itemImage);
+            this.line = (LinearLayout) view.findViewById(R.id.ll_line);
+            this.tvUrl= (TextView) view.findViewById(R.id.tvUrl);
+            //this.itemImage = (ImageView) view.findViewById(R.id.itemImage);
 
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-
-                    Toast.makeText(v.getContext(), tvTitle.getText(), Toast.LENGTH_SHORT).show();
+                    v.getContext().startActivity(new Intent(v.getContext(), WebviewActivity.class)
+                            .putExtra("url", tvUrl.getText()));
 
                 }
             });
