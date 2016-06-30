@@ -1,6 +1,7 @@
 <resources>
     <!-- Application -->
     <string name="app_name">Grhatama Pustaka</string>
+    <string name="app_title">Mlib GTP</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- Drawer Menu -->

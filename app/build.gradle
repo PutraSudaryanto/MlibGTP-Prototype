@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+
     compileSdkVersion 24
     buildToolsVersion '24.0.0'
 
@@ -31,10 +37,15 @@ android {
         }
         release {
             minifyEnabled false
+           // abortOnError false
+           // checkReleaseBuilds false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
+
+
+
 
 repositories {
     maven {
