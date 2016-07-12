@@ -355,7 +355,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("favourite")).commit();
 
         } else if (id == R.id.nav_settings) { // menu.Setting
-            return true;
+            startActivity(new Intent(WelcomeDrawerActivity.this, SettingActivity.class));
         } else if (id == R.id.nav_helps) {
             return true;
         }

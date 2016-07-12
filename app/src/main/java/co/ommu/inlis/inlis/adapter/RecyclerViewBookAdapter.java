@@ -93,7 +93,7 @@ public class RecyclerViewBookAdapter extends RecyclerView.Adapter<RecyclerViewBo
             public void onClick(View v) {
 
 
-                Toast.makeText(v.getContext(), "click event on more, "+sectionName , Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(v.getContext(), "click event on more, "+sectionName , Toast.LENGTH_SHORT).show();
 
 
 

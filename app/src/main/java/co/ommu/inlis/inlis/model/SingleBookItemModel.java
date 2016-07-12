@@ -9,6 +9,7 @@ public class SingleBookItemModel {
     private String name;
     private String url;
     private String description;
+    private int from=0;
 
 
     public SingleBookItemModel() {
@@ -17,6 +18,12 @@ public class SingleBookItemModel {
     public SingleBookItemModel(String name, String url) {
         this.name = name;
         this.url = url;
+    }
+
+    public SingleBookItemModel(String name, String url, int from) {
+        this.name = name;
+        this.url = url;
+        this.from=from;
     }
 
 
@@ -30,6 +37,10 @@ public class SingleBookItemModel {
 
     public String getName() {
         return name;
+    }
+
+    public int getFrom() {
+        return from;
     }
 
     public void setName(String name) {
