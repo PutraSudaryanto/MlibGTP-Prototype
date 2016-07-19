@@ -18,6 +18,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -30,13 +31,10 @@ public class SplashActivity extends Activity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 preferences = getSharedPreferences("preference", Context.MODE_PRIVATE);
-                if (preferences.getInt("intro", 0) == 1) {
-                    Intent i = new Intent(SplashActivity.this, WelcomeDrawerActivity.class);
-                    startActivity(i);
-                } else {
-                    Intent i = new Intent(SplashActivity.this, IntroActivity.class);
-                    startActivity(i);
-                }
+                if (preferences.getInt("intro", 0) == 1)
+                    startActivity(new Intent(SplashActivity.this, WelcomeDrawerActivity.class));
+                else
+                    startActivity(new Intent(SplashActivity.this, IntroActivity.class));
 
                 // close this activity
                 finish();
