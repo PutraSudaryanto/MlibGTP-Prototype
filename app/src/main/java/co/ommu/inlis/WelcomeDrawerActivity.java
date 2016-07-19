@@ -63,7 +63,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
     public static final String PREF_KEY_FIRST_START = "PREF_KEY_FIRST_START";
     public static final int REQUEST_CODE_INTRO = 1;
 
-    public static String token = "2aff7d8198a8444e9a7909823f91f98d";
+    public static String InstanceIDToken = "";
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
@@ -84,7 +84,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
     // private static final int ID_STANDARD_DIALOG = R.id.btn_standard_dialog;
 
     private LovelySaveStateHandler saveStateHandler;
-    String oldPass = "", newPass = "", conPass = "", success = "", message = "";
+    String oldPass = "", newPass = "", conPass = "", success = "", message = "", token = "";
     ProgressDialog pd;
 
     Button btnLogin;
@@ -95,8 +95,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
     int isLogin = 0;
     String userName = "Pengunjung", userEmail = "-";
     RelativeLayout rlMoreActionBar;
-
-    String reg_id = "";
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -143,12 +141,14 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
         getBannerRequest();
         loadPref();
 
-        reg_id = FirebaseInstanceId.getInstance().getToken();
-        Log.i("data reg id", "___" + reg_id);
+        //try {
+            InstanceIDToken = FirebaseInstanceId.getInstance().getToken();
+            Log.i("data reg id", "___" + InstanceIDToken);
 
-        if (reg_id.equals("null"))
-            reg_id = FirebaseInstanceId.getInstance().getToken();
-        Log.i("data reg id lagi", "___" + reg_id);
+            if (InstanceIDToken != null && InstanceIDToken.equals(""))
+                InstanceIDToken = FirebaseInstanceId.getInstance().getToken();
+            Log.i("data reg id lagi", "___" + InstanceIDToken);
+        //} catch (Exception e) {}
 
         //Toast.makeText(getApplicationContext(),"ini "+reg_id,Toast.LENGTH_LONG).show();
 
