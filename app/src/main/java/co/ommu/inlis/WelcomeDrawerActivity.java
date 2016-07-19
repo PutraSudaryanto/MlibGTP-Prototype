@@ -41,6 +41,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import co.ommu.inlis.components.AsynRestClient;
 import co.ommu.inlis.components.LovelySaveStateHandler;
 import co.ommu.inlis.components.LovelyTextInputChangePasswordDialog;
@@ -55,8 +57,11 @@ import cz.msebera.android.httpclient.Header;
 import co.ommu.inlis.inlis.model.BannerModel;
 
 
-public class WelcomeDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class WelcomeDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+{
+    //Intro Variable
+    public static final String PREF_KEY_FIRST_START = "PREF_KEY_FIRST_START";
+    public static final int REQUEST_CODE_INTRO = 1;
 
     public static String token = "2aff7d8198a8444e9a7909823f91f98d";
     private DrawerLayout drawer;
@@ -85,29 +90,29 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     Button btnLogin;
     TextView tvName, tvEmail;
 
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    SharedPreferences preferenceAccount, preferenceIntro;
+    SharedPreferences.Editor editorLogin, editorIntro;
     int isLogin = 0;
     String userName = "Pengunjung", userEmail = "-";
     RelativeLayout rlMoreActionBar;
 
-    String reg_id="";
+    String reg_id = "";
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bunSaved = savedInstanceState;
         setContentView(R.layout.activity_welcome);
+        ButterKnife.bind(this);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
 
         rlMoreActionBar = (RelativeLayout) findViewById(R.id.more_colortoolbar);
-
-
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -132,38 +137,54 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         tvName = (TextView) header.findViewById(R.id.tvDispayname);
         tvEmail = (TextView) header.findViewById(R.id.tvEmail);
 
-
-        loadPref();
-
-
-       // buildPager();
+        // buildPager();
         //dialogChangePassword();
 
         getBannerRequest();
+        loadPref();
 
         reg_id = FirebaseInstanceId.getInstance().getToken();
-        Log.i("data reg id", "___"+reg_id);
+        Log.i("data reg id", "___" + reg_id);
 
-        if(reg_id.equals("null"))
+        if (reg_id.equals("null"))
             reg_id = FirebaseInstanceId.getInstance().getToken();
-        Log.i("data reg id lagi", "___"+reg_id);
+        Log.i("data reg id lagi", "___" + reg_id);
 
         //Toast.makeText(getApplicationContext(),"ini "+reg_id,Toast.LENGTH_LONG).show();
+
+        //Intro Condition
+        preferenceIntro = getSharedPreferences(Utility.preferenceIntro, Context.MODE_PRIVATE);
+        if (preferenceIntro.getBoolean(PREF_KEY_FIRST_START, true) == true) {
+            Intent intent = new Intent(this, SplashIntroActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_INTRO);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_INTRO) {
+            if (resultCode == RESULT_OK) {
+                editorIntro = preferenceIntro.edit();
+                editorIntro.putBoolean(PREF_KEY_FIRST_START, false);
+                editorIntro.commit();
+            }
+        }
     }
 
     public void loadPref() {
         // TODO Auto-generated method stub
 
-        pref = getSharedPreferences(Utility.prefName, Context.MODE_PRIVATE);
+        preferenceAccount = getSharedPreferences(Utility.preferenceAccount, Context.MODE_PRIVATE);
 
         // 0 = belum login, 1=sudah login, 2= skip
 
 
-        isLogin = pref.getInt("isFirst", 0);
+        isLogin = preferenceAccount.getInt("isFirst", 0);
 
-        userName = pref.getString("displayname", "Pengunjung");
-        userEmail = pref.getString("email", "-");
-        //token= pref.getString("token", "");
+        userName = preferenceAccount.getString("displayname", "Pengunjung");
+        userEmail = preferenceAccount.getString("email", "-");
+        //token= preferenceAccount.getString("token", "");
         switch (isLogin) {
 
             case 1:
@@ -360,7 +381,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             return true;
         }
 
-        if (id == R.id.nav_home || id == R.id.nav_track ) {
+        if (id == R.id.nav_home || id == R.id.nav_track) {
             rlPager.setVisibility(View.VISIBLE);
             rlMoreActionBar.setVisibility(View.GONE);
             collapsingToolbar.setTitleEnabled(true);
@@ -436,17 +457,16 @@ public class WelcomeDrawerActivity extends AppCompatActivity
 
             Glide.with(getActivity()).load(arrBanner.get(position).image.replace(" ", "%20")).centerCrop().into(imPhoto);
 
-            if(!arrBanner.get(position).url.equals("-")) {
+            if (!arrBanner.get(position).url.equals("-")) {
                 imPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                            startActivity(new Intent(getActivity(), WebviewActivity.class)
-                                    .putExtra("title", arrBanner.get(position).title)
-                                    .putExtra("url", arrBanner.get(position).url)
+                        startActivity(new Intent(getActivity(), WebviewActivity.class)
+                                .putExtra("title", arrBanner.get(position).title)
+                                .putExtra("url", arrBanner.get(position).url)
 
-                            );
-
+                        );
 
 
                     }
@@ -468,7 +488,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         String url = "http://bpadjogja.info/banner/api/site/list";
         RequestParams params = new RequestParams();
         params.put("category", "mlibgtp_main");
-
 
 
         AsynRestClient.postOther(this, url, params, new JsonHttpResponseHandler() {
@@ -493,7 +512,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
                     rlPager.setVisibility(View.VISIBLE);
                     rlMoreActionBar.setVisibility(View.GONE);
 
-                   buildPager();
+                    buildPager();
 
 
                 } catch (JSONException e) {
@@ -508,14 +527,14 @@ public class WelcomeDrawerActivity extends AppCompatActivity
                 // TODO Auto-generated method stub
                 Log.i("data", "_" + statusCode);
 
-               // buildError();
+                // buildError();
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
 
-              //  buildError();
+                //  buildError();
 
             }
         });

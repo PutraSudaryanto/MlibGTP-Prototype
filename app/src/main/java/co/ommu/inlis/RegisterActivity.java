@@ -104,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity
 
     public void loadPref() {
         // TODO Auto-generated method stub
-        pref = getSharedPreferences(Utility.prefName, Context.MODE_PRIVATE);
+        pref = getSharedPreferences(Utility.preferenceAccount, Context.MODE_PRIVATE);
 
         // 0=belum login, 1=sudah login, 2=skip
         isLogin = pref.getInt("isFirst", 0);

@@ -1,7 +1,7 @@
 <resources>
     <!-- Application -->
-    <string name="app_title">Grhatama Pustaka</string>
-    <string name="app_name">MlibGTP</string>
+    <string name="app_title">Grhatama Pustaka (Purwarupa)</string>
+    <string name="app_name">MlibGTP (Purwarupa)</string>
     <string name="app_copyright">Badan Perpustakaan dan Arsip Daerah</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
