@@ -168,7 +168,7 @@ public class TrackMemberFragment extends Fragment {
     private void getRequest(final boolean isLoadmore, final TrackAdapter adap) {
 
         RequestParams params = new RequestParams();
-        params.put("token", MainActivity.token);
+        //params.put("token", MainActivity.token);
 
         String urlReq = "";
         if (!isLoadmore) {

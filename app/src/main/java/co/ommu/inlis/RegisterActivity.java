@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "Password Belum Di isi !", Toast.LENGTH_SHORT).show();
                 } else
                     getRequestLogin();
-                //startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
+                //startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             }
         });
 
@@ -90,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity
             public void onClick(View v) {
                 isGuest = 2;
                 updatePreferenceAccount();
-                startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             }
         });
 
@@ -107,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity
 
         isGuest = preferenceAccount.getInt("isGuest", 0); // 0=belum login, 1=sudah login, 2=skip
         if (isGuest == 1)
-            startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
     }
 
     private void updatePreferenceAccount()
