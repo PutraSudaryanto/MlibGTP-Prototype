@@ -18,6 +18,10 @@ public class Utility {
     public static String inlisUserGetMemberPathURL = "/inlis/api/user/getmember";
     public static String inlisUserGeneratePathURL = "/inlis/api/user/generate";
     public static String inlisUserLoginPathURL = "/inlis/api/user/login";
+    // BPAD Banner
+    public static String bpadBannerPathURL = "/banner/api/site/list";
+    // BPAD Article
+    public static String bpadArticleMainPathURL = "/article/api/site/main";
     // Media Directory
     public static String mediaPathURL = "/public";
     public static String MSG_ERROR = "<center>Terjadi masalah koneksi atau server sedang error. Tap untuk mencoba lagi.</center>";

@@ -490,12 +490,12 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         rlMoreActionBar.setVisibility(View.VISIBLE);
         arrBanner = new ArrayList<>();
 
-        String url = "http://bpadjogja.info/banner/api/site/list";
+        String url = Utility.bpadBaseURL + "/" + Utility.bpadBannerPathURL + "/data/JSON";
         RequestParams params = new RequestParams();
         params.put("category", "mlibgtp_main");
 
 
-        AsynRestClient.postOther(this, url, params, new JsonHttpResponseHandler() {
+        AsynRestClient.otherPost(this, url, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // TODO Auto-generated method stub

@@ -44,7 +44,7 @@ public class WelcomeFragment extends Fragment {
     ProgressBar pb;
     RecyclerView recyclerView;
 
-    String url = "http://bpadjogja.info/article/api/site/main";
+    String url = Utility.bpadBaseURL + "/" + Utility.bpadArticleMainPathURL + "/data/JSON";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,7 +111,7 @@ public class WelcomeFragment extends Fragment {
         params.put("pagesize", "5");
 
 
-        AsynRestClient.postOther(getActivity(), url, params, new JsonHttpResponseHandler() {
+        AsynRestClient.otherPost(getActivity(), url, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // TODO Auto-generated method stub

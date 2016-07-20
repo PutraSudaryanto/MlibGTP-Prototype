@@ -22,8 +22,12 @@ public class AsynRestClient {
         client.post(context, getAbsoluteUrl(url), params, responseHandler);
     }
 
+    public static void otherGet(Context context, String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.setSSLSocketFactory(MySSLSocketFactory.getFixedSocketFactory());
+        client.get(context, url, params, responseHandler);
+    }
 
-    public static void postOther(Context context, String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+    public static void otherPost(Context context, String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.setSSLSocketFactory(MySSLSocketFactory.getFixedSocketFactory());
         client.post(context, url, params, responseHandler);
     }

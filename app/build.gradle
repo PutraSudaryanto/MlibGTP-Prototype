@@ -19,7 +19,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "1.1-20072016"
 
         applicationVariants.all { variant ->
             variant.outputs.each { output ->
