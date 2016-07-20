@@ -14,15 +14,13 @@ import android.webkit.WebView;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 
-public class WebViewActivity extends AppCompatActivity {
-
-
+public class WebViewActivity extends AppCompatActivity
+{
     RelativeLayout btnError;
     ProgressBar pb;
 
-    String url = "http://bpadjogja.info/article/site/view/id/889/t/kunjungan-kantor-perpustakaan-dan-arsip-daerah-kebumen-ke-grhatama-pustaka";
+    String title="", url = "";
     Boolean webviewSuccess = true;
-    String title="";
     WebView webView;
 
 
@@ -31,8 +29,8 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
+        title = getIntent().getStringExtra("title");
         url = getIntent().getStringExtra("url");
-        title= getIntent().getStringExtra("title");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,13 +38,10 @@ public class WebViewActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(title);
 
-
         pb = (ProgressBar) findViewById(R.id.progressBar);
         webView = (WebView) findViewById(R.id.webview);
         btnError = (RelativeLayout) findViewById(R.id.rl_error);
         btnError.setVisibility(View.GONE);
-
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,13 +50,11 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
-
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
-
 
         buildData();
 
