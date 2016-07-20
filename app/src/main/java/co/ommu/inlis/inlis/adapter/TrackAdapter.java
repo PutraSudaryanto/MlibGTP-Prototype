@@ -18,14 +18,14 @@ import java.util.ArrayList;
 
 import co.ommu.inlis.R;
 import co.ommu.inlis.components.OnLoadMoreListener;
-import co.ommu.inlis.inlis.model.TrackMemberModel;
+import co.ommu.inlis.inlis.model.TrackModel;
 
 /**
  * Created by KurniawanD on 4/27/2016.
  */
 public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    ArrayList<TrackMemberModel> listItem;
+    ArrayList<TrackModel> listItem;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private OnLoadMoreListener mOnLoadMoreListener;
@@ -37,7 +37,7 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     Context context;
     Boolean statusTrack = true;
 
-    public TrackAdapter(Context context, ArrayList<TrackMemberModel> item, RecyclerView mRecyclerView, Boolean status) {
+    public TrackAdapter(Context context, ArrayList<TrackModel> item, RecyclerView mRecyclerView, Boolean status) {
         this.listItem = item;
         this.context = context;
         statusTrack = status;
@@ -124,7 +124,7 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
 
         if (holder instanceof MyViewHolder) {
-            TrackMemberModel model = listItem.get(position);
+            TrackModel model = listItem.get(position);
             MyViewHolder myViewHolder = (MyViewHolder) holder;
 
             myViewHolder.tvTitle.setText(model.title);

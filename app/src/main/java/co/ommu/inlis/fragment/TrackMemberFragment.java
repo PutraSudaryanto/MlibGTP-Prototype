@@ -29,11 +29,11 @@ import co.ommu.inlis.components.CheckConnection;
 import co.ommu.inlis.components.OnLoadMoreListener;
 import co.ommu.inlis.components.Utility;
 import co.ommu.inlis.inlis.adapter.TrackAdapter;
-import co.ommu.inlis.inlis.model.TrackMemberModel;
+import co.ommu.inlis.inlis.model.TrackModel;
 import cz.msebera.android.httpclient.Header;
 
 public class TrackMemberFragment extends Fragment {
-    public ArrayList<TrackMemberModel> array = new ArrayList<TrackMemberModel>();
+    public ArrayList<TrackModel> array = new ArrayList<TrackModel>();
     private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
@@ -194,7 +194,7 @@ public class TrackMemberFragment extends Fragment {
 
                     JSONArray ja = response.getJSONArray("data");
 
-                    array.addAll(TrackMemberModel.fromJson(ja, true));
+                    array.addAll(TrackModel.fromJson(ja, true));
 
 
                     JSONObject jo = response.getJSONObject("pager");

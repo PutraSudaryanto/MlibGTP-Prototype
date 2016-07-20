@@ -29,12 +29,12 @@ import co.ommu.inlis.components.CheckConnection;
 import co.ommu.inlis.components.OnLoadMoreListener;
 import co.ommu.inlis.components.Utility;
 import co.ommu.inlis.inlis.adapter.TrackAdapter;
-import co.ommu.inlis.inlis.model.TrackMemberModel;
+import co.ommu.inlis.inlis.model.TrackModel;
 import cz.msebera.android.httpclient.Header;
 
-public class TrackFragment extends Fragment {
-
-    public ArrayList<TrackMemberModel> array = new ArrayList<TrackMemberModel>();
+public class TrackFragment extends Fragment
+{
+    public ArrayList<TrackModel> array = new ArrayList<TrackModel>();
     private String name = null;
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
@@ -71,12 +71,12 @@ public class TrackFragment extends Fragment {
         btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
         tvKosong = (TextView) view.findViewById(R.id.tv_kosong);
 
-        Log.i("url umum", url);
-        if(CheckConnection.isOnline(getActivity())) {
+        Log.i("url", url);
+        if(CheckConnection.isOnline(getActivity()))
             setList();
-        } else {
+        else
             buildError();
-        }
+
         return view;
     }
 
@@ -130,11 +130,10 @@ public class TrackFragment extends Fragment {
                        // array.remove(array.size() - 1);
                        // adapter.notifyItemRemoved(array.size());
 
-                        if (!nextPager.equals("-")) {
-                            getRequest(true, adapter); }
-                        else {
+                        if (!nextPager.equals("-"))
+                            getRequest(true, adapter);
+                        else
                             removeProgres();
-                        }
                     }
                 }, 1000);
             }
@@ -149,71 +148,59 @@ public class TrackFragment extends Fragment {
             params.put("type", name);
 
         String urlReq = "";
-        if (!isLoadmore) {
+        if (!isLoadmore)
             urlReq = url;
-        } else {
+        else {
             String[] split = nextPager.split(Utility.baseURL);
             urlReq = split[1];
-            Log.i("info url 2",urlReq);
+            Log.i("nextPager",urlReq);
         }
 
 
         AsynRestClient.post(getActivity(), urlReq, params, new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // TODO Auto-generated method stub
                 try {
-
-                    if (isLoadmore) {
-
+                    if(isLoadmore)
                         removeProgres();
-                    }
 
                     JSONArray ja = response.getJSONArray("data");
-                    array.addAll(TrackMemberModel.fromJson(ja, false)); // add new items
+                    array.addAll(TrackModel.fromJson(ja, false)); // add new items
                     JSONObject jo = response.getJSONObject("pager");
                     itemCount = jo.getString("itemCount");
                     pageSize = jo.getString("pageSize");
                     nextPage = jo.getString("nextPage");
 
                     nextPager = response.getString("nextPager");
-                    if (!isLoadmore) {
+                    if (!isLoadmore)
                         build();
-                    }
-
 
                     adap.notifyDataSetChanged();
                     adap.setLoaded();
 
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
-                    Log.i("infffffooo", "ada parsingan yg salah");
+                    //Log.i("infffffooo", "ada parsingan yg salah");
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
-                // TODO Auto-generated method stub
-                Log.i("data", "_" + statusCode);
-                if (!isLoadmore) {
+                //Log.i("data", "_" + statusCode);
+                if (!isLoadmore)
                     buildError();
-                } else {
+                else
                     getRequest(isLoadmore,adap);
-                }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
-                if (!isLoadmore) {
+                if (!isLoadmore)
                     buildError();
-                }  else {
+                else
                     getRequest(isLoadmore,adap);
-                }
             }
         });
-
-
     }
 
     private void removeProgres() {
