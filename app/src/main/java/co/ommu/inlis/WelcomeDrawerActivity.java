@@ -57,15 +57,28 @@ import cz.msebera.android.httpclient.Header;
 import co.ommu.inlis.inlis.model.BannerModel;
 
 
-public class WelcomeDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+public class WelcomeDrawerActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener
 {
-    //Intro Variable
+    /**
+     * Intro Variable
+     */
     public static final String PREF_KEY_FIRST_START = "PREF_KEY_FIRST_START";
     public static final int REQUEST_CODE_INTRO = 1;
 
-    public static String InstanceIDToken = "";
+    /**
+     * Drawer Navigation
+     */
     private DrawerLayout drawer;
     private NavigationView navigationView;
+
+    // Drawer Menu
+    int isGuest = 0;
+    String displayName = "", memberNumber = "", passwordToken="", oauthToken="";
+    SharedPreferences preferenceAccount, preferenceIntro;
+    TextView tvDispayname, tvMemberNumber;
+
+    public static String InstanceIDToken = "";
 
     static String[] URL = {"http://www.wowkeren.com/images/news/00106843.jpg",
             "http://images.cnnindonesia.com/visual/2016/04/01/30a0c1cc-7c9d-4315-9c86-b183cf787d9c_169.jpg",
@@ -88,12 +101,9 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
     ProgressDialog pd;
 
     Button btnLogin;
-    TextView tvName, tvEmail;
 
-    SharedPreferences preferenceAccount, preferenceIntro;
+
     SharedPreferences.Editor editorLogin, editorIntro;
-    int isLogin = 0;
-    String userName = "Pengunjung", userEmail = "-";
     RelativeLayout rlMoreActionBar;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -105,7 +115,26 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
 
+        //Toolbar
         setSupportActionBar(toolbar);
+
+        /**
+         * Drawer Navigation
+         */
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        //Drawer Menu
+        navigationView = (NavigationView) findViewById(R.id.nv_drawer);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View header = navigationView.getHeaderView(0);
+        tvDispayname = (TextView) header.findViewById(R.id.tvDispayname);
+        tvMemberNumber = (TextView) header.findViewById(R.id.tvMemberNumber);
+        btnLogin = (Button) header.findViewById(R.id.action_login);
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
@@ -120,26 +149,11 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
             rlPager.setVisibility(View.VISIBLE);
         }
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View header = navigationView.getHeaderView(0);
-
-        btnLogin = (Button) header.findViewById(R.id.action_login);
-        tvName = (TextView) header.findViewById(R.id.tvDispayname);
-        tvEmail = (TextView) header.findViewById(R.id.tvEmail);
-
         // buildPager();
         //dialogChangePassword();
 
         getBannerRequest();
-        loadPref();
+        loadPreferenceAccount();
 
         //try {
             InstanceIDToken = FirebaseInstanceId.getInstance().getToken();
@@ -172,41 +186,32 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
         }
     }
 
-    public void loadPref() {
-        // TODO Auto-generated method stub
-
+    public void loadPreferenceAccount() {
         preferenceAccount = getSharedPreferences(Utility.preferenceAccount, Context.MODE_PRIVATE);
 
-        // 0 = belum login, 1=sudah login, 2= skip
-
-
-        isLogin = preferenceAccount.getInt("isFirst", 0);
-
-        userName = preferenceAccount.getString("displayname", "Pengunjung");
-        userEmail = preferenceAccount.getString("email", "-");
-        //token= preferenceAccount.getString("token", "");
-        switch (isLogin) {
-
+        isGuest = preferenceAccount.getInt("isGuest", 0); //0 = belum login, 1=sudah login, 2= skip
+        switch (isGuest) {
             case 1:
+                displayName = preferenceAccount.getString("displayname", "");
+                memberNumber = preferenceAccount.getString("member_number", "");
+                passwordToken= preferenceAccount.getString("password_token", "");
+                oauthToken= preferenceAccount.getString("oauth_token", "");
+                tvDispayname.setText(displayName);
+                tvMemberNumber.setText(memberNumber);
                 btnLogin.setVisibility(View.GONE);
                 break;
-
-
+            default:
+                tvMemberNumber.setVisibility(View.GONE);
+                break;
         }
-        userName = "Deanda Putri";
-        userEmail = "Deanda.Putri@gmail.com";
-        tvName.setText(userName);
-        tvEmail.setText(userEmail);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeDrawerActivity.this, RegisterActivity.class));
+                startActivity(new Intent(getBaseContext(), RegisterActivity.class));
                 finish();
             }
         });
-
-
     }
 
     private void dialogChangePassword() {
@@ -354,7 +359,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
 
         if (id == R.id.nav_home) { // menu.Basic
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
-        } else if (id == R.id.nav_track) {
+        } else if (id == R.id.nav_tracks) {
             // jadi activity
             //getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
@@ -381,7 +386,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity implements Navigati
             return true;
         }
 
-        if (id == R.id.nav_home || id == R.id.nav_track) {
+        if (id == R.id.nav_home || id == R.id.nav_tracks) {
             rlPager.setVisibility(View.VISIBLE);
             rlMoreActionBar.setVisibility(View.GONE);
             collapsingToolbar.setTitleEnabled(true);

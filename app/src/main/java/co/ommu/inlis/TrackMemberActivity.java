@@ -1,6 +1,8 @@
 package co.ommu.inlis;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,9 +18,14 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.ommu.inlis.components.Utility;
 import co.ommu.inlis.fragment.TrackMemberFragment;
 
-public class TrackMemberActivity extends AppCompatActivity {
+public class TrackMemberActivity extends AppCompatActivity
+{
+    int isGuest = 0;
+    SharedPreferences preferenceAccount;
+
     int tabPosition = 0;
     TabLayout tabLayout;
 
@@ -30,28 +37,37 @@ public class TrackMemberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
 
-        if (getIntent().getExtras() != null) {
-            tabPosition = getIntent().getExtras().getInt("tab_position");
-        }
+        preferenceAccount = getSharedPreferences(Utility.preferenceAccount, Context.MODE_PRIVATE);
+        isGuest = preferenceAccount.getInt("isGuest", 0); //0 = belum login, 1=sudah login, 2= skip
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
+        if(isGuest != 1) {
+            startActivity(new Intent(getBaseContext(), RegisterActivity.class));
+            finish();
+
+        } else {
+            if (getIntent().getExtras() != null)
+                tabPosition = getIntent().getExtras().getInt("tab_position");
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+
+            viewPager = (ViewPager) findViewById(R.id.viewpager);
+            if (viewPager != null) {
+                setupViewPager();
             }
-        });
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        if (viewPager != null) {
-            setupViewPager();
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
+
         }
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

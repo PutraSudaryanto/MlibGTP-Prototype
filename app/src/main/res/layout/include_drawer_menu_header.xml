@@ -27,14 +27,14 @@
             android:id="@+id/tvDispayname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome, Public"
+            android:text="Welcome, Guest"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
-            android:id="@+id/tvEmail"
+            android:id="@+id/tvMemberNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="support@ommu.co" />
+            android:text="0123456789" />
 
     </LinearLayout>
 

@@ -32,7 +32,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class RegisterActivity extends AppCompatActivity
 {
-    int isLogin = 0;
+    int isGuest = 0;
     String success = "", error = "",  //login success and error
         token = "", oauth = "", email = "", displayname = "", lastlogin_date = "", enabled = "", verified = "", //login success
         member_id = "", member_number = "", address = "", photo = "", birthday = "", phone_number = "",  //login success
@@ -42,12 +42,12 @@ public class RegisterActivity extends AppCompatActivity
     ProgressDialog pd;
     Bundle bunSaved;
     RelativeLayout btnLogin;
-    EditText edEmail;
+    EditText etEmail;
     TextView tvRegiter, tvSkip;
 
-    ShowHidePasswordEditText edPassword;
+    ShowHidePasswordEditText etPassword;
 
-    SharedPreferences pref;
+    SharedPreferences preferenceAccount;
     SharedPreferences.Editor editor;
 
     @Override
@@ -56,8 +56,8 @@ public class RegisterActivity extends AppCompatActivity
         bunSaved = savedInstanceState;
         setContentView(R.layout.activity_register);
 
-        edEmail = (EditText) findViewById(R.id.input_username);
-        edPassword = (ShowHidePasswordEditText) findViewById(R.id.input_password);
+        etEmail = (EditText) findViewById(R.id.input_username);
+        etPassword = (ShowHidePasswordEditText) findViewById(R.id.input_password);
 
         btnLogin = (RelativeLayout) findViewById(R.id.rl_login);
         tvRegiter = (TextView) findViewById(R.id.tv_register);
@@ -66,11 +66,11 @@ public class RegisterActivity extends AppCompatActivity
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edEmail.getText().toString().isEmpty()) {
-                    edEmail.requestFocus();
+                if (etEmail.getText().toString().isEmpty()) {
+                    etEmail.requestFocus();
                     Toast.makeText(getApplicationContext(), "Email Belum Di isi !", Toast.LENGTH_SHORT).show();
-                } else if (edPassword.getText().toString().isEmpty()) {
-                    edPassword.requestFocus();
+                } else if (etPassword.getText().toString().isEmpty()) {
+                    etPassword.requestFocus();
                     Toast.makeText(getApplicationContext(), "Password Belum Di isi !", Toast.LENGTH_SHORT).show();
                 } else
                     getRequestLogin();
@@ -88,13 +88,13 @@ public class RegisterActivity extends AppCompatActivity
         tvSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isLogin = 2;
-                updatePref();
+                isGuest = 2;
+                updatePreferenceAccount();
                 startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
             }
         });
 
-        loadPref();
+        loadPreferenceAccount();
     }
 
     private void buildError(String message) {
@@ -102,21 +102,20 @@ public class RegisterActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    public void loadPref() {
-        // TODO Auto-generated method stub
-        pref = getSharedPreferences(Utility.preferenceAccount, Context.MODE_PRIVATE);
+    public void loadPreferenceAccount() {
+        preferenceAccount = getSharedPreferences(Utility.preferenceAccount, Context.MODE_PRIVATE);
 
-        // 0=belum login, 1=sudah login, 2=skip
-        isLogin = pref.getInt("isFirst", 0);
-        if (isLogin != 0)
+        isGuest = preferenceAccount.getInt("isGuest", 0); // 0=belum login, 1=sudah login, 2=skip
+        if (isGuest == 1)
             startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
     }
 
-    private void updatePref()
+    private void updatePreferenceAccount()
     {
-        editor = pref.edit();
-        editor.putString("token", token);
-        editor.putString("oauth", oauth);
+        editor = preferenceAccount.edit();
+        editor.putInt("isGuest", isGuest);
+        editor.putString("password_token", token);
+        editor.putString("oauth_token", oauth);
         editor.putString("email", email);
         editor.putString("displayname", displayname);
         editor.putString("member_type", member_type);
@@ -132,7 +131,6 @@ public class RegisterActivity extends AppCompatActivity
         editor.putString("status", status);
         editor.putString("member_type", member_type);
         editor.putString("change_password", change_password);
-        editor.putInt("isFirst", isLogin);
         editor.commit();
     }
 
@@ -140,8 +138,8 @@ public class RegisterActivity extends AppCompatActivity
     private void getRequestLogin() {
         String urlReq = Utility.inlisUserLoginPathURL;
         RequestParams params = new RequestParams();
-        params.put("email", edEmail.getText().toString());
-        params.put("password", edPassword.getText().toString());
+        params.put("email", etEmail.getText().toString());
+        params.put("password", etPassword.getText().toString());
 
         pd = ProgressDialog.show(this, "", "Please wait...", true, true);
         pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -177,8 +175,8 @@ public class RegisterActivity extends AppCompatActivity
                         status = response.getString("status");
                         member_type = response.getString("member_type");
                         change_password = response.getString("change_password");
-                        isLogin = 1;
-                        updatePref();
+                        isGuest = 1;
+                        updatePreferenceAccount();
 						Utility.userToken = token;
 						Utility.userOauth = oauth;
                         startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));

@@ -9,10 +9,8 @@ import android.util.Log;
 import butterknife.ButterKnife;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-public class SplashActivity extends AppCompatActivity {
-
-    private static final String TAG = "SplashActivity";
-
+public class SplashActivity extends AppCompatActivity
+{
     private final Handler waitHandler = new Handler();
     private final Runnable waitCallback = new Runnable() {
         @Override
@@ -28,8 +26,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-
-        Log.e(TAG, "InstanceID token: " + FirebaseInstanceId.getInstance().getToken());
 
         //Fake wait 2s to simulate some initialization on cold start (never do this in production!)
         waitHandler.postDelayed(waitCallback, 2000);
