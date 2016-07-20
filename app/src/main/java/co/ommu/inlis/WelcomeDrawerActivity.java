@@ -60,6 +60,11 @@ import co.ommu.inlis.inlis.model.BannerModel;
 public class WelcomeDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
+    Bundle bunSaved;
+    public static String InstanceIDToken = "";
+
     /**
      * Intro Variable
      */
@@ -77,36 +82,24 @@ public class WelcomeDrawerActivity extends AppCompatActivity
     String displayName = "", memberNumber = "", passwordToken="", oauthToken="";
     SharedPreferences preferenceAccount, preferenceIntro;
     TextView tvDispayname, tvMemberNumber;
+    Button btnLogin;
 
-    public static String InstanceIDToken = "";
-
-    static String[] URL = {"http://www.wowkeren.com/images/news/00106843.jpg",
-            "http://images.cnnindonesia.com/visual/2016/04/01/30a0c1cc-7c9d-4315-9c86-b183cf787d9c_169.jpg",
-            "http://www.gulalives.com/gula/wp-content/uploads/2016/04/Maudy-Ayunda-_-brand-ambassador-_-gulalives-_-foto-by-asky.jpg"};
-
+    /**
+     * Banner
+     */
+    boolean bannerIsNull = true;
     static ArrayList<BannerModel> arrBanner = new ArrayList<>();
-
-    CirclePageIndicator indicator;
-    ViewPager pager;
-
-    RelativeLayout rlPager;
     CollapsingToolbarLayout collapsingToolbar;
+    RelativeLayout rlBannerPager;
+    ViewPager vpBannerPager;
+    CirclePageIndicator indicator;
 
-    Bundle bunSaved;
-    //This can be any numbers. R.id.* were chosen for simplicity of example
-    // private static final int ID_STANDARD_DIALOG = R.id.btn_standard_dialog;
+    SharedPreferences.Editor editorLogin, editorIntro;
 
+    //misc
     private LovelySaveStateHandler saveStateHandler;
     String oldPass = "", newPass = "", conPass = "", success = "", message = "", token = "";
     ProgressDialog pd;
-
-    Button btnLogin;
-
-
-    SharedPreferences.Editor editorLogin, editorIntro;
-    RelativeLayout rlMoreActionBar;
-
-    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,35 +129,30 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         tvMemberNumber = (TextView) header.findViewById(R.id.tvMemberNumber);
         btnLogin = (Button) header.findViewById(R.id.action_login);
 
+        /**
+         * Banner
+         */
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        rlPager = (RelativeLayout) findViewById(R.id.rl_pager);
+        rlBannerPager = (RelativeLayout) findViewById(R.id.rl_banner_pager);
 
-        rlMoreActionBar = (RelativeLayout) findViewById(R.id.more_colortoolbar);
-
+        /**
+         * Article
+         */
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, new WelcomeFragment())
                     .commit();
-            rlPager.setVisibility(View.VISIBLE);
+            if(!bannerIsNull)
+                rlBannerPager.setVisibility(View.VISIBLE);
         }
 
-        // buildPager();
+        loadPreferenceAccount();
+        getBannerRequest();
+
         //dialogChangePassword();
 
-        getBannerRequest();
-        loadPreferenceAccount();
-
-        //try {
-            InstanceIDToken = FirebaseInstanceId.getInstance().getToken();
-            Log.i("data reg id", "___" + InstanceIDToken);
-
-            if (InstanceIDToken != null && InstanceIDToken.equals(""))
-                InstanceIDToken = FirebaseInstanceId.getInstance().getToken();
-            Log.i("data reg id lagi", "___" + InstanceIDToken);
-        //} catch (Exception e) {}
-
-        //Toast.makeText(getApplicationContext(),"ini "+reg_id,Toast.LENGTH_LONG).show();
+        InstanceIDToken = FirebaseInstanceId.getInstance().getToken();
 
         //Intro Condition
         preferenceIntro = getSharedPreferences(Utility.preferenceIntro, Context.MODE_PRIVATE);
@@ -212,6 +200,137 @@ public class WelcomeDrawerActivity extends AppCompatActivity
                 finish();
             }
         });
+    }
+
+    /**
+     * Banner
+     */
+    private void getBannerRequest() {
+        rlBannerPager.setVisibility(View.GONE);
+        arrBanner = new ArrayList<>();
+
+        String url = Utility.bpadBaseURL + "/" + Utility.bpadBannerPathURL + "/data/JSON";
+        RequestParams params = new RequestParams();
+        params.put("category", "mlibgtp_main");
+
+        AsynRestClient.otherPost(this, url, params, new JsonHttpResponseHandler() {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                try {
+                    for (int j = 0; j < response.length(); j++) {
+                        BannerModel item = new BannerModel();
+                        item.id = response.getJSONObject(j).getString("id");
+                        item.title = response.getJSONObject(j).getString("title");
+                        item.image = response.getJSONObject(j).getString("image");
+                        item.url = response.getJSONObject(j).getString("url");
+
+                        arrBanner.add(item);
+                    }
+
+                    if(response.length() > 0) {
+                        bannerIsNull = false;
+                        rlBannerPager.setVisibility(View.VISIBLE);
+                    } else
+                        collapsingToolbar.setTitleEnabled(false);
+
+                    buildBannerPager();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
+                //Log.i("data", "_" + statusCode);
+                // buildError();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
+                //  buildError();
+            }
+        });
+    }
+
+    private void buildBannerPager() {
+        vpBannerPager = (ViewPager) findViewById(R.id.vp_banner_pager);
+        BannerAdapter adap = new BannerAdapter(getSupportFragmentManager());
+        vpBannerPager.setAdapter(adap);
+
+        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(vpBannerPager);
+    }
+
+    public class BannerAdapter extends FragmentStatePagerAdapter {
+        public BannerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            Fragment fragment = null;
+
+            Bundle args = new Bundle();
+            fragment = new BannerFragment();
+            args.putInt(BannerFragment.ARG_OBJECT, i);
+
+            fragment.setArguments(args);
+
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            // For this contrived example, we have a 100-object collection.
+            return arrBanner.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            String title = "";
+            return title;
+        }
+
+        @Override
+        public void destroyItem(View container, int position, Object object) {
+            super.destroyItem(container, position, object);
+            vpBannerPager.removeView(container);
+        }
+    }
+
+    public static class BannerFragment extends Fragment
+    {
+        public final static String ARG_OBJECT = "object";
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.item_sliding_banner, container, false);
+            Bundle args = getArguments();
+
+            int no = args.getInt(ARG_OBJECT) + 1;
+            final int position = args.getInt(ARG_OBJECT);
+
+
+            ImageView imPhoto = (ImageView) rootView.findViewById(R.id.iv_photo);
+
+            //Glide.with(getActivity()).load(URL[position].replace(" ", "%20")).centerCrop().into(imPhoto);
+
+            Glide.with(getActivity()).load(arrBanner.get(position).image.replace(" ", "%20")).centerCrop().into(imPhoto);
+
+            if (!arrBanner.get(position).url.equals("-")) {
+                imPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), WebviewActivity.class)
+                                .putExtra("title", arrBanner.get(position).title)
+                                .putExtra("url", arrBanner.get(position).url)
+                        );
+                    }
+                });
+            }
+
+            return rootView;
+        }
     }
 
     private void dialogChangePassword() {
@@ -309,16 +428,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         });
     }
 
-
-    private void buildPager() {
-        pager = (ViewPager) findViewById(R.id.pager);
-        PhotoAdapter adap = new PhotoAdapter(getSupportFragmentManager());
-        pager.setAdapter(adap);
-
-        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
-    }
-
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -365,7 +474,6 @@ public class WelcomeDrawerActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
             startActivity(new Intent(WelcomeDrawerActivity.this, TrackMemberActivity.class));
 
-
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
 
@@ -387,12 +495,14 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_home || id == R.id.nav_tracks) {
-            rlPager.setVisibility(View.VISIBLE);
-            rlMoreActionBar.setVisibility(View.GONE);
-            collapsingToolbar.setTitleEnabled(true);
+            if(!bannerIsNull) {
+                rlBannerPager.setVisibility(View.VISIBLE);
+                collapsingToolbar.setTitleEnabled(true);
+            } else
+                collapsingToolbar.setTitleEnabled(false);
+
         } else {
-            rlMoreActionBar.setVisibility(View.VISIBLE);
-            rlPager.setVisibility(View.GONE);
+            rlBannerPager.setVisibility(View.GONE);
             collapsingToolbar.setTitleEnabled(false);
         }
 
@@ -400,152 +510,4 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-    public class PhotoAdapter extends FragmentStatePagerAdapter {
-        public PhotoAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            Fragment fragment = null;
-
-            Bundle args = new Bundle();
-            fragment = new PhotoFragment();
-            args.putInt(PhotoFragment.ARG_OBJECT, i);
-
-            fragment.setArguments(args);
-
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            // For this contrived example, we have a 100-object collection.
-            return arrBanner.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            String title = "";
-            return title;
-        }
-
-        @Override
-        public void destroyItem(View container, int position, Object object) {
-            super.destroyItem(container, position, object);
-            pager.removeView(container);
-        }
-
-    }
-
-
-    public static class PhotoFragment extends Fragment {
-
-        public final static String ARG_OBJECT = "object";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.sliding_photo, container, false);
-            Bundle args = getArguments();
-
-            int no = args.getInt(ARG_OBJECT) + 1;
-            final int position = args.getInt(ARG_OBJECT);
-
-
-            ImageView imPhoto = (ImageView) rootView.findViewById(R.id.iv_photo);
-
-            //Glide.with(getActivity()).load(URL[position].replace(" ", "%20")).centerCrop().into(imPhoto);
-
-            Glide.with(getActivity()).load(arrBanner.get(position).image.replace(" ", "%20")).centerCrop().into(imPhoto);
-
-            if (!arrBanner.get(position).url.equals("-")) {
-                imPhoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        startActivity(new Intent(getActivity(), WebviewActivity.class)
-                                .putExtra("title", arrBanner.get(position).title)
-                                .putExtra("url", arrBanner.get(position).url)
-
-                        );
-
-
-                    }
-                });
-            }
-
-
-            return rootView;
-        }
-    }
-
-
-    private void getBannerRequest() {
-
-        rlPager.setVisibility(View.GONE);
-        rlMoreActionBar.setVisibility(View.VISIBLE);
-        arrBanner = new ArrayList<>();
-
-        String url = Utility.bpadBaseURL + "/" + Utility.bpadBannerPathURL + "/data/JSON";
-        RequestParams params = new RequestParams();
-        params.put("category", "mlibgtp_main");
-
-
-        AsynRestClient.otherPost(this, url, params, new JsonHttpResponseHandler() {
-
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                // TODO Auto-generated method stub
-                try {
-
-
-                    for (int j = 0; j < response.length(); j++) {
-
-
-                        BannerModel item = new BannerModel();
-                        item.id = response.getJSONObject(j).getString("id");
-                        item.title = response.getJSONObject(j).getString("title");
-                        item.image = response.getJSONObject(j).getString("image");
-                        item.url = response.getJSONObject(j).getString("url");
-
-                        arrBanner.add(item);
-                    }
-
-                    rlPager.setVisibility(View.VISIBLE);
-                    rlMoreActionBar.setVisibility(View.GONE);
-
-                    buildPager();
-
-
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    Log.i("infffffooo", "ada parsingan yg salah");
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] header, String res, Throwable e) {
-                // TODO Auto-generated method stub
-                Log.i("data", "_" + statusCode);
-
-                // buildError();
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] header, Throwable e, JSONObject jo) {
-
-                //  buildError();
-
-            }
-        });
-
-
-    }
-
-
 }
