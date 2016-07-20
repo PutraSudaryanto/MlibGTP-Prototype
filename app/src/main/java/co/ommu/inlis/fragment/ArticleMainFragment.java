@@ -34,7 +34,7 @@ import co.ommu.inlis.inlis.model.SingleBookItemModel;
 import cz.msebera.android.httpclient.Header;
 
 
-public class WelcomeFragment extends Fragment {
+public class ArticleMainFragment extends Fragment {
 
 
     ArrayList<SectionBookModel> allSampleData;

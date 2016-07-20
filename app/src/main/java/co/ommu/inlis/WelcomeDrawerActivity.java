@@ -49,7 +49,7 @@ import co.ommu.inlis.components.LovelyTextInputChangePasswordDialog;
 import co.ommu.inlis.components.Utility;
 import co.ommu.inlis.fragment.TrackFragment;
 import co.ommu.inlis.fragment.TrackMemberFragment;
-import co.ommu.inlis.fragment.WelcomeFragment;
+import co.ommu.inlis.fragment.ArticleMainFragment;
 import co.ommu.inlis.inlis.model.ArtikelModel;
 import co.ommu.inlis.inlis.model.SectionBookModel;
 import co.ommu.inlis.inlis.model.SingleBookItemModel;
@@ -141,7 +141,7 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new WelcomeFragment())
+                    .add(R.id.container, new ArticleMainFragment())
                     .commit();
             if(!bannerIsNull)
                 rlBannerPager.setVisibility(View.VISIBLE);
@@ -467,11 +467,11 @@ public class WelcomeDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) { // menu.Basic
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new ArticleMainFragment()).commit();
         } else if (id == R.id.nav_tracks) {
             // jadi activity
             //getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackTabMemberFragment(0)).commit();
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, new WelcomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new ArticleMainFragment()).commit();
             startActivity(new Intent(WelcomeDrawerActivity.this, TrackMemberActivity.class));
 
         } else if (id == R.id.nav_track_favourite) {
