@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import co.ommu.inlis.BookDetailActivity;
 import co.ommu.inlis.R;
-import co.ommu.inlis.WebviewActivity;
+import co.ommu.inlis.WebViewActivity;
 import co.ommu.inlis.inlis.model.SingleBookItemModel;
 
 import android.net.Uri;
@@ -98,7 +98,7 @@ public class SectionListBookAdapter extends RecyclerView.Adapter<SectionListBook
 
 
                 } else {
-                    v.getContext().startActivity(new Intent(v.getContext(), WebviewActivity.class)
+                    v.getContext().startActivity(new Intent(v.getContext(), WebViewActivity.class)
                             .putExtra("url", holder.tvTitle.getText())
                             .putExtra("title", holder.tvUrl.getText())
 
@@ -161,7 +161,7 @@ public class SectionListBookAdapter extends RecyclerView.Adapter<SectionListBook
                 @Override
                 public void onClick(View v) {
 
-                    v.getContext().startActivity(new Intent(v.getContext(), WebviewActivity.class)
+                    v.getContext().startActivity(new Intent(v.getContext(), WebViewActivity.class)
                             .putExtra("url", tvUrl.getText())
                             .putExtra("title", tvTitle.getText())
 

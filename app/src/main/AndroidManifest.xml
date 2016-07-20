@@ -65,7 +65,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
 
         <activity
-            android:name=".WebviewActivity"
+            android:name=".WebViewActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="Web :D"
             android:screenOrientation="sensorPortrait"

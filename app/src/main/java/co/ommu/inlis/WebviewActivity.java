@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebChromeClient;
 import android.webkit.WebViewClient;
 
-public class WebviewActivity extends AppCompatActivity {
+public class WebViewActivity extends AppCompatActivity {
 
 
     RelativeLayout btnError;

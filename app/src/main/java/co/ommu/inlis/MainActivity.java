@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity
                 imPhoto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), WebviewActivity.class)
+                        startActivity(new Intent(getActivity(), WebViewActivity.class)
                                 .putExtra("title", arrBanner.get(position).title)
                                 .putExtra("url", arrBanner.get(position).url)
                         );
