@@ -179,7 +179,7 @@ public class RegisterActivity extends AppCompatActivity
                         updatePreferenceAccount();
 						Utility.userToken = token;
 						Utility.userOauth = oauth;
-                        startActivity(new Intent(RegisterActivity.this, WelcomeDrawerActivity.class));
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         finish();
 
                     } else {
