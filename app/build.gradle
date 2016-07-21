@@ -18,7 +18,7 @@ android {
         applicationId "co.ommu.inlis"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 1
+        versionCode 2
         versionName "0.1 build 20160720"
 
         applicationVariants.all { variant ->
