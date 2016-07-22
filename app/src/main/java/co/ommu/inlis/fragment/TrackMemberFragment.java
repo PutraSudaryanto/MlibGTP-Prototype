@@ -79,7 +79,7 @@ public class TrackMemberFragment extends Fragment {
 
         pb = (ProgressBar) view.findViewById(R.id.progressBar);
         btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
-        tvKosong = (TextView) view.findViewById(R.id.tv_kosong);
+        tvKosong = (TextView) view.findViewById(R.id.tv_null);
 
         Log.i("url member", url);
         buildError();

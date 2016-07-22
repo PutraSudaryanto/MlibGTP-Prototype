@@ -1,6 +1,5 @@
 package co.ommu.inlis.fragment;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -43,10 +42,9 @@ public class TrackFragment extends Fragment
     RecyclerView recycleNotNull;
     TrackAdapter adapter;
 
-
     RelativeLayout btnError;
     ProgressBar pb;
-    TextView tvKosong;
+    TextView tvNull;
 
     public TrackFragment(String name) {
         this.name = name;
@@ -66,10 +64,9 @@ public class TrackFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_track, container, false);
 
         recycleNotNull = (RecyclerView) view.findViewById(R.id.recycleView);
-
         pb = (ProgressBar) view.findViewById(R.id.progressBar);
         btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
-        tvKosong = (TextView) view.findViewById(R.id.tv_kosong);
+        tvNull = (TextView) view.findViewById(R.id.tv_null);
 
         Log.i("url", url);
         if(CheckConnection.isOnline(getActivity()))
@@ -85,16 +82,16 @@ public class TrackFragment extends Fragment
         pb.setVisibility(View.GONE);
 
         if (array.size() == 0)
-            tvKosong.setVisibility(View.VISIBLE);
+            tvNull.setVisibility(View.VISIBLE);
         else
-            tvKosong.setVisibility(View.GONE);
+            tvNull.setVisibility(View.GONE);
     }
 
 
     private void buildError() {
         pb.setVisibility(View.GONE);
         btnError.setVisibility(View.VISIBLE);
-        tvKosong.setVisibility(View.GONE);
+        tvNull.setVisibility(View.GONE);
         btnError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +104,7 @@ public class TrackFragment extends Fragment
         array = new ArrayList<>();
         btnError.setVisibility(View.GONE);
         pb.setVisibility(View.VISIBLE);
-        tvKosong.setVisibility(View.GONE);
+        tvNull.setVisibility(View.GONE);
 
         recycleNotNull.setHasFixedSize(true);
         recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -155,7 +152,6 @@ public class TrackFragment extends Fragment
             urlReq = split[1];
             Log.i("nextPager",urlReq);
         }
-
 
         AsynRestClient.post(getActivity(), urlReq, params, new JsonHttpResponseHandler() {
 

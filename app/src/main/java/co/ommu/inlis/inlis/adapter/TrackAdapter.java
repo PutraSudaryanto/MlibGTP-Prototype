@@ -20,9 +20,6 @@ import co.ommu.inlis.R;
 import co.ommu.inlis.components.OnLoadMoreListener;
 import co.ommu.inlis.inlis.model.TrackModel;
 
-/**
- * Created by KurniawanD on 4/27/2016.
- */
 public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<TrackModel> listItem;

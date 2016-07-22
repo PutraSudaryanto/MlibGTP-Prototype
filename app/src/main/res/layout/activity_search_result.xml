@@ -35,7 +35,7 @@
 
         <include layout="@layout/include_error" />
 
-        <include layout="@layout/include_textview_kosong" />
+        <include layout="@layout/include_textview_null" />
 
 
     </RelativeLayout>

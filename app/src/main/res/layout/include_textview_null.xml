@@ -7,7 +7,7 @@
     android:paddingRight="16dp">
 
     <TextView
-        android:id="@+id/tv_kosong"
+        android:id="@+id/tv_null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -16,6 +16,5 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="18dp"
         android:textStyle="bold" />
-
 
 </RelativeLayout>

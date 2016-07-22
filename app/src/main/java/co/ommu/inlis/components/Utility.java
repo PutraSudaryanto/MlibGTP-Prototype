@@ -2,10 +2,10 @@ package co.ommu.inlis.components;
 
 public class Utility {
     // Url Live Condition
-    public static String baseURL = "http://103.255.15.77/sso";
+    //public static String baseURL = "http://103.255.15.77/sso";
     public static String bpadBaseURL = "http://bpadjogja.info";
     // Url Localhost Condition
-    //public static String baseURL = "http://192.168.3.13/_client_bpadjogja.info.sso";
+    public static String baseURL = "http://192.168.3.13/_client_bpadjogja.info.sso";
     //public static String bpadBaseURL = "http://192.168.3.13/_client_bpadjogja.info";
     // Inlis
     public static String inlisLoanPopularPathURL = "/inlis/api/loan/popular";

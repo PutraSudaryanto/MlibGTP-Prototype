@@ -15,7 +15,7 @@
 
     <Spinner
         android:id="@+id/sp_worksheet"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="4dp" />
@@ -31,7 +31,7 @@
 
     <Spinner
         android:id="@+id/sp_category"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="4dp" />
@@ -84,7 +84,7 @@
 
         <include layout="@layout/include_recycleview" />
 
-        <include layout="@layout/include_textview_kosong" />
+        <include layout="@layout/include_textview_null" />
 
         <include layout="@layout/include_error" />
 

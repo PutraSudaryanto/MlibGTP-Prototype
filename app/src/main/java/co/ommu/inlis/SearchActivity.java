@@ -128,7 +128,7 @@ public class SearchActivity extends AppCompatActivity {
 
         });
 
-        tvKosong = (TextView) findViewById(R.id.tv_kosong);
+        tvKosong = (TextView) findViewById(R.id.tv_null);
         pb = (ProgressBar) findViewById(R.id.progressBar);
         btnError = (RelativeLayout) findViewById(R.id.rl_error);
         btnError.setVisibility(View.GONE);

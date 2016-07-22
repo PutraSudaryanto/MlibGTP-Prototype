@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity
 
         loadPreferenceAccount();
         getBannerRequest();
-
         //dialogChangePassword();
 
         InstanceIDToken = FirebaseInstanceId.getInstance().getToken();
@@ -477,7 +476,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_track_favourite) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackMemberFragment("favourites")).commit();
 
-        } else if (id == R.id.nav_popular) { // menu.Track
+        } else if (id == R.id.nav_popular) { // menu.GlobalTracks
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("popular")).commit();
         } else if (id == R.id.nav_views) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("view")).commit();
