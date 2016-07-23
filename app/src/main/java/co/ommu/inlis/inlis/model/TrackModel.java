@@ -30,6 +30,7 @@ public class TrackModel {
                 item.publish_year = ja.getJSONObject(i).getString("publish_year");
                 item.publisher = ja.getJSONObject(i).getString("publisher");
                 item.publish_location = ja.getJSONObject(i).getString("publish_location");
+                item.subject = ja.getJSONObject(i).getString("subject");
                 item.bookmark = ja.getJSONObject(i).getString("bookmark");
                 item.favourite = ja.getJSONObject(i).getString("favourite");
                 item.like = ja.getJSONObject(i).getString("like");

@@ -15,4 +15,7 @@
     <dimen name="track_margin">5dp</dimen>
     <dimen name="action_bar_size">56dp</dimen>
 	<dimen name="action_bar_size_more">0dp</dimen>
+
+    <!-- Track global condition -->
+    <dimen name="track_global_header">180dp</dimen>
 </resources>

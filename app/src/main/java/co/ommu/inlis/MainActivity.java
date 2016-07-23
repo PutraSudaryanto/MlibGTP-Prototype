@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity
      */
     boolean bannerIsNull = true;
     static ArrayList<BannerModel> arrBanner = new ArrayList<>();
+    AppBarLayout toolbarLayout;
     CollapsingToolbarLayout collapsingToolbar;
     RelativeLayout rlBannerPager;
     ViewPager vpBannerPager;
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity
         /**
          * Banner
          */
+        toolbarLayout = (AppBarLayout) findViewById(R.id.toolbar_layout);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         rlBannerPager = (RelativeLayout) findViewById(R.id.rl_banner_pager);
 
@@ -478,14 +481,19 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_popular) { // menu.GlobalTracks
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("popular")).commit();
+            collapsingToolbar.setBackground(getResources().getDrawable(R.drawable.track_1));
         } else if (id == R.id.nav_views) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("view")).commit();
+            collapsingToolbar.setBackground(getResources().getDrawable(R.drawable.track_2));
         } else if (id == R.id.nav_bookmarks) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("bookmark")).commit();
+            collapsingToolbar.setBackground(getResources().getDrawable(R.drawable.track_3));
         } else if (id == R.id.nav_likes) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("like")).commit();
+            collapsingToolbar.setBackground(getResources().getDrawable(R.drawable.track_4));
         } else if (id == R.id.nav_favourites) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("favourite")).commit();
+            collapsingToolbar.setBackground(getResources().getDrawable(R.drawable.track_1));
 
         } else if (id == R.id.nav_settings) { // menu.Setting
             startActivity(new Intent(MainActivity.this, SettingActivity.class));
@@ -494,6 +502,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_home || id == R.id.nav_tracks) {
+            collapsingToolbar.setBackground(null);
+            toolbarLayout.setLayoutParams(new AppBarLayout.LayoutParams(AppBarLayout.LayoutParams.MATCH_PARENT, AppBarLayout.LayoutParams.WRAP_CONTENT));
             if(!bannerIsNull) {
                 rlBannerPager.setVisibility(View.VISIBLE);
                 collapsingToolbar.setTitleEnabled(true);
@@ -502,7 +512,10 @@ public class MainActivity extends AppCompatActivity
 
         } else {
             rlBannerPager.setVisibility(View.GONE);
-            collapsingToolbar.setTitleEnabled(false);
+            if (id != R.id.nav_track_favourite) {
+                toolbarLayout.getLayoutParams().height = (int) getResources().getDimension(R.dimen.track_global_header);
+                collapsingToolbar.setTitleEnabled(true);
+            }
         }
 
         item.setChecked(true);

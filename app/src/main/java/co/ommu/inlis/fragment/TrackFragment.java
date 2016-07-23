@@ -1,5 +1,7 @@
 package co.ommu.inlis.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -38,13 +40,14 @@ public class TrackFragment extends Fragment
     String url;
     String itemCount = "0", pageSize = "0", nextPage = "";
     String nextPager = "";
+    int isGuest = 0;
 
+    SharedPreferences preferenceAccount;
     RecyclerView recycleNotNull;
-    TrackAdapter adapter;
-
-    RelativeLayout btnError;
-    ProgressBar pb;
+    ProgressBar progressBar;
     TextView tvNull;
+    RelativeLayout rlError;
+    TrackAdapter adapter;
 
     public TrackFragment(String name) {
         this.name = name;
@@ -64,9 +67,9 @@ public class TrackFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_track, container, false);
 
         recycleNotNull = (RecyclerView) view.findViewById(R.id.recycleView);
-        pb = (ProgressBar) view.findViewById(R.id.progressBar);
-        btnError = (RelativeLayout) view.findViewById(R.id.rl_error);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         tvNull = (TextView) view.findViewById(R.id.tv_null);
+        rlError = (RelativeLayout) view.findViewById(R.id.rl_error);
 
         Log.i("url", url);
         if(CheckConnection.isOnline(getActivity()))
@@ -77,34 +80,11 @@ public class TrackFragment extends Fragment
         return view;
     }
 
-    private void build() {
-        btnError.setVisibility(View.GONE);
-        pb.setVisibility(View.GONE);
-
-        if (array.size() == 0)
-            tvNull.setVisibility(View.VISIBLE);
-        else
-            tvNull.setVisibility(View.GONE);
-    }
-
-
-    private void buildError() {
-        pb.setVisibility(View.GONE);
-        btnError.setVisibility(View.VISIBLE);
-        tvNull.setVisibility(View.GONE);
-        btnError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setList();
-            }
-        });
-    }
-
     private void setList() {
         array = new ArrayList<>();
-        btnError.setVisibility(View.GONE);
-        pb.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         tvNull.setVisibility(View.GONE);
+        rlError.setVisibility(View.GONE);
 
         recycleNotNull.setHasFixedSize(true);
         recycleNotNull.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -135,14 +115,19 @@ public class TrackFragment extends Fragment
                 }, 1000);
             }
         });
-
     }
 
-    private void getRequest(final boolean isLoadmore, final TrackAdapter adap) {
+    private void getRequest(final boolean isLoadmore, final TrackAdapter adap)
+    {
+        preferenceAccount = getActivity().getSharedPreferences(Utility.preferenceAccount, Context.MODE_PRIVATE);
+        isGuest = preferenceAccount.getInt("isGuest", 0); //0 = belum login, 1=sudah login, 2= skip
 
         RequestParams params = new RequestParams();
         if (this.name != "popular")
             params.put("type", name);
+        params.put("pagesize", 15);
+        if(isGuest == 1)
+            params.put("token", preferenceAccount.getString("password_token", "-"));
 
         String urlReq = "";
         if (!isLoadmore)
@@ -195,6 +180,28 @@ public class TrackFragment extends Fragment
                     buildError();
                 else
                     getRequest(isLoadmore,adap);
+            }
+        });
+    }
+
+    private void build() {
+        rlError.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+
+        if (array.size() == 0)
+            tvNull.setVisibility(View.VISIBLE);
+        else
+            tvNull.setVisibility(View.GONE);
+    }
+
+    private void buildError() {
+        progressBar.setVisibility(View.GONE);
+        tvNull.setVisibility(View.GONE);
+        rlError.setVisibility(View.VISIBLE);
+        rlError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setList();
             }
         });
     }

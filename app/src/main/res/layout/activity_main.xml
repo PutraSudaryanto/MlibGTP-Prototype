@@ -15,15 +15,17 @@
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -42,9 +44,9 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="128dp"
+                        android:layout_alignParentBottom="true"
                         android:background="@drawable/backdrop_bg_up"
-                        android:orientation="vertical"
-                        android:layout_alignParentBottom="true"/>
+                        android:orientation="vertical" />
 
                     <com.viewpagerindicator.CirclePageIndicator
                         android:id="@+id/indicator"
@@ -71,10 +73,10 @@
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
-            android:background="#eaeaea"
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#eeeeee"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
 
