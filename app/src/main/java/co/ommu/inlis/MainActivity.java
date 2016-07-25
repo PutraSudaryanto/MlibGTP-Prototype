@@ -503,7 +503,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home || id == R.id.nav_tracks) {
             collapsingToolbar.setBackground(null);
-            toolbarLayout.setLayoutParams(new AppBarLayout.LayoutParams(AppBarLayout.LayoutParams.MATCH_PARENT, AppBarLayout.LayoutParams.WRAP_CONTENT));
+            //toolbarLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            //toolbarLayout.setLayoutParams(new AppBarLayout.LayoutParams(AppBarLayout.LayoutParams.MATCH_PARENT, AppBarLayout.LayoutParams.WRAP_CONTENT));
             if(!bannerIsNull) {
                 rlBannerPager.setVisibility(View.VISIBLE);
                 collapsingToolbar.setTitleEnabled(true);

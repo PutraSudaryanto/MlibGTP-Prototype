@@ -25,11 +25,11 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     ArrayList<TrackModel> listItem;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    private OnLoadMoreListener mOnLoadMoreListener;
     private boolean isLoading;
     private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
 
+    private OnLoadMoreListener mOnLoadMoreListener;
     ProgressBar pb;
     Context context;
     Boolean statusTrack = true;
@@ -59,11 +59,11 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
         public TextView tvTitle;
         public TextView tvAuthor;
         public TextView tvSubject;
         public TextView tvPublish;
-        public final View mView;
         public RelativeLayout btnMoreMenu;
 
 
@@ -138,14 +138,11 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     myViewHolder.tvPublish.setText(model.publish_year);
             }
 
-
-
             final PopupMenu popup = new PopupMenu(this.context, myViewHolder.btnMoreMenu);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.others, popup.getMenu());
 
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
@@ -168,9 +165,7 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             myViewHolder.btnMoreMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     popup.show();
-
                 }
             });
 
@@ -190,8 +185,6 @@ public class TrackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.pbKit= pb;
         }
-
-
     }
 
     public void setLoaded() {

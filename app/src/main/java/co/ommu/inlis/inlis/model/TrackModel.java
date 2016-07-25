@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class TrackModel {
-    public String catalog_id, title, author, publish_year, publisher, publish_location, subject, bookmark, favourite, like, share;  //inlis global
+    public String catalog_id, title, author, publish_year, publisher, publish_location, subject, bookmark, favourite, like, share, cover;  //inlis global
     public String count;  //inlis loan
     public String creation_date;  //inlis track (view, bookmark, favourite, likes)
 
