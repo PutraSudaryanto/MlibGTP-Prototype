@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.design.widget.AppBarLayout.LayoutParams;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -482,6 +483,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_popular) { // menu.GlobalTracks
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("popular")).commit();
             collapsingToolbar.setBackground(getResources().getDrawable(R.drawable.track_1));
+
+
         } else if (id == R.id.nav_views) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new TrackFragment("view")).commit();
             collapsingToolbar.setBackground(getResources().getDrawable(R.drawable.track_2));
@@ -502,9 +505,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_home || id == R.id.nav_tracks) {
-            collapsingToolbar.setBackground(null);
+            //collapsingToolbar.setBackground(null);
+            toolbarLayout.getLayoutParams().height = (int) getResources().getDimension(R.dimen.detail_backdrop_height);
+            //collapsingToolbar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             //toolbarLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             //toolbarLayout.setLayoutParams(new AppBarLayout.LayoutParams(AppBarLayout.LayoutParams.MATCH_PARENT, AppBarLayout.LayoutParams.WRAP_CONTENT));
+
+
             if(!bannerIsNull) {
                 rlBannerPager.setVisibility(View.VISIBLE);
                 collapsingToolbar.setTitleEnabled(true);
